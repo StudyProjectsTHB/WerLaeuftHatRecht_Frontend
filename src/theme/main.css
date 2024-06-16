@@ -1,0 +1,66 @@
+@font-face {
+    font-family: "Avenir";
+    font-style: normal;
+    font-weight: normal;
+    src: url("../font/AvenirLTStd-Roman.otf");
+}
+
+@font-face {
+    font-family: "Avenir";
+    font-style: normal;
+    font-weight: bold;
+    src: url("../font/AvenirLTStd-Bold.otf");
+}
+
+ion-tabs {
+    position: relative;
+}
+
+ion-tab-bar {
+    position: absolute;
+    bottom: 10px;
+    width: calc(100% - 20px);
+    left: 10px;
+    border: none;
+    border-radius: 16px;
+    background-color: #fff;
+
+    ion-tab-button {
+        background-color: #fff;
+    }
+
+}
+
+h1, p, a {
+    color: #212121 !important;
+    font-family: "Avenir";
+    font-weight: normal;
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+h2 {
+    color: #9E9E9E !important;
+    font-size: 16px;
+    font-family: "Avenir";
+    font-weight: bold;
+}
+
+.container {
+    position: relative;
+    transform: none;
+    top: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+ion-content {
+    --background: #F1F1F1;
+}
+
+ion-button {
+    --border-radius: 5px !important;
+}

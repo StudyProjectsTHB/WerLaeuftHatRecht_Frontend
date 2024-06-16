@@ -1,0 +1,153 @@
+.greeting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+
+    img {
+        width: 50px;
+    }
+}
+
+.daily-steps {
+    background-color: #274039;
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
+
+    p {
+        color: #fff !important;
+    }
+
+}
+
+.weekly-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    > div {
+        gap: 25px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        .valuestring p {
+            font-weight: bold;
+        }
+
+        .label p {
+            color: #C1C1C1 !important;
+            font-size: 12px;
+        }
+    }
+}
+
+.circular-progress-bar {
+    &.Schritte, &.Strecke, &.Platz {
+        position: relative;
+        margin-top: 10px;
+        margin-bottom: 20px;
+
+        svg {
+            margin-bottom: 15px;
+
+
+            path {
+                stroke-width: 6px;
+            }
+        }
+
+        &:before {
+            content: "";
+            background-image: url("/public/images/steps.png");
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 50%;
+            top: calc(50% - 7px);
+            transform: translate(-50%, -100%);
+            background-size: contain;
+        }
+    }
+
+    &.Strecke:before {
+        background-image: url("/public/images/arrow.png");
+    }
+
+    &.Platz:before {
+        background-image: url("/public/images/trophy.png");
+    }
+
+    .CircularProgressbar-path {
+        stroke: #274039 !important;
+    }
+}
+
+.weekly-challenges {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .challenge {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-gap: 10px;
+        text-align: left;
+        justify-items: start;
+        background-color: #fff;
+        padding: 10px 15px 10px 70px;
+        border-radius: 5px;
+        box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
+        position: relative;
+        width: 100%;
+
+        > div {
+            p:first-of-type {
+                font-weight: bold;
+            }
+
+            p.counter {
+                color: #9E9E9E !important;
+                font-size: 14px;
+            }
+        }
+
+        p.status {
+            background-color: #f7f7f7;
+            padding: 0 5px 0 25px;
+            height: min-content;
+            font-size: 14px;
+            color: #B44646 !important;
+            position: relative;
+            border-radius: 2px;
+
+            &:before {
+                content: '';
+                background-image: url("/public/images/play.svg");
+                width: 18px;
+                height: 18px;
+                background-size: contain;
+                position: absolute;
+                left: 2px;
+                top: 1px;
+            }
+        }
+
+        &:before {
+            content: '';
+            background-image: url("/public/images/clock.png");
+            width: 30px;
+            height: 30px;
+            background-size: contain;
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+}
