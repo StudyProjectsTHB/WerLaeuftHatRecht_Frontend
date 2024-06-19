@@ -25,6 +25,7 @@
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
+    "faker": "^6.6.6",
     "ionicons": "^7.0.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "6.0.0",
+    "@faker-js/faker": "^8.4.1",
     "@testing-library/dom": ">=7.21.4",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^16.0.0",

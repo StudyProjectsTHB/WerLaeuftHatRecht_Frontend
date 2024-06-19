@@ -8,7 +8,7 @@ import DailySteps from '../components/DailySteps';
 import WeeklyStats from '../components/WeeklyStats';
 import WeeklyChart from '../components/WeeklyChart';
 import WeeklyChallenges from '../components/WeeklyChallenges';
-import BarChart from "../components/BarChart";
+import BarChart from "../components/charts/ColumnChart";
 
 
 const Tab1: React.FC = () => {
@@ -20,7 +20,7 @@ const Tab1: React.FC = () => {
                 <Greeting name={"wilder Esel"}/>
                 <DailySteps/>
                 <WeeklyStats steps={52576} distance={37.5} rank={3}/>
-                {/*<BarChart chartData={[1000, 2000, 4000, 5000, 3500, 2500, 2000]} />*/}
+                <BarChart labels={["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]} columnData={[5000, 10000, 15000, 20000, 25000, 30000, 35000]}/>
                 <WeeklyChallenges />
             </div>
 
