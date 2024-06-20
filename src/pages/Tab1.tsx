@@ -6,7 +6,6 @@ import React from "react";
 import Greeting from '../components/Greeting';
 import DailySteps from '../components/DailySteps';
 import WeeklyStats from '../components/WeeklyStats';
-import WeeklyChart from '../components/WeeklyChart';
 import WeeklyChallenges from '../components/WeeklyChallenges';
 import BarChart from "../components/charts/ColumnChart";
 
