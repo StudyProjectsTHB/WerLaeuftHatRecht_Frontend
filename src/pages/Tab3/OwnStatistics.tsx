@@ -10,12 +10,12 @@ import FinishedChallenges from "../../components/FinishedChallenges";
 
 const OwnStatistics: React.FC = () => {
     return (
-        <IonPage>
+        <IonPage style={{marginTop: '120px', marginBottom: '65px'}}>
             <IonContent>
-                <div className="container">
+                <div className="wrapper">
                     <LineChart labels={['KW 33', 'KW 33', 'KW 33', 'KW 34', 'KW 34', 'KW 34', 'KW 35', 'KW 35', 'KW 35', ]} chartData={[65, 59, 81, 56, 55, 40, 60, 75, 90]}/>
                 </div>
-                <div className="container">
+                <div className="wrapper">
                     <WeeklyStats steps={52576} distance={37.5} rank={3}/>
                 </div>
                 <FinishedChallenges/>
