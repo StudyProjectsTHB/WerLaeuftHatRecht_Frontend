@@ -47,14 +47,14 @@ h2 {
     font-size: 16px;
     font-family: "Avenir";
     font-weight: bold;
+    text-align: left;
 }
 
 .container {
     position: relative;
     transform: none;
     top: 0;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-bottom: 80px;
 }
 
 ion-content {
@@ -63,4 +63,9 @@ ion-content {
 
 ion-button {
     --border-radius: 5px !important;
+}
+
+ion-content {
+    --padding-start: 20px !important;
+    --padding-end: 20px !important;
 }

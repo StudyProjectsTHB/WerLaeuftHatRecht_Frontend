@@ -8,21 +8,21 @@ import ProgressBar from "../../components/charts/ProgressBar";
 
 const AllCourtsStatistics: React.FC = () => {
     return (
-        <IonPage>
+        <IonPage style={{marginTop: '120px', marginBottom: '65px'}}>
             <IonContent>
-                <div className="container">
+                <div className="wrapper">
                     <LineChart
                         labels={['KW 33', 'KW 33', 'KW 33', 'KW 34', 'KW 34', 'KW 34', 'KW 35', 'KW 35', 'KW 35',]}
                         chartData={[5000, 5500, 4000, 7000, 6200, 6300, 4500, 5000, 5300]}/>
                 </div>
-                <div className="container">
+                <div className="wrapper">
                     <BarChart labels={["OLG Brandenburg", "LG Cottbus", "AG Fankfurt (Oder)"]} barData={[6000, 4200, 4000]}/>
                 </div>
-                <div className="container">
-                    <div className="container">
+                <div className="wrapper">
+                    <div className="wrapper">
                         <ProgressBar value={1} maxValue={20} type={"AllCourtsPlace"}></ProgressBar>
                     </div>
-                    <div className="container">
+                    <div className="wrapper">
                         <ProgressBar value={0} maxValue={0} type={"AllCourtsSteps"}></ProgressBar>
                     </div>
                 </div>

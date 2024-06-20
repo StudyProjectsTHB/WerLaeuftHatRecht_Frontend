@@ -30,6 +30,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    gap: 10px;
 
     > div {
         gap: 25px;
@@ -38,20 +39,24 @@
 
         .valuestring p {
             font-weight: bold;
+            color: #000;
+            text-align: center;
+            margin: 0 0 5px;
         }
 
         .label p {
             color: #C1C1C1 !important;
             font-size: 12px;
+            text-align: center;
+            margin: 0;
         }
     }
 }
 
 .circular-progress-bar {
-    &.Schritte, &.Strecke, &.Platz {
+    &.OverviewSteps, &.OverviewDistance, &.OverviewPlace {
         position: relative;
-        margin-top: 10px;
-        margin-bottom: 20px;
+        margin: 0;
 
         svg {
             margin-bottom: 15px;
@@ -69,17 +74,17 @@
             height: 40px;
             position: absolute;
             left: 50%;
-            top: calc(50% - 7px);
+            top: calc(50% - 10px);
             transform: translate(-50%, -100%);
             background-size: contain;
         }
     }
 
-    &.Strecke:before {
+    &.OverviewSteps:before {
         background-image: url("/public/images/arrow.png");
     }
 
-    &.Platz:before {
+    &.OverviewPlace:before {
         background-image: url("/public/images/trophy.png");
     }
 
@@ -92,6 +97,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    gap: 10px;
 
     .challenge {
         display: grid;
@@ -109,11 +115,13 @@
         > div {
             p:first-of-type {
                 font-weight: bold;
+                margin: 0;
             }
 
             p.counter {
                 color: #9E9E9E !important;
                 font-size: 14px;
+                margin: 5px 0 0;
             }
         }
 
@@ -125,6 +133,8 @@
             color: #B44646 !important;
             position: relative;
             border-radius: 2px;
+            margin: 0;
+            line-height: 1.6;
 
             &:before {
                 content: '';
@@ -134,9 +144,11 @@
                 background-size: contain;
                 position: absolute;
                 left: 2px;
-                top: 1px;
+                top: 0;
             }
         }
+
+
 
         &:before {
             content: '';
@@ -148,6 +160,16 @@
             left: 20px;
             top: 50%;
             transform: translateY(-50%);
+        }
+    }
+
+    &.done .challenge {
+        p.status {
+            color: #46B451 !important;
+
+            &:before {
+                background-image: url("/public/images/check-circle.png");
+            }
         }
     }
 }

@@ -59,7 +59,7 @@ const ProgressBar: React.FC<{ value: number, maxValue:number, type:string }> = (
                 maxValue={maxValue}
                 />
                 <div className="valuestring">
-                    {renderValueString()}
+                    <p>{renderValueString()}</p>
                 </div>
                 <div className="label">
                     <p>{renderType()}</p>
