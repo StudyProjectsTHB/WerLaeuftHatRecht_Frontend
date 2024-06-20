@@ -52,7 +52,7 @@
     "jsdom": "^24.1.0",
     "terser": "^5.31.1",
     "typescript": "^5.1.6",
-    "vite": "^5.2.13",
+    "vite": "^5.3.1",
     "vitest": "^1.6.0"
   },
   "description": "An F project"
