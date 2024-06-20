@@ -37,6 +37,10 @@ const LineChart: React.FC<{labels:string[], chartData:number[]}> = ({labels, cha
         scales: {
             x: {
                 beginAtZero: true,
+                display: true, // Achse ausblenden
+                grid: {
+                    display: false
+                },
 
                 ticks: {
 
@@ -48,9 +52,18 @@ const LineChart: React.FC<{labels:string[], chartData:number[]}> = ({labels, cha
                     }
                 }
             },
-            // y: {
+            y: {
+                display: false, // Achse ausblenden
+
+                min: 0, // Minimalwert der y-Achse
+                max: 200,
+
+                grid: {
+                    display: false
+                }
+
             //     beginAtZero: true,
-            // },
+            },
         },
         plugins: {
             legend: {
@@ -65,8 +78,8 @@ const LineChart: React.FC<{labels:string[], chartData:number[]}> = ({labels, cha
     return (
         <div style={{ position: 'relative', height: '40vh', width: '80vw' }}>
             <Line data={data} options={options} />
-            <div style={{ position: 'absolute', top: '10%', left: '10%' }}>
-                <h1>40%</h1>
+            <div style={{ position: 'absolute', top: '0', left: '20px' }} className={"chartText"}>
+                <h2>40%</h2>
                 <p>Steigerung zu letzter Woche</p>
             </div>
         </div>

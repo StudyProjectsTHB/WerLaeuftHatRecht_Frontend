@@ -10,10 +10,10 @@ http://ionicframework.com/docs/theming/ */
 
     --ion-color-secondary: #fff;
     --ion-color-secondary-rgb: 255,255,255;
-    --ion-color-secondary-contrast: #274039;
+    --ion-color-secondary-contrast: #223832;
     --ion-color-secondary-contrast-rgb: 39,64,57;
     --ion-color-secondary-shade: #223832;
-    --ion-color-secondary-tint: #3d534d;
+    --ion-color-secondary-tint: #223832;
 
     --ion-color-tertiary: #274039;
     --ion-color-tertiary-rgb: 39,64,57;

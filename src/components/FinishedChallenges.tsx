@@ -3,7 +3,7 @@ import WeeklyChallenges from "./WeeklyChallenges";
 
 const FinishedChallenges: React.FC = () => {
     return (
-        <div className="weekly-challenges">
+        <div className="weekly-challenges done">
             <h2>Abgeschlossene Herausforderungen</h2>
             <div className={"challenge"}>
                 <div>
