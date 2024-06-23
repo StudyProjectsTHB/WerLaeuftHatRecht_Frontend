@@ -54,7 +54,7 @@
 }
 
 .circular-progress-bar {
-    &.OverviewSteps, &.OverviewDistance, &.OverviewPlace {
+    &.OverviewSteps, &.OverviewDistance, &.OverviewPlace, &.CourtPlace, &.CourtSteps, &.AllCourtsPlace, &.AllCourtsSteps {
         position: relative;
         margin: 0;
 
@@ -69,7 +69,7 @@
 
         &:before {
             content: "";
-            background-image: url("/public/images/steps.png");
+            background-image: url("/public/images/arrow.png");
             width: 40px;
             height: 40px;
             position: absolute;
@@ -80,11 +80,11 @@
         }
     }
 
-    &.OverviewSteps:before {
-        background-image: url("/public/images/arrow.png");
+    &.OverviewSteps:before, &.CourtSteps:before, &.AllCourtsSteps:before {
+        background-image: url("/public/images/steps.png");
     }
 
-    &.OverviewPlace:before {
+    &.OverviewPlace:before, &.CourtPlace:before, &.AllCourtsPlace:before {
         background-image: url("/public/images/trophy.png");
     }
 

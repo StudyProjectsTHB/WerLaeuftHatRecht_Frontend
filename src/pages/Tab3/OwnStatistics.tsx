@@ -11,7 +11,7 @@ import ColumnChart from "../../components/charts/ColumnChart";
 
 const OwnStatistics: React.FC = () => {
     return (
-        <IonPage style={{marginTop: '120px', marginBottom: '65px'}}>
+        <IonPage style={{marginTop: '160px', marginBottom: '65px'}} className={"statistics"}>
             <IonContent>
                 <div className="wrapper">
                     <ColumnChart labels={['KW 33', 'KW 34', 'KW 35']} columnData={[300, 500, 600]} type={'statistics'}/>

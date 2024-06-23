@@ -9,8 +9,8 @@ const ColumnChart: React.FC<{labels:string[], columnData:number[], type:string}>
         labels: labels,
         datasets: [
             {
-                backgroundColor: 'rgba(169, 169, 169, 255)',
-                borderColor: 'rgba(100, 100, 100, 255)',
+                backgroundColor: 'rgba(34, 56, 50, 1)',
+                borderColor: 'rgba(34, 56, 50, 1)',
                 borderWidth: 1,
                 hoverBackgroundColor: 'rgba(100, 100, 100, 255)',
                 hoverBorderColor: 'rgba(50,50,50,255)',
@@ -30,19 +30,28 @@ const ColumnChart: React.FC<{labels:string[], columnData:number[], type:string}>
             },
         },
         scales:{
+            x: {
+                grid: {
+                    display: false
+                },
+            },
             y:{
                 ticks:{
                     stepSize: 1000,
                     callback: function(value:any){
                         return `${value / 1000} K`
-                    }
-                }
+                    },
+
+                },
+                grid: {
+                    display: false
+                },
             }
         }
     };
 
     return (
-        <Bar data={data} options={options} />
+        <Bar data={data} options={options} style={{marginTop: '30px', marginBottom: '10px'}}/>
     );
 };
 

@@ -10,11 +10,11 @@ const BarChart: React.FC<{labels:string[], barData:number[]}> = ({labels, barDat
         datasets: [
             {
                 data: barData,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(34, 56, 50, 1)',
+                borderColor: 'rgba(34, 56, 50, 1)',
                 borderWidth: 1,
                 hoverBackgroundColor: 'rgba(100, 100, 100, 255)',
-                hoverBorderColor: 'rgba(50,50,50,255)',
+                hoverBorderColor: 'rgba(50,50,50,255)'
             },
         ],
     };
@@ -22,6 +22,19 @@ const BarChart: React.FC<{labels:string[], barData:number[]}> = ({labels, barDat
     const options: ChartOptions<'bar'> = {
         responsive: true,
         indexAxis: 'y',
+        scales: {
+            x: {
+                grid: {
+                    display: false
+                }
+            },
+            y: {
+                grid: {
+                    display: false
+                }
+            }
+        },
+
         plugins: {
             legend: {
                 display: false,

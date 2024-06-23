@@ -3,7 +3,8 @@
     padding-bottom: 30px;
     position: fixed;
     z-index: 1;
-    top: 0;
+    top: 45px;
+    width: 100%;
 
     .buttonContainer {
         display: flex;
@@ -44,4 +45,9 @@
     margin-bottom: 10px;
     padding: 20px 10px;
     border-radius: 12px;
+}
+
+.flex {
+    display: flex;
+    gap: 10px;
 }
