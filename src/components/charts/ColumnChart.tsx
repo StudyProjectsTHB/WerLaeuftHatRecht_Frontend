@@ -4,7 +4,7 @@ import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const ColumnChart: React.FC<{labels:string[], columnData:number[]}> = ({labels, columnData}) => {
+const ColumnChart: React.FC<{labels:string[], columnData:number[], type:string}> = ({labels, columnData, type}) => {
     const data = {
         labels: labels,
         datasets: [
@@ -29,13 +29,20 @@ const ColumnChart: React.FC<{labels:string[], columnData:number[]}> = ({labels, 
                 display: false,
             },
         },
-        scales: {
+        scales:{
             x: {
                 grid: {
                     display: false
                 },
             },
-            y: {
+            y:{
+                ticks:{
+                    stepSize: 1000,
+                    callback: function(value:any){
+                        return `${value / 1000} K`
+                    },
+
+                },
                 grid: {
                     display: false
                 },

@@ -6,11 +6,11 @@ const ProgressBar: React.FC<{ value: number, maxValue:number, type:string }> = (
 
     const renderValue = () => {
         if (type === "OverviewPlace") {
-            return maxValue - value;
+            return maxValue - value + 1;
         } else if (type === "CourtPlace") {
-            return maxValue - value;
+            return maxValue - value + 1;
         } else if (type === "AllCourtsPlace") {
-            return maxValue - value;
+            return maxValue - value + 1;
         } else {
             return value;
         }
@@ -56,7 +56,7 @@ const ProgressBar: React.FC<{ value: number, maxValue:number, type:string }> = (
         <div className={`circular-progress-bar ${type}`}>
             <CircularProgressbar
                 value= {renderValue()}
-                maxValue={maxValue}
+                maxValue={maxValue - 1}
                 />
             <div>
                 <div className="valuestring">

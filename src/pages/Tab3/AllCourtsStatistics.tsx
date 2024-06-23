@@ -5,15 +5,14 @@ import LineChart from "../../components/charts/LineChart";
 import React from "react";
 import BarChart from "../../components/charts/BarChart";
 import ProgressBar from "../../components/charts/ProgressBar";
+import ColumnChart from "../../components/charts/ColumnChart";
 
 const AllCourtsStatistics: React.FC = () => {
     return (
         <IonPage style={{marginTop: '160px', marginBottom: '65px'}} className={"statistics"}>
             <IonContent>
                 <div className="wrapper">
-                    <LineChart
-                        labels={['KW 33', 'KW 33', 'KW 33', 'KW 34', 'KW 34', 'KW 34', 'KW 35', 'KW 35', 'KW 35',]}
-                        chartData={[5000, 5500, 4000, 7000, 6200, 6300, 4500, 5000, 5300]}/>
+                    <ColumnChart labels={['KW 33', 'KW 34', 'KW 35']} columnData={[65, 81, 55]} type={'statistics'}/>
                 </div>
                 <div className="wrapper">
                     <BarChart labels={["OLG Brandenburg", "LG Cottbus", "AG Fankfurt (Oder)"]} barData={[6000, 4200, 4000]}/>

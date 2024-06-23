@@ -5,7 +5,7 @@ import {
     IonRouterOutlet,
 } from '@ionic/react';
 import './Tab3.css';
-import { Redirect, Route } from 'react-router-dom';
+import {Redirect, Route, useLocation} from 'react-router-dom';
 
 import OwnStatistics from "./Tab3/OwnStatistics";
 import AllCourtsStatistics from "./Tab3/AllCourtsStatistics";
@@ -16,6 +16,12 @@ import React from "react";
 
 const Tab3: React.FC = () => {
     const history = useHistory();
+    // const location = useLocation();
+    //
+    // const getButtonClass = (path: string) => {
+    //     return location.pathname.startsWith(path) ? 'active' : 'secondary';
+    // };
+
     return (
         <IonPage>
             <IonContent>
@@ -24,21 +30,21 @@ const Tab3: React.FC = () => {
                 <div className={"NavStats"}>
                     <h2>Statistiken</h2>
                     <div className={"buttonContainer"}>
-                        <button className={"secondary"} onClick={() => history.push('/Tab3/OwnStatistics')}>Eigene
+                        <button className={"secondary"} onClick={() => history.push('/tabs/tab3/OwnStatistics')}>Eigene
                         </button>
-                        <button className={"secondary"} onClick={() => history.push('/Tab3/CourtStatistics')}>OLG XYZ
+                        <button className={"secondary"} onClick={() => history.push('/tabs/tab3/CourtStatistics')}>OLG XYZ
                         </button>
-                        <button className={"secondary"} onClick={() => history.push('/Tab3/AllCourtsStatistics')}>Alle
+                        <button className={"secondary"} onClick={() => history.push('/tabs/tab3/AllCourtsStatistics')}>Alle
                             Gerichte
                         </button>
                     </div>
                 </div>
 
                 <IonRouterOutlet>
-                    <Route exact path={`/Tab3/OwnStatistics`} component={OwnStatistics}/>
-                    <Route exact path={`/Tab3/CourtStatistics`} component={CourtStatistics}/>
-                    <Route exact path={`/Tab3/AllCourtsStatistics`} component={AllCourtsStatistics}/>
-                    <Route exact path={`/Tab3`} render={() => <Redirect to="/Tab3/OwnStatistics"/>}/>
+                    <Route exact path={`/tabs/tab3/OwnStatistics`} component={OwnStatistics}/>
+                    <Route exact path={`/tabs/tab3/CourtStatistics`} component={CourtStatistics}/>
+                    <Route exact path={`/tabs/tab3/AllCourtsStatistics`} component={AllCourtsStatistics}/>
+                    <Route exact path={`/tabs/tab3`} render={() => <Redirect to="/tabs/tab3/OwnStatistics"/>}/>
                 </IonRouterOutlet>
             </IonContent>
         </IonPage>
