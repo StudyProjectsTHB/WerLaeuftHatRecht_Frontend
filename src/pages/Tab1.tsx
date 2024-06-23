@@ -22,10 +22,10 @@ const Tab1: React.FC = () => {
                 </div>
                 <div className={"gridContainer"}>
                     <div className={"wrapper barchart"}>
-                    <ColumnChart labels={["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]}
-                          columnData={[100, 0, 10, 50, 300, 200, 150]} type={'dashboard'}/>
+                        <ColumnChart labels={["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]}
+                                     columnData={[100, 0, 10, 50, 300, 200, 150]} type={'dashboard'}/>
                     </div>
-                <WeeklyChallenges/>
+                    <WeeklyChallenges/>
                 </div>
             </div>
         </IonContent>

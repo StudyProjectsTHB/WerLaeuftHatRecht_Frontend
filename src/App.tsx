@@ -57,15 +57,15 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
-        <Route path="/login" component={Login} exact={true} />
-        <Route path="/register" component={Register} exact={true} />
-        <Route path="/tabs" component={Tabs} />
-        <Route exact path="/" render={() => <Redirect to="/login" />} />
+        <Route path="/login" component={Login} exact={true}/>
+        <Route path="/register" component={Register} exact={true}/>
+        <Route path="/tabs" component={Tabs}/>
+        <Route exact path="/" render={() => <Redirect to="/login"/>}/>
       </IonRouterOutlet>
-        <div className={"motivationCounter"} style={{display: 'none'}}>
-            <h2>28 Tage verbleibend</h2>
-            <p>Gib Vollgas. Du schaffst das!</p>
-        </div>
+      <div className={"motivationCounter"} style={{display: 'none'}}>
+        <h2>28 Tage verbleibend</h2>
+        <p>Gib Vollgas. Du schaffst das!</p>
+      </div>
     </IonReactRouter>
   </IonApp>
 );
