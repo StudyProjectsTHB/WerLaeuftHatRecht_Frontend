@@ -11,14 +11,18 @@ import OwnStatistics from "./Tab3/OwnStatistics";
 import AllCourtsStatistics from "./Tab3/AllCourtsStatistics";
 import CourtStatistics from "./Tab3/CourtStatistics";
 import {useHistory} from "react-router";
+import Greeting from "../components/Greeting";
+import React from "react";
 
 const Tab3: React.FC = () => {
     const history = useHistory();
     return (
         <IonPage>
             <IonContent>
+                <Greeting name={"wilder Esel"}/>
+
                 <div className={"NavStats"}>
-                    <h1>Statistiken</h1>
+                    <h2>Statistiken</h2>
                     <div className={"buttonContainer"}>
                         <button className={"secondary"} onClick={() => history.push('/Tab3/OwnStatistics')}>Eigene
                         </button>

@@ -9,13 +9,13 @@ import BarChart from "../../components/charts/BarChart";
 
 const CourtStatistics: React.FC = () => {
     return (
-        <IonPage style={{marginTop: '120px', marginBottom: '65px'}}>
+        <IonPage style={{marginTop: '160px', marginBottom: '65px'}} className={"statistics"}>
             <IonContent>
-                <div className="wrapper">
-                    <div className="wrapper">
+                <div className="flex">
+                    <div className="wrapper weekly-stats">
                         <ProgressBar value={3} maxValue={10} type={"CourtPlace"}></ProgressBar>
                     </div>
-                    <div className="wrapper">
+                    <div className="wrapper weekly-stats">
                         <ProgressBar value={400} maxValue={5000} type={"CourtSteps"}></ProgressBar>
                     </div>
                 </div>

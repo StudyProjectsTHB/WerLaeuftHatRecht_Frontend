@@ -17,10 +17,16 @@ const Tab1: React.FC = () => {
                 <Greeting name={"wilder Esel"}/>
                 <DailySteps/>
                 <h2>Diese Woche</h2>
-                <WeeklyStats steps={52576} distance={37.5} rank={3}/>
-                <BarChart labels={["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]}
-                          columnData={[5000, 10000, 15000, 20000, 25000, 30000, 35000]}/>
-                <WeeklyChallenges/>
+                <div className={"wrapper"}>
+                    <WeeklyStats steps={52576} distance={37.5} rank={3}/>
+                </div>
+                <div className={"gridContainer"}>
+                    <div className={"wrapper barchart"}>
+                        <BarChart labels={["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]}
+                                  columnData={[5000, 10000, 15000, 20000, 25000, 30000, 35000]}/>
+                    </div>
+                    <WeeklyChallenges/>
+                </div>
             </div>
         </IonContent>
     </IonPage>

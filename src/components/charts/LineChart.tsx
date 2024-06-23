@@ -54,10 +54,6 @@ const LineChart: React.FC<{labels:string[], chartData:number[]}> = ({labels, cha
             },
             y: {
                 display: false, // Achse ausblenden
-
-                min: 0, // Minimalwert der y-Achse
-                max: 200,
-
                 grid: {
                     display: false
                 }

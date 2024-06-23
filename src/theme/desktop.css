@@ -1,0 +1,208 @@
+@media screen and (max-width: 1220px) {
+    .weekly-stats > div:first-of-type {
+        flex-wrap: wrap;
+
+        .circular-progress-bar {
+            width: max-content !important;
+        }
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .weekly-stats > div:first-of-type {
+        flex-wrap: nowrap;
+
+        .circular-progress-bar {
+            width: unset !important;
+        }
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    ion-tab-bar {
+        height: calc(100vh - 440px);
+        width: 300px;
+        top: 280px;
+        display: flex;
+        flex-direction: column;
+        border-radius: 12px;
+
+        .tab-has-label {
+            display: flex;
+            flex-direction: row;
+            flex-flow: row;
+            align-items: center;
+            gap: 10px;
+
+            ion-label, ion-icon {
+                margin: 0 10px 0 0;
+                font-size: 30px;
+            }
+
+            ion-label {
+                font-size: 18px;
+            }
+        }
+    }
+
+    .greeting {
+        position: fixed;
+        background-color: #fff;
+        left: 10px;
+        z-index: 1;
+        top: 10px;
+        border-radius: 12px;
+        width: 300px;
+        padding: 40px 20px;
+        display: flex;
+        flex-direction: column-reverse;
+
+        img {
+            width: 100px;
+        }
+
+        .greetingJustiz {
+            display: block !important;
+        }
+    }
+
+    .container {
+        padding: 30px 20px 20px 320px;
+
+        &:after {
+            content: '';
+            z-index: -1;
+            background-color: #fff;
+            width: calc(100% - 300px);
+            height: calc(100% - 20px);
+            top: 10px;
+            position: absolute;
+            left: 300px;
+            border-radius: 12px;
+        }
+    }
+
+    .CircularProgressbar {
+        width: 100px;
+    }
+
+    .motivationCounter {
+        display: block !important;
+        position: absolute;
+        left: 10px;
+        bottom: 10px;
+        background-color: #223832;
+        width: 300px;
+        padding: 40px 20px;
+        border-radius: 12px;
+
+        p, h2 {
+            color: #fff !important;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+    }
+
+    .daily-steps {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .weekly-stats > div {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .circular-progress-bar {
+        background-color: #F1F1F1;
+        display: grid;
+        grid-template-columns: 0.5fr auto;
+        align-items: center;
+        padding: 20px 30px;
+        grid-gap: 30px;
+        border-radius: 12px;
+        box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
+        width: calc(100% / 3);
+
+        &:before {
+            left: 80px !important;
+            top: 90px !important;
+        }
+
+        svg {
+            margin-bottom: 0 !important;
+        }
+
+        .label p {
+            text-align: left !important;
+            font-size: 20px !important;
+            margin-top: 15px !important;
+        }
+
+        .valuestring p {
+            text-align: left !important;
+            font-size: 22px;
+        }
+    }
+
+    .wrapper {
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .barchart {
+        box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
+        background: #F1F1F1;
+        width: 100%;
+        margin-bottom: 0;
+    }
+
+    .gridContainer {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 50px;
+    }
+
+    .challenge {
+        background-color: #F1F1F1 !important;
+        border-radius: 8px !important;
+    }
+
+    .weekly-stats > div:first-of-type {
+        width: 100%;
+    }
+
+    .statistics {
+        margin: 0 !important;
+        padding: 130px 20px 20px 320px;
+
+        &:after {
+            content: '';
+            z-index: -1;
+            background-color: #fff;
+            width: calc(100% - 330px);
+            height: calc(100% - 20px);
+            top: 10px;
+            position: absolute;
+            left: 320px;
+            border-radius: 12px;
+        }
+
+        ion-content {
+            --background: transparent;
+            display: flex !important;
+        }
+    }
+
+    .NavStats {
+        top: 30px;
+        left: 340px;
+        background-color: transparent;
+    }
+}
