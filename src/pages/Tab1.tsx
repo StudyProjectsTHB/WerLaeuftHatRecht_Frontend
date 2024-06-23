@@ -6,7 +6,7 @@ import Greeting from '../components/Greeting';
 import DailySteps from '../components/DailySteps';
 import WeeklyStats from '../components/WeeklyStats';
 import WeeklyChallenges from '../components/WeeklyChallenges';
-import BarChart from "../components/charts/ColumnChart";
+import ColumnChart from "../components/charts/ColumnChart";
 
 
 const Tab1: React.FC = () => {
@@ -18,8 +18,8 @@ const Tab1: React.FC = () => {
                 <DailySteps/>
                 <h2>Diese Woche</h2>
                 <WeeklyStats steps={52576} distance={37.5} rank={3}/>
-                <BarChart labels={["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]}
-                          columnData={[5000, 10000, 15000, 20000, 25000, 30000, 35000]}/>
+                <ColumnChart labels={["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]}
+                          columnData={[100, 0, 10, 50, 300, 200, 150]} type={'dashboard'}/>
                 <WeeklyChallenges/>
             </div>
         </IonContent>

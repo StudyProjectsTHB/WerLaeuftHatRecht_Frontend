@@ -1,0 +1,25 @@
+.react-calendar__tile {
+    position: relative;
+}
+
+.marker {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.marker.green {
+    background-color: green;
+}
+
+.marker.red {
+    background-color: red;
+}
+
+.marker.orange {
+    background-color: orange;
+}

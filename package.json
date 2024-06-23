@@ -25,13 +25,17 @@
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
+    "date-fns": "^3.6.0",
     "ionicons": "^7.0.0",
     "react": "^18.2.0",
+    "react-calendar": "^5.0.0",
     "react-chartjs-2": "^5.2.0",
     "react-circular-progressbar": "^2.1.0",
+    "react-datepicker": "^7.1.0",
     "react-dom": "^18.2.0",
     "react-router": "^5.3.4",
-    "react-router-dom": "^5.3.4"
+    "react-router-dom": "^5.3.4",
+    "styled-components": "^6.1.11"
   },
   "devDependencies": {
     "@capacitor/cli": "6.0.0",

@@ -46,42 +46,52 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import Login from "./pages/Login";
+import Tabs from "./Tabs";
+import Register from "./pages/Register";
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
-          </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
-          </Route>
-          <Route path="/tab3">
-            <Tab3 />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/tab1" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon aria-hidden="true" icon={homeOutline} />
-            <IonLabel>Übersicht</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon aria-hidden="true" icon={createOutline} />
-            <IonLabel>Editieren</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon aria-hidden="true" icon={statsChartOutline} />
-            <IonLabel>Statistiken</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
+      <IonRouterOutlet>
+        <Route path="/login" component={Login} exact={true} />
+        <Route path="/register" component={Register} exact={true} />
+        <Route path="/tabs" component={Tabs} />
+        <Route exact path="/" render={() => <Redirect to="/login" />} />
+      </IonRouterOutlet>
+
+      {/*<IonTabs>*/}
+      {/*  <IonRouterOutlet>*/}
+      {/*    <Route exact path="/tab1">*/}
+      {/*      <Tab1 />*/}
+      {/*    </Route>*/}
+      {/*    <Route exact path="/tab2">*/}
+      {/*      <Tab2 />*/}
+      {/*    </Route>*/}
+      {/*    <Route path="/tab3">*/}
+      {/*      <Tab3 />*/}
+      {/*    </Route>*/}
+      {/*    <Route exact path="/">*/}
+      {/*      <Redirect to="/tab1" />*/}
+      {/*    </Route>*/}
+      {/*  </IonRouterOutlet>*/}
+      {/*  <IonTabBar slot="bottom">*/}
+      {/*    <IonTabButton tab="tab1" href="/tab1">*/}
+      {/*      <IonIcon aria-hidden="true" icon={homeOutline} />*/}
+      {/*      <IonLabel>Übersicht</IonLabel>*/}
+      {/*    </IonTabButton>*/}
+      {/*    <IonTabButton tab="tab2" href="/tab2">*/}
+      {/*      <IonIcon aria-hidden="true" icon={createOutline} />*/}
+      {/*      <IonLabel>Editieren</IonLabel>*/}
+      {/*    </IonTabButton>*/}
+      {/*    <IonTabButton tab="tab3" href="/tab3">*/}
+      {/*      <IonIcon aria-hidden="true" icon={statsChartOutline} />*/}
+      {/*      <IonLabel>Statistiken</IonLabel>*/}
+      {/*    </IonTabButton>*/}
+      {/*  </IonTabBar>*/}
+      {/*</IonTabs>*/}
     </IonReactRouter>
   </IonApp>
 );
