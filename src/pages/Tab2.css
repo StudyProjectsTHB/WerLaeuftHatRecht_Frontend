@@ -1,39 +1,8 @@
 .circular-progress-bar.calendar {
     text-align: center;
 
-    svg {
-        position: relative;
-        width: 300px;
-        height: 300px;
-        overflow: visible;
-        margin: auto auto 15px;
-
-        .CircularProgressbar-path {
-            stroke-linecap: round;
-            stroke-width: 4;
-        }
-
-        .CircularProgressbar-trail {
-            stroke-width: 4;
-            filter: drop-shadow(2px 2px 2px rgb(0 0 0 / 0.1));
-        }
-    }
-
-    tspan {
-        font-family: Avenir;
-
-        &:first-child {
-            font-size: 20px;
-            fill: #000;
-            font-weight: bold;
-        }
-
-        &:last-child {
-            font-size: 8px;
-            fill: #C1C1C1;
-            font-weight: normal;
-            margin-top: 20px;
-        }
+    .button {
+        margin-top: -50px;
     }
 }
 

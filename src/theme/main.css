@@ -31,6 +31,14 @@ ion-tab-bar {
 
 }
 
+body {
+    background-color: #f1f1f1;
+}
+
+.ion-page {
+    overflow: hidden;
+}
+
 h1, p, a {
     color: #212121 !important;
     font-family: "Avenir";
