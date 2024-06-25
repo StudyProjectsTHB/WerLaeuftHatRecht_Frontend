@@ -11,7 +11,7 @@ import ColumnChart from "../components/charts/ColumnChart";
 
 const Tab1: React.FC = () => {
   return (
-    <IonPage>
+    <IonPage  style={{marginBottom: '65px'}}>
         <IonContent fullscreen>
             <div className="container">
                 <Greeting name={"wilder Esel"}/>

@@ -96,6 +96,10 @@
         padding: 40px 20px;
         border-radius: 12px;
 
+        &.hidden {
+            display: none !important;
+        }
+
         p, h2 {
             color: #fff !important;
         }
