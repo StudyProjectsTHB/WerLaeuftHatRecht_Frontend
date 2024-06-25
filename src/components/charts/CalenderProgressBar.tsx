@@ -6,18 +6,19 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
+import {IonButton} from "@ionic/react";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
 
-const ThreeQuarterDoughnutChart: React.FC = () => {
+const ThreeQuarterDoughnutChart: React.FC<{value:number, maxValue:number}> = ({value, maxValue, onClick}) => {
     const data = {
         labels: ['Gelaufen', 'Noch zu Laufen'],
         datasets: [
             {
                 label: 'Schritte',
-                data: [8000, 2000],
+                data: [value, maxValue - value],
                 backgroundColor: [
                     'rgba(255, 99, 132, 1)',
                     'rgba(54, 162, 235, 1)',
