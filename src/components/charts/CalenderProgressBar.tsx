@@ -47,7 +47,10 @@ const ThreeQuarterDoughnutChart: React.FC = () => {
     };
 
     return (
-        <Doughnut data={data} options={options} />
+        <div className={`circular-progress-bar calendar`}>
+            <Doughnut data={data} options={options} />
+            <IonButton onClick={onClick}>Jetzt eintragen</IonButton>
+        </div>
     );
 };
 
