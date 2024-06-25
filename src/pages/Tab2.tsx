@@ -23,7 +23,7 @@ const Tab2: React.FC = () => {
     }, [showModal]);
 
   return (
-    <IonPage className={"PageModal"}>
+    <IonPage className={"PageModal Edit"} >
       <IonContent fullscreen>
           <Greeting name={"wilder Esel"}/>
         <CalenderProgressBar value={8000} maxValue={10000} onClick={() => setShowModal(true)}/>
