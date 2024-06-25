@@ -1,22 +1,57 @@
 import React from 'react';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
-import {IonButton} from "@ionic/react";
+import { Doughnut } from 'react-chartjs-2';
+import {
+    Chart as ChartJS,
+    ArcElement,
+    Tooltip,
+    Legend,
+} from 'chart.js';
 
-const ProgressBar: React.FC<{ value: number, maxValue:number}> = ({ value, maxValue, onClick}) => {
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+
+
+const ThreeQuarterDoughnutChart: React.FC = () => {
+    const data = {
+        labels: ['Gelaufen', 'Noch zu Laufen'],
+        datasets: [
+            {
+                label: 'Schritte',
+                data: [8000, 2000],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                ],
+                borderWidth: 1,
+            },
+        ],
+
+
+    };
+
+    const options = {
+        rotation: -135, // Start position of the chart
+        circumference: 270, // Sweep angle of the chart
+        plugins: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: false
+            },
+        },
+    };
+
     return (
         <div className={`circular-progress-bar calendar`}>
-            <CircularProgressbar
-                value= {value}
-                maxValue={maxValue}
-                text={<>
-                    <tspan>{value}</tspan>
-                    <tspan dy="15px" x="50%">/{maxValue}</tspan>
-                </>}
-            />
+            <Doughnut data={data} options={options} />
             <IonButton onClick={onClick}>Jetzt eintragen</IonButton>
         </div>
     );
 };
 
-export default ProgressBar;
+export default ThreeQuarterDoughnutChart;
