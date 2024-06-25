@@ -11,7 +11,6 @@ import {IonButton} from "@ionic/react";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
-
 const ThreeQuarterDoughnutChart: React.FC<{value:number, maxValue:number}> = ({value, maxValue, onClick}) => {
     const data = {
         labels: ['Gelaufen', 'Noch zu Laufen'],
@@ -20,12 +19,12 @@ const ThreeQuarterDoughnutChart: React.FC<{value:number, maxValue:number}> = ({v
                 label: 'Schritte',
                 data: [value, maxValue - value],
                 backgroundColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
+                    'rgb(39,64,57)',
+                    'rgb(217,217,217)',
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
+                    'rgb(39,64,57)',
+                    'rgb(217,217,217)',
                 ],
                 borderWidth: 1,
             },
@@ -37,6 +36,7 @@ const ThreeQuarterDoughnutChart: React.FC<{value:number, maxValue:number}> = ({v
     const options = {
         rotation: -135, // Start position of the chart
         circumference: 270, // Sweep angle of the chart
+        cutout: '90%',
         plugins: {
             legend: {
                 display: false
