@@ -22,22 +22,17 @@ const AddStepsModal = ({ isOpen, onClose }) => {
 
     return (
         <IonModal isOpen={isOpen} onDidDismiss={onClose}>
-            <IonHeader>
-                <IonToolbar>
-                    <IonTitle>Schritte eintragen</IonTitle>
-
-                </IonToolbar>
-            </IonHeader>
             <IonContent>
+                <h1>Schritte eintragen</h1>
                 <div className={'modal-text'}>
                         <p>Die insgesamte Strecke und die Platzierung wird im Anschluss berechnet.</p>
                 </div>
-                <div style={{ padding: '20px' }}>
-                    <div>
+                <div>
+                    <div className={"modalFlex"}>
                         <label>Schritte:</label>
                         <input type="number" placeholder="24.000" />
                     </div>
-                    <div>
+                    <div className={"modalFlex"}>
                         <label>Zeitraum:</label>
                         <div className="date-input" onClick={toggleDatePicker}>
                             {startDate && endDate ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}` : 'Zeitraum auswählen'}
@@ -56,8 +51,10 @@ const AddStepsModal = ({ isOpen, onClose }) => {
                             </div>
                         )}
                     </div>
-                    <IonButton slot="end" onClick={onClose}>Abbrechen</IonButton>
-                    <IonButton onClick={onClose}>Schritte erfassen</IonButton>
+                    <div className={"buttonContainer"}>
+                        <button slot="end" onClick={onClose} className={"secondary"}>Abbrechen</button>
+                        <button onClick={onClose}>Schritte erfassen</button>
+                    </div>
                 </div>
             </IonContent>
         </IonModal>

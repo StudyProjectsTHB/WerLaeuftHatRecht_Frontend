@@ -10,8 +10,8 @@ const ProgressBar: React.FC<{ value: number, maxValue:number}> = ({ value, maxVa
                 value= {value}
                 maxValue={maxValue}
                 text={<>
-                    <tspan dy="-0.5em">{value}</tspan>
-                    <tspan x="50%" dy="1.2em">/{maxValue}</tspan>
+                    <tspan>{value}</tspan>
+                    <tspan dy="15px" x="50%">/{maxValue}</tspan>
                 </>}
             />
             <IonButton onClick={onClick}>Jetzt eintragen</IonButton>

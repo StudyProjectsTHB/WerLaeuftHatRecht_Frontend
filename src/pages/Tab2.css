@@ -1,0 +1,228 @@
+.circular-progress-bar.calendar {
+    text-align: center;
+
+    svg {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        overflow: visible;
+        margin: auto auto 15px;
+
+        .CircularProgressbar-path {
+            stroke-linecap: round;
+            stroke-width: 4;
+        }
+
+        .CircularProgressbar-trail {
+            stroke-width: 4;
+            filter: drop-shadow(2px 2px 2px rgb(0 0 0 / 0.1));
+        }
+    }
+
+    tspan {
+        font-family: Avenir;
+
+        &:first-child {
+            font-size: 20px;
+            fill: #000;
+            font-weight: bold;
+        }
+
+        &:last-child {
+            font-size: 8px;
+            fill: #C1C1C1;
+            font-weight: normal;
+            margin-top: 20px;
+        }
+    }
+}
+
+.react-calendar {
+    background: white;
+    border-radius: 8px;
+    filter: drop-shadow(2px 2px 2px rgb(0 0 0 / 0.1));
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px;
+    margin-top: 20px;
+    border: none !important;
+}
+
+.react-calendar__navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px !important;
+
+    .react-calendar__navigation__label {
+        font-size: 16px;
+        font-weight: bold;
+        color: #3c4043;
+
+        button {
+            display: none;
+        }
+    }
+
+    .react-calendar__navigation__arrow {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        color: #3c4043;
+    }
+}
+
+.react-calendar__month-view__days__day--weekend {
+    color: #8c8c8c !important;
+}
+
+.react-calendar__month-view__weekdays {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #3c4043;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+
+    .react-calendar__month-view__weekdays__weekday {
+        flex: 1;
+        padding-bottom: 0 !important;
+
+        abbr {
+            text-decoration: none;
+        }
+    }
+}
+
+.react-calendar__tile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    margin: 2px;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    color: #3c4043;
+    position: relative;
+
+    &.react-calendar__tile--active {
+        background: #c5c5c5 !important;
+        color: white;
+    }
+
+    &.react-calendar__tile--now {
+        background: #223832 !important;
+        color: #fff !important;
+    }
+}
+
+.marker {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+
+    &.green {
+        background-color: #00a400;
+    }
+
+    &.orange {
+        background-color: #ffa500;
+    }
+
+    &.red {
+        background-color: #ff0000;
+    }
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #3c4043;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+ion-modal {
+    height: 40vh;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    position: relative;
+    left: 10px;
+    right: 10px;
+    width: calc(100% - 20px);
+    bottom: 0;
+    top: calc(60vh - 48px);
+    background-color: #fff;
+
+    ion-content {
+        --background: #fff;
+    }
+
+    label {
+        color: #000;
+    }
+
+    input {
+        padding: 10px;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: center;
+        margin-top: 10px;
+        color: #000;
+    }
+
+    .date-input {
+        color: #000;
+    }
+
+    .modalFlex {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .buttonContainer {
+        display: flex;
+        gap: 10px;
+    }
+
+    button {
+        width: 100%;
+        background: #223832;
+        color: #fff;
+        border: 1px solid #223832;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: normal;
+        box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
+
+        &.secondary {
+            background: #fff;
+            color: #223832;
+
+            &:hover, &:active, &:focus {
+                background: #223832;
+                color: #fff;
+            }
+        }
+    }
+
+}
+
+.openModal {
+    opacity: 0.6;
+}
