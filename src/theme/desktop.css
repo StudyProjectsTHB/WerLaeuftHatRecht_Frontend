@@ -16,6 +16,10 @@
             width: unset !important;
         }
     }
+
+    .Edit .flex {
+        display: block;
+    }
 }
 
 @media screen and (min-width: 1024px) {
@@ -129,13 +133,23 @@
         background-color: #F1F1F1;
         box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
         width: 50%;
-        padding: 80px;
+        padding: 20px;
         border-radius: 12px;
     }
 
     .react-calendar {
         background-color: #F1F1F1;
         width: 50%;
+        margin-top: 0;
+        box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
+    }
+
+    ion-modal {
+        height: 100vh;
+        top: 0;
+        width: 100%;
+        left: 0;
+        border-radius: 0;
     }
 
     .circular-progress-bar:not(.calendar) {

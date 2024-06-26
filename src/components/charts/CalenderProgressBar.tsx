@@ -49,7 +49,10 @@ const ThreeQuarterDoughnutChart: React.FC<{value:number, maxValue:number}> = ({v
 
     return (
         <div className={`circular-progress-bar calendar`}>
-            <Doughnut data={data} options={options} />
+            <Doughnut data={data} options={options}/>
+            <div className="circular-progress-bar_value">
+                <span className={"value"}>{value}</span> <p className={"stepGoal"}>/ {maxValue}</p>
+            </div>
             <IonButton onClick={onClick}>Jetzt eintragen</IonButton>
         </div>
     );
