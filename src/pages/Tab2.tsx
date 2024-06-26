@@ -12,6 +12,13 @@ const Tab2: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("showModal")) {
+            setShowModal(true);
+        }
+    }, [location]);
+
+    useEffect(() => {
         const ionPage = document.querySelector(".PageModal");
         if (ionPage) {
             if (showModal) {

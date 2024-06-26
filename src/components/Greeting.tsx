@@ -1,6 +1,7 @@
 import React from 'react';
 
 const Greeting: React.FC<{ name: string }> = ({ name }) => {
+
     return (
         <div className="greeting">
             <div>
