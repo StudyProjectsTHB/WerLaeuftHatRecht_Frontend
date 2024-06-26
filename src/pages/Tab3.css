@@ -19,11 +19,15 @@
         padding: 10px;
         font-size: 16px;
         box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
+    }
 
-        &:hover, &:active, &:focus {
-            background: #223832;
-            color: #fff;
-        }
+    button.active{
+        background: #223832;
+        color: #fff;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+        box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
     }
 }
 

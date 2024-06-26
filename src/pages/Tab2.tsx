@@ -12,6 +12,13 @@ const Tab2: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("showModal")) {
+            setShowModal(true);
+        }
+    }, [location]);
+
+    useEffect(() => {
         const ionPage = document.querySelector(".PageModal");
         if (ionPage) {
             if (showModal) {
@@ -25,7 +32,7 @@ const Tab2: React.FC = () => {
   return (
     <IonPage className={"PageModal Edit"} >
       <IonContent fullscreen>
-          <Greeting name={"wilder Esel"}/>
+        <Greeting name={"wilder Esel"}/>
           <div className={"flex"}>
             <CalenderProgressBar value={8000} maxValue={10000} onClick={() => setShowModal(true)}/>
             <Calender/>
