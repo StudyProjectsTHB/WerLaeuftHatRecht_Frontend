@@ -7,6 +7,7 @@ import {createOutline, ellipse, homeOutline, square, statsChartOutline, triangle
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
+import Settings from "./pages/Settings";
 
 const Tabs: React.FC = () => (
     <IonReactRouter>
@@ -23,6 +24,9 @@ const Tabs: React.FC = () => (
             </Route>
             <Route exact path="/tabs">
               <Redirect to="/tabs/tab1" />
+            </Route>
+            <Route exact path="/tabs/settings">
+              <Settings />
             </Route>
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
