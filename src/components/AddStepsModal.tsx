@@ -4,13 +4,14 @@ import { IonModal, IonButton, IonContent, IonHeader, IonToolbar, IonTitle } from
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './AddStepsModal.css';
+import {AddStepsModalProps} from "../types";
 
-const AddStepsModal = ({ isOpen, onClose }) => {
+const AddStepsModal = ({ isOpen, onClose }: AddStepsModalProps) => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
 
-    const handleDateChange = (dates) => {
+    const handleDateChange = (dates: [Date, Date]): void => {
         const [start, end] = dates;
         setStartDate(start);
         setEndDate(end);
@@ -19,6 +20,7 @@ const AddStepsModal = ({ isOpen, onClose }) => {
     const toggleDatePicker = () => {
         setShowDatePicker(!showDatePicker);
     };
+
 
     return (
         <IonModal isOpen={isOpen} onDidDismiss={onClose}>

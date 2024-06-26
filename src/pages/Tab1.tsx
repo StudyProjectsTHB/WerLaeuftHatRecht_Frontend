@@ -1,16 +1,90 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import {IonContent, IonHeader, IonLoading, IonPage, IonTitle, IonToolbar} from '@ionic/react';
 import './Tab1.css';
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 import Greeting from '../components/Greeting';
 import DailySteps from '../components/DailySteps';
 import WeeklyStats from '../components/WeeklyStats';
 import WeeklyChallenges from '../components/WeeklyChallenges';
 import ColumnChart from "../components/charts/ColumnChart";
+import {useHistory} from "react-router";
+import {jwtDecode} from 'jwt-decode';
 
 
 const Tab1: React.FC = () => {
-  return (
+    const [loading, setLoading] = useState(true);
+    const history = useHistory();
+
+    useEffect(() => {
+        const checkToken = async () => {
+
+            // const token = localStorage.getItem('authToken');
+            //
+            // if (!token) {
+            //     history.push('/login');
+            //     return;
+            // }
+            //
+            // try {
+            //     // Dekodiere den Token
+            //     const decodedToken = jwtDecode(token);
+            //
+            //     // `exp`-Claim extrahieren (in Sekunden seit Epoch)
+            //     const expirationTimeInSeconds = decodedToken.exp
+            //
+            //     console.log('Decoded token:', decodedToken);
+            //
+            //     // `exp`-Claim in ein Date-Objekt umwandeln
+            //     const expirationDate = new Date(expirationTimeInSeconds * 1000);
+            //
+            //     console.log('Token expires at:', expirationDate);
+            // } catch (error) {
+            //     console.error("Invalid token", error);
+            //     return null;
+            // }
+
+            const token = localStorage.getItem('authToken');
+
+            if (!token) {
+                history.push('/login');
+                return;
+            }
+
+            console.log('Token:', token);
+
+            try {
+                const response = await fetch('http://localhost:8080/api/days', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                console.log(response);
+
+                if (response.ok) {
+                    // Token ist gültig
+                    setLoading(false);
+                } else {
+                    throw new Error('Token verification failed');
+                }
+            } catch (error) {
+                console.error('Token verification failed:', error);
+                localStorage.removeItem('authToken');
+                history.push('/login');
+            }
+        };
+
+        checkToken();
+    }, [history]);
+
+    if (loading) {
+        return <IonLoading isOpen={true} message={'Laden...'} />;
+    }
+
+
+    return (
     <IonPage  style={{marginBottom: '65px'}}>
         <IonContent fullscreen>
             <div className="container">
@@ -30,7 +104,7 @@ const Tab1: React.FC = () => {
             </div>
         </IonContent>
     </IonPage>
-  );
+    );
 };
 
 export default Tab1;

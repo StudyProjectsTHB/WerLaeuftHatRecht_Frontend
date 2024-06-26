@@ -1,18 +1,49 @@
 import React, {useEffect, useState} from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonButton, IonList } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonButton, IonList, IonAlert } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
+import axios from "axios";
 
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [showAlert, setShowAlert] = useState<boolean>(false);
+    const [alertMessage, setAlertMessage] = useState<string>('');
     const history = useHistory();
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         console.log('Email:', email);
         console.log('Password:', password);
-        // Füge hier deine Login-Logik hinzu
-        history.push('/tabs/tab1');
+
+        try{
+            const response = await fetch('http://localhost:8080/api/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            })
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                console.log('Login successful');
+                localStorage.setItem('authToken', data.accessToken);
+                history.push('/tabs/tab1');
+            } else {
+                console.error('Login failed');
+                setAlertMessage('Login fehlgeschlagen');
+                setShowAlert(true);
+            }
+        } catch (error) {
+            console.error('Error logging in:', error);
+            setShowAlert(true);
+            setAlertMessage('Ein Fehler ist aufgetreten. Bitte versuche es später erneut.');
+        }
+
     };
 
     useEffect(() => {
@@ -64,6 +95,14 @@ const Login: React.FC = () => {
                 </IonList>
                 <IonButton expand="full" onClick={handleLogin}>Anmelden</IonButton>
                 <IonButton expand="full" >Passwort vergessen</IonButton>
+                <IonAlert
+                    isOpen={showAlert}
+                    onDidDismiss={() => setShowAlert(false)}
+                    header={'Fehler'}
+                    message={alertMessage}
+                    buttons={['OK']}
+                />
+
             </IonContent>
         </IonPage>
     );

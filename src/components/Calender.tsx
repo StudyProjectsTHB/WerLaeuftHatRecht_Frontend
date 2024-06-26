@@ -1,19 +1,21 @@
 import React from 'react';
 import Calendar from 'react-calendar';
+import { TileContentProps, Markers, NavigationLabelProps } from '../types';
 import 'react-calendar/dist/Calendar.css';
 import './Calendar.css';
 
 const CalendarView: React.FC = () => {
     const [date, setDate] = React.useState(new Date());
 
-    const markers = {
+    const markers:Markers = {
         '2024-06-01': 'green',
         '2024-06-05': 'red',
         '2024-06-10': 'orange',
         '2024-06-19': 'green',
     };
 
-    const getTileContent = ({ date, view }) => {
+
+    const getTileContent = ({ date, view }:TileContentProps): React.ReactNode => {
         if (view === 'month') {
             const dateString = date.toISOString().split('T')[0];
             if (markers[dateString]) {
@@ -23,7 +25,7 @@ const CalendarView: React.FC = () => {
         return null;
     };
 
-    const navigationLabel = ({ date, view, label }) => {
+    const navigationLabel = ({ date, view, label }: NavigationLabelProps) => {
         if (view === 'month') {
             const month = date.toLocaleString('default', { month: 'long' });
             const year = date.getFullYear();
@@ -38,6 +40,7 @@ const CalendarView: React.FC = () => {
         return label;
     };
 
+    // @ts-ignore
     return <Calendar
                 onChange={setDate}
                 value={date}
