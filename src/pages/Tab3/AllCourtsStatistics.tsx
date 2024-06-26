@@ -9,7 +9,7 @@ import ColumnChart from "../../components/charts/ColumnChart";
 
 const AllCourtsStatistics: React.FC = () => {
     return (
-        <IonPage style={{marginTop: '160px', marginBottom: '65px'}} className={"statistics"}>
+        <IonPage style={{marginTop: '110px', marginBottom: '65px'}} className={"statistics"}>
             <IonContent>
                 <div className="wrapper">
                     <ColumnChart labels={['KW 33', 'KW 34', 'KW 35']} columnData={[65, 81, 55]} type={'statistics'}/>

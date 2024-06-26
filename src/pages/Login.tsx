@@ -43,27 +43,28 @@ const Login: React.FC = () => {
 
     return (
         <IonPage>
-            <IonContent>
-                <IonList>
-                    <IonItem>
-                        <IonLabel position="floating">Email</IonLabel>
-                        <IonInput
+            <IonContent className={"loginContent"}>
+                <div className={"login"}>
+                <h1>Login</h1>
+                    <div className={"loginFlex"}>
+                        <label>Email</label>
+                        <input
                             type="email"
                             value={email}
-                            onIonChange={e => setEmail(e.detail.value!)}
+                            onChange={e => setEmail(e.target.value!)}
                         />
-                    </IonItem>
-                    <IonItem>
-                        <IonLabel position="floating">Password</IonLabel>
-                        <IonInput
+                    </div>
+                    <div className={"loginFlex"}>
+                        <label>Password</label>
+                        <input
                             type="password"
                             value={password}
-                            onIonChange={e => setPassword(e.detail.value!)}
+                            onChange={e => setPassword(e.target.value!)}
                         />
-                    </IonItem>
-                </IonList>
-                <IonButton expand="full" onClick={handleLogin}>Anmelden</IonButton>
-                <IonButton expand="full" >Passwort vergessen</IonButton>
+                    </div>
+                <button className={"secondary"} onClick={handleLogin}>Anmelden</button>
+                <a>Passwort vergessen</a>
+                </div>
             </IonContent>
         </IonPage>
     );

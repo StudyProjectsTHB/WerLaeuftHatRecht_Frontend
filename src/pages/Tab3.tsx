@@ -28,7 +28,6 @@ const Tab3: React.FC = () => {
                 <Greeting name={"wilder Esel"}/>
 
                 <div className={"NavStats"}>
-                    <h2>Statistiken</h2>
                     <div className={"buttonContainer"}>
                         <button className={"secondary"} onClick={() => history.push('/tabs/tab3/OwnStatistics')}>Eigene
                         </button>

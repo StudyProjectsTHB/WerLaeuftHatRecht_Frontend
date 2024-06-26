@@ -1,6 +1,7 @@
 .NavStats {
     background: #F1F1F1;
-    padding-bottom: 30px;
+    padding-top: 10px;
+    padding-bottom: 20px;
     position: fixed;
     z-index: 1;
     top: 45px;
