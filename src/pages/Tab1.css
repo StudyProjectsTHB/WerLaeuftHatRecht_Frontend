@@ -1,3 +1,60 @@
+.loginContent {
+    --background: #274039;
+    color: #fff;
+
+    &::part(scroll) {
+        overflow-y: hidden !important;
+    }
+
+    .loginFlex {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-bottom: 20px;
+
+        input {
+            padding: 10px;
+            background: transparent;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            color: #fff;
+        }
+    }
+
+    h1 {
+        color: #fff !important;
+        font-size: 46px;
+    }
+
+    a {
+        color: #838383 !important;
+    }
+
+    button.secondary {
+        margin-bottom: 15px;
+        background: #fff;
+        color: #223832;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+        box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
+
+        &:hover, &:active, &:focus {
+            background: #223832;
+            color: #fff;
+        }
+    }
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}
+
 .greeting {
     display: flex;
     align-items: center;

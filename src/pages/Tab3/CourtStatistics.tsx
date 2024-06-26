@@ -10,7 +10,7 @@ import ColumnChart from "../../components/charts/ColumnChart";
 
 const CourtStatistics: React.FC = () => {
     return (
-        <IonPage style={{marginTop: '160px', marginBottom: '65px'}} className={"statistics"}>
+        <IonPage style={{marginTop: '110px', marginBottom: '65px'}} className={"statistics"}>
             <IonContent>
                 <div className="flex">
                     <div className="wrapper weekly-stats">
