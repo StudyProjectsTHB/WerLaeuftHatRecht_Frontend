@@ -14,7 +14,7 @@ const OwnStatistics: React.FC = () => {
         <IonPage style={{marginTop: '110px', marginBottom: '65px'}} className={"statistics"}>
             <IonContent>
                 <div className="wrapper">
-                    <ColumnChart labels={['KW 33', 'KW 34', 'KW 35']} columnData={[300, 500, 600]} type={'statistics'}/>
+                    <ColumnChart labels={['KW 33', 'KW 34', 'KW 35']} columnData={[300, 5000, 600]} type={'statistics'}/>
                 </div>
                 <div className="wrapper">
                     <WeeklyStats steps={52576} distance={37.5} rank={3}/>

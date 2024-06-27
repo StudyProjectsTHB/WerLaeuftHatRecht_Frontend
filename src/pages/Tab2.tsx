@@ -22,16 +22,16 @@ const Tab2: React.FC = () => {
         const ionPage = document.querySelector(".PageModal");
         if (ionPage) {
             if (showModal) {
-                ionPage.classList.add("openModal");
+                document.body.classList.add("openModal");
             } else {
-                ionPage.classList.remove("openModal");
+                document.body.classList.remove("openModal");
             }
         }
     }, [showModal]);
 
   return (
     <IonPage className={"PageModal Edit"} >
-      <IonContent fullscreen>
+      <IonContent fullscreen className={"EditClass"}>
         <Greeting name={"wilder Esel"}/>
           <div className={"flex"}>
             <CalenderProgressBar value={8000} maxValue={10000} onClick={() => setShowModal(true)}/>

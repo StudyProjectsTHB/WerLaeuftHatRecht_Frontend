@@ -150,6 +150,7 @@
         width: 100%;
         left: 0;
         border-radius: 0;
+        background-color: transparent;
     }
 
     .circular-progress-bar:not(.calendar) {

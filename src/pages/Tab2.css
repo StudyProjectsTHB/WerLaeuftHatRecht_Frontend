@@ -231,6 +231,14 @@ ion-modal {
 
 }
 
+.openModal .ion-page.Edit {
+    opacity: 0.1;
+}
+
 .openModal {
-    opacity: 0.6;
+    ion-tab-bar, .motivationCounter {
+        opacity: 0.1;
+    }
+
+
 }
