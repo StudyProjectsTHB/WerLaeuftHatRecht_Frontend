@@ -30,7 +30,7 @@ const Tab2: React.FC = () => {
     }, [showModal]);
 
   return (
-    <IonPage className={"PageModal Edit"} >
+    <IonPage className={"PageModal Edit"} style={{marginBottom: "65px"}}>
       <IonContent fullscreen className={"EditClass"}>
         <Greeting name={"wilder Esel"}/>
           <div className={"flex"}>

@@ -60,6 +60,14 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 16px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #f1f1f1;
 
     img {
         width: 50px;
@@ -76,10 +84,12 @@
     border-radius: 5px;
     margin-bottom: 20px;
     box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
+    margin-top: 60px;
 
     p {
         color: #fff !important;
         text-align: center;
+        margin: 0;
     }
 
 }
@@ -164,7 +174,7 @@
         text-align: left;
         justify-items: start;
         background-color: #fff;
-        padding: 10px 15px 10px 70px;
+        padding: 10px 15px;
         border-radius: 5px;
         box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
         position: relative;
@@ -204,20 +214,6 @@
                 left: 2px;
                 top: 0;
             }
-        }
-
-
-
-        &:before {
-            content: '';
-            background-image: url("/public/images/clock.png");
-            width: 30px;
-            height: 30px;
-            background-size: contain;
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
         }
     }
 

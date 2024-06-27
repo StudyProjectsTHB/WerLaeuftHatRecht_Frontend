@@ -13,11 +13,13 @@ const OwnStatistics: React.FC = () => {
     return (
         <IonPage style={{marginTop: '110px', marginBottom: '65px'}} className={"statistics"}>
             <IonContent>
-                <div className="wrapper">
-                    <ColumnChart labels={['KW 33', 'KW 34', 'KW 35']} columnData={[300, 5000, 600]} type={'statistics'}/>
-                </div>
+                <h2>Dein Wettbewerb</h2>
                 <div className="wrapper">
                     <WeeklyStats steps={52576} distance={37.5} rank={3}/>
+                </div>
+                <div className="wrapper">
+                    <ColumnChart labels={['KW 33', 'KW 34', 'KW 35']} columnData={[300, 5000, 600]}
+                                 type={'statistics'}/>
                 </div>
                 <FinishedChallenges/>
 

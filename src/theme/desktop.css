@@ -19,6 +19,7 @@
 
     .Edit .flex {
         display: block;
+        padding-top: 40px;
     }
 }
 
@@ -214,7 +215,7 @@
 
     .statistics, .Edit {
         margin: 0 !important;
-        padding: 130px 20px 20px 320px;
+        padding: 100px 20px 20px 320px;
 
         &:after {
             content: '';
@@ -238,5 +239,9 @@
         top: 30px;
         left: 340px;
         background-color: transparent;
+    }
+
+    .legende {
+        width: 50%;
     }
 }

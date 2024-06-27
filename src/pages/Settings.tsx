@@ -7,7 +7,7 @@ import AddStepsModal from "../components/AddStepsModal";
 
 const Settings: React.FC = () => {
     return (
-        <IonPage className={"PageModal Edit"} >
+        <IonPage className={"PageModal Edit settings"} >
             <IonContent fullscreen>
                 <Greeting name={"wilder Esel"}/>
                 <div>

@@ -30,7 +30,7 @@ const AddStepsModal = ({ isOpen, onClose }) => {
                 <div>
                     <div className={"modalFlex"}>
                         <label>Schritte:</label>
-                        <input type="number" placeholder="24.000" />
+                        <input type="number" placeholder="Schritte eintragen" />
                     </div>
                     <div className={"modalFlex"}>
                         <label>Zeitraum:</label>
