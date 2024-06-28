@@ -29,9 +29,11 @@ const Login: React.FC = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
+                console.log(data.user);
                 console.log('Login successful');
                 localStorage.setItem('authToken', data.accessToken);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                console.log('user', JSON.parse(localStorage.getItem('user')));
                 history.push('/tabs/tab1');
             } else {
                 console.error('Login failed');
