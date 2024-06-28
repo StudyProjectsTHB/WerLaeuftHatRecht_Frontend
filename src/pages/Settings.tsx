@@ -3,7 +3,7 @@ import React from "react";
 import Greeting from "../components/Greeting";
 import CalenderProgressBar from "../components/charts/CalenderProgressBar";
 import Calender from "../components/Calender";
-import AddStepsModal from "../components/AddStepsModal";
+import AddStepsModal from "../components/modals/AddStepsModal";
 
 const Settings: React.FC = () => {
     return (
