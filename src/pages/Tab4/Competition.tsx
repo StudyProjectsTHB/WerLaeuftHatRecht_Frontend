@@ -1,14 +1,27 @@
-// AddStepsModal.jsx
-import React, {useState} from 'react';
-import { IonModal, IonButton, IonContent, IonHeader, IonToolbar, IonTitle } from '@ionic/react';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
-import './AddStepsModal.css';
+import {
+    IonButton,
+    IonContent,
+    IonPage,
+    IonRouterOutlet,
+} from '@ionic/react';
+import {Redirect, Route, useLocation} from 'react-router-dom';
 
-const AddStepsModal = ({ isOpen, onClose }) => {
+
+import {useHistory} from "react-router";
+
+import React, {useState} from "react";
+import Greeting from "../../components/Greeting";
+import DatePicker from "react-datepicker";
+import CompetitionChangeModal from "../../components/modals/CompetitionChangeModal";
+
+
+const Competition: React.FC = () => {
+    const history = useHistory();
+    const location = useLocation();
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
+    const [showChangeModal, setShowChangeModal] = useState(false);
 
     const handleDateChange = (dates) => {
         const [start, end] = dates;
@@ -20,18 +33,17 @@ const AddStepsModal = ({ isOpen, onClose }) => {
         setShowDatePicker(!showDatePicker);
     };
 
+
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={onClose}>
+        <IonPage>
             <IonContent>
-                <h1>Schritte eintragen</h1>
-                <div className={'modal-text'}>
-                        <p>Die insgesamte Strecke und die Platzierung wird im Anschluss berechnet.</p>
-                </div>
-                <div>
-                    <div className={"modalFlex"}>
-                        <label>Schritte:</label>
-                        <input type="number" placeholder="Schritte eintragen" />
-                    </div>
+                <Greeting name={"wilder Esel"}/>
+
+                <div className="container">
+                    <IonButton onClick={() => {
+                        history.push("/tabs/tab4")
+                    }}>Zurück</IonButton>
+                    <h2>Manager Bereich - Wettbewerb - Einstellungen</h2>
                     <div className={"modalFlex"}>
                         <label>Zeitraum:</label>
                         <div className="date-input" onClick={toggleDatePicker}>
@@ -50,15 +62,15 @@ const AddStepsModal = ({ isOpen, onClose }) => {
                                 />
                             </div>
                         )}
-                    </div>
-                    <div className={"buttonContainer"}>
-                        <button slot="end" onClick={onClose} className={"secondary"}>Abbrechen</button>
-                        <button onClick={onClose}>Schritte erfassen</button>
+                        <IonButton onClick={()=>setShowChangeModal(true)}>
+                            Speichern
+                        </IonButton>
                     </div>
                 </div>
             </IonContent>
-        </IonModal>
-    );
+            <CompetitionChangeModal isOpen={showChangeModal} onClose={() => setShowChangeModal(false)} />
+        </IonPage>
+    )
 };
 
-export default AddStepsModal;
+export default Competition;

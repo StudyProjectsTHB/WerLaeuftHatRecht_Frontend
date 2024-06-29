@@ -12,18 +12,22 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 
 const ThreeQuarterDoughnutChart: React.FC<{value:number, maxValue:number}> = ({value, maxValue, onClick}) => {
+
+
+    const reachedMaxValue = value >= maxValue;
+
     const data = {
         labels: ['Gelaufen', 'Noch zu Laufen'],
         datasets: [
             {
                 label: 'Schritte',
-                data: [value, maxValue - value],
+                data: [value, reachedMaxValue ? 0 : maxValue - value],
                 backgroundColor: [
-                    'rgb(39,64,57)',
+                    reachedMaxValue ? 'rgb(39,64,57)' : 'rgb(255,165,0)',
                     'rgb(217,217,217)',
                 ],
                 borderColor: [
-                    'rgb(39,64,57)',
+                    reachedMaxValue ? 'rgb(39,64,57)' : 'rgb(255,165,0)',
                     'rgb(217,217,217)',
                 ],
                 borderWidth: 1,

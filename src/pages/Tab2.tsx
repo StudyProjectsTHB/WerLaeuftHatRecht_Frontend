@@ -4,7 +4,7 @@ import './Tab2.css';
 
 import Calender from '../components/Calender';
 import CalenderProgressBar from "../components/charts/CalenderProgressBar";
-import AddStepsModal from "../components/AddStepsModal";
+import AddStepsModal from "../components/modals/AddStepsModal";
 import {useEffect, useState} from "react";
 import Greeting from "../components/Greeting";
 
