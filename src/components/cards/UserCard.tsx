@@ -11,7 +11,7 @@ import {useHistory} from "react-router";
 
 import React, {useState} from "react";
 import Greeting from "../../components/Greeting";
-import {ellipse} from "ionicons/icons";
+import {ellipse, settingsOutline, star, starOutline, trashOutline} from "ionicons/icons";
 
 
 const UserCard: React.FC<{name:string, email:string}> = ({name, email, onChangeClick, onAdminClick, onDeleteClick}) => {
@@ -21,34 +21,36 @@ const UserCard: React.FC<{name:string, email:string}> = ({name, email, onChangeC
 
 
     return (
-        <div className="container">
+        <div className="containerAdmin">
             <img
                 src="images/UserIcon.png"
                 alt="greeting-icon"
             />
-            <p>{name}</p>
-            <p>{email}</p>
-            <IonSelect
+            <div className={"name"}>
+                <p>{name}</p>
+                <p>{email}</p>
+            </div>
+            <select
                 value={selectedValue}
-                placeholder="Select an option"
-                onIonChange={e => setSelectedValue(e.detail.value)}
+                onChange={e => setSelectedValue(e.target.value)}
             >
-                <IonSelectOption value="Alle Gerichte">Alle Gerichte</IonSelectOption>
-                <IonSelectOption value="OLG Brandenburg">OLG Brandenburg</IonSelectOption>
-                <IonSelectOption value="OLG Cottbus">OLG Cottbus</IonSelectOption>
-                <IonSelectOption value="LG Potsdam">LG Potsdam</IonSelectOption>
+                <option value="Alle Gerichte">Alle Gerichte</option>
+                <option value="OLG Brandenburg">OLG Brandenburg</option>
+                <option value="OLG Cottbus">OLG Cottbus</option>
+                <option value="LG Potsdam">LG Potsdam</option>
 
-            </IonSelect>
-            <IonButton onClick={onChangeClick}>
-                <IonIcon aria-hidden="true" icon={ellipse} />
-            </IonButton>
-            <IonButton onClick={onAdminClick}>
-                <IonIcon aria-hidden="true" icon={ellipse} />
-            </IonButton>
-            <IonButton onClick={onDeleteClick}>
-                <IonIcon aria-hidden="true" icon={ellipse} />
-            </IonButton>
-
+            </select>
+            <div className={"buttonUser"}>
+                <button onClick={onChangeClick}>
+                    <IonIcon aria-hidden="true" icon={settingsOutline} />
+                </button>
+                <button onClick={onAdminClick} className={"adminChange"}>
+                    <IonIcon aria-hidden="true" icon={starOutline} />
+                </button>
+                <button onClick={onDeleteClick}>
+                    <IonIcon aria-hidden="true" icon={trashOutline} />
+                </button>
+            </div>
         </div>
     )
 };

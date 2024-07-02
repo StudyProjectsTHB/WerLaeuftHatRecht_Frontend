@@ -33,7 +33,8 @@ const Tab2: React.FC = () => {
     <IonPage className={"PageModal Edit"} style={{marginBottom: "65px"}}>
       <IonContent fullscreen className={"EditClass"}>
         <Greeting name={"wilder Esel"}/>
-          <div className={"flex"}>
+          <h1>Editieren</h1>
+          <div className={"gridEdit"}>
             <CalenderProgressBar value={8000} maxValue={10000} onClick={() => setShowModal(true)}/>
             <Calender/>
           </div>

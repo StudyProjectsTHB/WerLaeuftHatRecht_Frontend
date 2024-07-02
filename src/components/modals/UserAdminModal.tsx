@@ -6,10 +6,12 @@ import './AddStepsModal.css';
 
 const CourtDeleteModal = ({isOpen, onClose, email}) => {
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={onClose}>
+        <IonModal isOpen={isOpen} onDidDismiss={onClose} className={"heightSet"}>
             <IonContent>
                 <div>
-                    Sind Sie sicher, dass Sie den Nutzenden {email} zum Admin machen möchten?
+                    <h1>{email} zum Admin machen?</h1>
+                    <p>Administratoren können die Details aller Nutzer bearbeiten, den Wettbewerb verwalten, Gerichte löschen und andere Nutzer zum Administrator machen.
+                        Bitte bestätigen Sie nur, wenn der Nutzende ({email}) die Berechtigungen hierfür erhalten soll!</p>
                 </div>
 
                 <div className={"buttonContainer"}>

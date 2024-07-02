@@ -1,6 +1,6 @@
 import {
     IonButton,
-    IonContent,
+    IonContent, IonIcon,
     IonPage,
     IonRouterOutlet,
 } from '@ionic/react';
@@ -13,6 +13,7 @@ import React, {useState} from "react";
 import Greeting from "../../components/Greeting";
 import DatePicker from "react-datepicker";
 import CompetitionChangeModal from "../../components/modals/CompetitionChangeModal";
+import {arrowBack} from "ionicons/icons";
 
 
 const Competition: React.FC = () => {
@@ -40,12 +41,18 @@ const Competition: React.FC = () => {
                 <Greeting name={"wilder Esel"}/>
 
                 <div className="container">
-                    <IonButton onClick={() => {
+                    <button onClick={() => {
                         history.push("/tabs/tab4")
-                    }}>Zurück</IonButton>
-                    <h2>Manager Bereich - Wettbewerb - Einstellungen</h2>
-                    <div className={"modalFlex"}>
-                        <label>Zeitraum:</label>
+                    }} className={"buttonBack"}>
+                        <IonIcon aria-hidden="true" icon={arrowBack}/>
+                        <p>Zurück</p>
+                    </button>
+
+                    <h1>Manager Bereich - Wettbewerb - Einstellungen</h1>
+                    <div className={"adminButton time"}>
+                        <div className={"name"}>
+                            <p>Zeitraum</p>
+                        </div>
                         <div className="date-input" onClick={toggleDatePicker}>
                             {startDate && endDate ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}` : 'Zeitraum auswählen'}
                         </div>
@@ -62,10 +69,10 @@ const Competition: React.FC = () => {
                                 />
                             </div>
                         )}
-                        <IonButton onClick={()=>setShowChangeModal(true)}>
-                            Speichern
-                        </IonButton>
                     </div>
+                    <IonButton onClick={() => setShowChangeModal(true)} className={"buttonRight"}>
+                        Speichern
+                    </IonButton>
                 </div>
             </IonContent>
             <CompetitionChangeModal isOpen={showChangeModal} onClose={() => setShowChangeModal(false)} />

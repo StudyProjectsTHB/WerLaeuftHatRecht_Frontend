@@ -2,7 +2,15 @@ import React from 'react';
 import {IonTabs, IonRouterOutlet, IonTabBar, IonTabButton, IonIcon, IonLabel} from '@ionic/react';
 import {Route, Redirect} from 'react-router-dom';
 import {IonReactRouter} from '@ionic/react-router';
-import {createOutline, ellipse, homeOutline, square, statsChartOutline, triangle} from 'ionicons/icons';
+import {
+    createOutline,
+    ellipse,
+    homeOutline,
+    settingsOutline,
+    square,
+    statsChartOutline,
+    triangle
+} from 'ionicons/icons';
 
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
@@ -70,7 +78,7 @@ const Tabs: React.FC = () => {
                     </IonTabButton>
                   {isAdmin && (
                       <IonTabButton tab="tab4" href="/tabs/tab4">
-                        <IonIcon aria-hidden="true" icon={ellipse}/>
+                        <IonIcon aria-hidden="true" icon={settingsOutline}/>
                         <IonLabel>Manager</IonLabel>
                       </IonTabButton>
                   )}

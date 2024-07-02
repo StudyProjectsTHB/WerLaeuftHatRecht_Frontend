@@ -21,6 +21,10 @@
         display: block;
         padding-top: 40px;
     }
+
+    .gridEdit {
+        margin-top: 45px;
+    }
 }
 
 @media screen and (min-width: 1024px) {
@@ -72,8 +76,13 @@
         }
     }
 
+    .daily-steps {
+        margin-top: 0;
+    }
+
     .container {
         padding: 30px 20px 20px 320px;
+        height: 100vh;
 
         &:after {
             content: '';
@@ -86,6 +95,10 @@
             left: 300px;
             border-radius: 12px;
         }
+    }
+
+    .ion-page {
+        margin-bottom: 0 !important;
     }
 
     .CircularProgressbar {
@@ -133,14 +146,18 @@
     .circular-progress-bar.calendar {
         background-color: #F1F1F1;
         box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
-        width: 50%;
+        width: 100%;
         padding: 20px;
         border-radius: 12px;
+        max-height: 500px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .react-calendar {
         background-color: #F1F1F1;
-        width: 50%;
+        width: 100%;
         margin-top: 0;
         box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
     }
@@ -232,7 +249,19 @@
         ion-content {
             --background: transparent;
             display: flex !important;
+            top: 0;
         }
+    }
+
+    .Edit {
+        padding: 20px 20px 20px 320px;
+    }
+
+
+    .gridEdit {
+        display: grid;
+        grid-template-columns: auto 450px;
+        grid-gap: 50px;
     }
 
     .NavStats {
@@ -241,7 +270,13 @@
         background-color: transparent;
     }
 
-    .legende {
-        width: 50%;
+    .calendar-container {
+        display: flex;
+        flex-direction: column;
+
+        .legende {
+            order: 4;
+            width: 100%;
+        }
     }
 }

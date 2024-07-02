@@ -15,6 +15,7 @@ import Statistics from "./Tab4/Statistics";
 import {useHistory} from "react-router";
 import Greeting from "../components/Greeting";
 import React from "react";
+import "./tab4.css";
 
 
 const Tab4: React.FC = () => {
@@ -26,11 +27,15 @@ const Tab4: React.FC = () => {
             <IonContent>
                 <Greeting name={"wilder Esel"}/>
                 <div className="container">
-                    <IonButton onClick={() => history.push('/tabs/tab4/User')}>Nutzende</IonButton>
-                    <IonButton onClick={() => history.push('/tabs/tab4/Courts')}>Gerichte</IonButton>
-                    <IonButton onClick={() => history.push('/tabs/tab4/Competition')}>Wettbewerb</IonButton>
-                    <IonButton onClick={() => history.push('/tabs/tab4/Statistics')}>Statistiken</IonButton>
-                    <IonButton onClick={() => history.push('/tabs/tab4/Export')}>Export</IonButton>
+                    <div className={"flexAdmin"}>
+                        <button onClick={() => history.push('/tabs/tab4/User')} className={"adminButton nutzer"}>Nutzende</button>
+                        <button onClick={() => history.push('/tabs/tab4/Courts')} className={"adminButton gerichte"}>Gerichte</button>
+                    </div>
+                    <div className={"flexAdmin"}>
+                        <button onClick={() => history.push('/tabs/tab4/Competition')} className={"adminButton wettbewerb"}>Wettbewerb</button>
+                        <button onClick={() => history.push('/tabs/tab4/Statistics')} className={"adminButton stats"}>Statistiken</button>
+                        <button onClick={() => history.push('/tabs/tab4/Export')} className={"adminButton export"}>Export</button>
+                    </div>
                 </div>
             </IonContent>
         </IonPage>

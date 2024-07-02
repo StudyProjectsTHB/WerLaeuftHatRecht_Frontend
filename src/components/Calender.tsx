@@ -39,7 +39,7 @@ const CalendarView: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className={"calendar-container"}>
             <div className={"legende"}>
                 <p className={"red"}>keine Daten</p>
                 <p className={"yellow"}>Ziel nicht erreicht</p>

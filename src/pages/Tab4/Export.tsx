@@ -1,6 +1,6 @@
 import {
     IonButton,
-    IonContent, IonItem, IonList,
+    IonContent, IonIcon, IonItem, IonList,
     IonPage, IonPopover,
     IonRouterOutlet, IonSelect, IonSelectOption,
 } from '@ionic/react';
@@ -13,7 +13,7 @@ import React, {useRef, useState} from "react";
 import Greeting from "../../components/Greeting";
 import UserCard from "../../components/cards/UserCard";
 import UserStepsCard from "../../components/cards/UserStepsCard";
-import {ellipse} from "ionicons/icons";
+import {arrowBack, ellipse} from "ionicons/icons";
 
 
 const Statistics: React.FC = () => {
@@ -27,35 +27,38 @@ const Statistics: React.FC = () => {
                 <Greeting name={"wilder Esel"}/>
 
                 <div className={"container"}>
-                    <IonButton onClick={() => {
+                    <button onClick={() => {
                         history.push("/tabs/tab4")
-                    }}>Zurück</IonButton>
+                    }} className={"buttonBack"}>
+                        <IonIcon aria-hidden="true" icon={arrowBack}/>
+                        <p>Zurück</p>
+                    </button>
 
-                    <h2>Manager Bereich - Export</h2>
-
-                    <div className="container">
-                        <img
-                            src="images/UserIcon.png"
-                            alt="greeting-icon"
-                        />
-                        <div>
-                            <p>Rangliste</p>
-                            <IonSelect
-                                value={selectedValue}
-                                placeholder="Wähle ein Gericht aus"
-                                onIonChange={e => setSelectedValue(e.detail.value)}
-                            >
-                                <IonSelectOption value="Alle Gerichte">Alle Gerichte</IonSelectOption>
-                                <IonSelectOption value="OLG Brandenburg">OLG Brandenburg</IonSelectOption>
-                                <IonSelectOption value="OLG Cottbus">OLG Cottbus</IonSelectOption>
-                                <IonSelectOption value="LG Potsdam">LG Potsdam</IonSelectOption>
-                            </IonSelect>
-                            <IonButton>
-                                Excel-Datei herunterladen
-                            </IonButton>
+                    <h1>Manager Bereich - Export</h1>
+                        <div className={"adminButton export2"}>
+                            <div className={"name"}>
+                                <p>Rangliste</p>
+                            </div>
+                            <div className={"buttonSelect"}>
+                                <select
+                                    value={selectedValue}
+                                    onChange={e => setSelectedValue(e.target.value)}
+                                >
+                                    <option value="Alle Gerichte">Alle Gerichte</option>
+                                    <option value="OLG Brandenburg">OLG Brandenburg</option>
+                                    <option value="OLG Cottbus">OLG Cottbus</option>
+                                    <option value="LG Potsdam">LG Potsdam</option>
+                                </select>
+                                <IonButton>
+                                    Excel-Datei herunterladen
+                                </IonButton>
+                            </div>
                         </div>
-                        <div>
-                            <p>Rangliste alles Gerichte</p>
+                    <div className={"adminButton export2"}>
+                        <div className={"name"}>
+                            <p>Rangliste aller Gerichte</p>
+                        </div>
+                        <div className={"buttonSelect"}>
                             <IonButton>
                                 Excel-Datei herunterladen
                             </IonButton>

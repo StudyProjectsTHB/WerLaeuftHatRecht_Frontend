@@ -6,10 +6,10 @@ import './AddStepsModal.css';
 
 const UserChangeModal = ({ isOpen, onClose, email}) => {
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={onClose}>
+        <IonModal isOpen={isOpen} onDidDismiss={onClose} className={"heightSet"}>
             <IonContent>
                 <div>
-                    Email bearbeiten
+                    <h1>Email bearbeiten</h1>
                 </div>
                 <div className={"modalFlex"}>
                     <input type="email" defaultValue={email} placeholder="Email eintragen" />

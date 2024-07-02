@@ -10,24 +10,25 @@ import {Redirect, Route, useLocation} from 'react-router-dom';
 import {useHistory} from "react-router";
 
 import React, {useState} from "react";
-import Greeting from "../../components/Greeting";
-import {ellipse} from "ionicons/icons";
 
-
-const UserStepsCard: React.FC<{name:string, steps:number}> = ({name, steps}) => {
+const UserStepsCard: React.FC<{name:string, steps:number, index: number}> = ({name, steps, index}) => {
     const history = useHistory();
     const location = useLocation();
 
     return (
-        <div className="container">
-            <img
-                src="images/UserIcon.png"
-                alt="greeting-icon"
-            />
-            <p>{name}</p>
-            <p>{steps} Schritte</p>
+        <div className="containerAdmin">
+            <div className="imageContainerPlace" data-index={index}>
+                <img
+                    src="images/circle.png"
+                    alt="greeting-icon"
+                />
+            </div>
+            <div className="name">
+                <p>{name}</p>
+                <p>{steps} Schritte</p>
+            </div>
         </div>
-    )
+    );
 };
 
 export default UserStepsCard;

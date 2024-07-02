@@ -1,6 +1,6 @@
 import {
     IonButton,
-    IonContent, IonItem, IonList,
+    IonContent, IonIcon, IonItem, IonList,
     IonPage, IonPopover,
     IonRouterOutlet, IonSelect, IonSelectOption,
 } from '@ionic/react';
@@ -16,6 +16,7 @@ import CourtCard from "../../components/cards/CourtCard";
 import CourtAddModal from "../../components/modals/CourtAddModal";
 import CourtChangeModal from "../../components/modals/CourtChangeModal";
 import CourtDeleteModal from "../../components/modals/CourtDeleteModal";
+import {arrowBack} from "ionicons/icons";
 
 const Courts: React.FC = () => {
     const [selectedValue, setSelectedValue] = useState<string | undefined>("Alle Gerichte");
@@ -44,15 +45,19 @@ const Courts: React.FC = () => {
                 <Greeting name={"wilder Esel"}/>
 
                 <div className={"container"}>
-                    <IonButton onClick={() => {
+                    <button onClick={() => {
                         history.push("/tabs/tab4")
-                    }}>Zurück</IonButton>
+                    }} className={"buttonBack"}>
+                        <IonIcon aria-hidden="true" icon={arrowBack}/>
+                        <p>Zurück</p>
+                    </button>
 
-                    <h2>Manager Bereich - Gerichte</h2>
-                    <IonButton onClick={()=> setShowAddModal(true)}>Neues Gericht hinzufügen</IonButton>
+                    <h1>Manager Bereich - Gerichte</h1>
+                    <button onClick={() => setShowAddModal(true)} className={"adminButton plus"}>Neues Gericht hinzufügen</button>
 
-                    <h3>Gerichte</h3>
-
+                    <div className={"flex headline"}>
+                    <h2>Gerichte</h2>
+                    </div>
                     <IonList>
                         <CourtCard name={"OLG Potsdam"}
                            onUserClick={() => console.log("Not implemented yet")}

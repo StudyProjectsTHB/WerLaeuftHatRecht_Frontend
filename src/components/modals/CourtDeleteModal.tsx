@@ -6,10 +6,11 @@ import './AddStepsModal.css';
 
 const CourtDeleteModal = ({isOpen, onClose, name}) => {
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={onClose}>
+        <IonModal isOpen={isOpen} onDidDismiss={onClose} className={"heightSet"}>
             <IonContent>
                 <div>
-                    Sind Sie sicher, dass Sie das Gericht {name} löschen möchten?
+                    <h1>Sind Sie sicher, dass Sie das Gericht {name} löschen möchten?</h1>
+                    <p>Das hat weitreichende Folgen: alle zugehörige Nutzer werden entfernt und das Gericht kann nicht mehr am Wettbewerb teilnehmen.</p>
                 </div>
 
                 <div className={"buttonContainer"}>

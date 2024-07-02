@@ -17,11 +17,14 @@ const OwnStatistics: React.FC = () => {
                 <div className="wrapper">
                     <WeeklyStats steps={52576} distance={37.5} rank={3}/>
                 </div>
+                <div className={"gridContainer"}>
+
                 <div className="wrapper">
                     <ColumnChart labels={['KW 33', 'KW 34', 'KW 35']} columnData={[300, 5000, 600]}
                                  type={'statistics'}/>
                 </div>
                 <FinishedChallenges/>
+                </div>
 
             </IonContent>
         </IonPage>

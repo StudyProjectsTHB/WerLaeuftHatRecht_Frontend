@@ -1,6 +1,6 @@
 import {
     IonButton,
-    IonContent, IonItem, IonList,
+    IonContent, IonIcon, IonItem, IonList,
     IonPage, IonPopover,
     IonRouterOutlet, IonSelect, IonSelectOption,
 } from '@ionic/react';
@@ -16,6 +16,7 @@ import UserAddModal from "../../components/modals/UserAddModal";
 import UserAdminModal from "../../components/modals/UserAdminModal";
 import UserChangeModal from "../../components/modals/UserChangeModal";
 import UserDeleteModal from "../../components/modals/UserDeleteModal";
+import {arrowBack, settingsOutline} from "ionicons/icons";
 
 const User: React.FC = () => {
     const [selectedValue, setSelectedValue] = useState<string | undefined>("Alle Gerichte");
@@ -49,25 +50,29 @@ const User: React.FC = () => {
                 <Greeting name={"wilder Esel"}/>
 
                 <div className={"container"}>
-                    <IonButton onClick={() => {
+                    <button onClick={() => {
                         history.push("/tabs/tab4")
-                    }}>Zurück</IonButton>
+                    }} className={"buttonBack"}>
+                        <IonIcon aria-hidden="true" icon={arrowBack}/>
+                        <p>Zurück</p>
+                    </button>
 
-                    <h2>Manager Bereich - Nutzende</h2>
-                    <IonButton onClick={() => setShowAddModal(true)}>Neue Nutzende hinzufügen</IonButton>
+                    <h1>Manager Bereich - Nutzende</h1>
+                    <button onClick={() => setShowAddModal(true)} className={"adminButton plus"}>Neue Nutzende hinzufügen</button>
 
-                    <h3>Nutzende</h3>
-                    <IonSelect
-                        value={selectedValue}
-                        placeholder="Select an option"
-                        onIonChange={e => setSelectedValue(e.detail.value)}
-                    >
-                        <IonSelectOption value="Alle Gerichte">Alle Gerichte</IonSelectOption>
-                        <IonSelectOption value="OLG Brandenburg">OLG Brandenburg</IonSelectOption>
-                        <IonSelectOption value="AG Cottbus">AG Cottbus</IonSelectOption>
-                        <IonSelectOption value="LG Potsdam">LG Potsdam</IonSelectOption>
+                    <div className={"flex headline"}>
+                        <h2>Nutzende</h2>
+                        <select
+                            value={selectedValue}
+                            onChange={e => setSelectedValue(e.target.value)}
+                        >
+                            <option value="Alle Gerichte">Alle Gerichte</option>
+                            <option value="OLG Brandenburg">OLG Brandenburg</option>
+                            <option value="AG Cottbus">AG Cottbus</option>
+                            <option value="LG Potsdam">LG Potsdam</option>
 
-                    </IonSelect>
+                        </select>
+                    </div>
                     <IonList>
                         <UserCard
                             name="lustiger Luchs"

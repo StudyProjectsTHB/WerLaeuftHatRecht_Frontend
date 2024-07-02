@@ -1,6 +1,6 @@
 import {
     IonButton,
-    IonContent, IonItem, IonList,
+    IonContent, IonIcon, IonItem, IonList,
     IonPage, IonPopover,
     IonRouterOutlet, IonSelect, IonSelectOption,
 } from '@ionic/react';
@@ -13,6 +13,7 @@ import React, {useRef, useState} from "react";
 import Greeting from "../../components/Greeting";
 import UserCard from "../../components/cards/UserCard";
 import UserStepsCard from "../../components/cards/UserStepsCard";
+import {arrowBack} from "ionicons/icons";
 
 
 const Statistics: React.FC = () => {
@@ -20,39 +21,45 @@ const Statistics: React.FC = () => {
     const history = useHistory();
     const location = useLocation();
 
-
-
-
     return (
         <IonPage>
             <IonContent>
                 <Greeting name={"wilder Esel"}/>
 
                 <div className={"container"}>
-                    <IonButton onClick={() => {
+                    <button onClick={() => {
                         history.push("/tabs/tab4")
-                    }}>Zurück</IonButton>
+                    }} className={"buttonBack"}>
+                        <IonIcon aria-hidden="true" icon={arrowBack}/>
+                        <p>Zurück</p>
+                    </button>
 
-                    <h2>Manager Bereich - Statistiken</h2>
+                    <div className={"flex headline noMargin"}>
+                        <h1>Manager Bereich - Statistiken</h1>
 
-                    <IonSelect
-                        value={selectedValue}
-                        placeholder="Select an option"
-                        onIonChange={e => setSelectedValue(e.detail.value)}
-                    >
-                        <IonSelectOption value="OLG Brandenburg">OLG Brandenburg</IonSelectOption>
-                        <IonSelectOption value="AG Cottbus">AG Cottbus</IonSelectOption>
-                        <IonSelectOption value="LG Potsdam">LG Potsdam</IonSelectOption>
+                        <div className={"buttonSelect"}>
+                            <select
+                                value={selectedValue}
+                                onChange={e => setSelectedValue(e.target.value)}
+                            >
+                                <option value="OLG Brandenburg">OLG Brandenburg</option>
+                                <option value="AG Cottbus">AG Cottbus</option>
+                                <option value="LG Potsdam">LG Potsdam</option>
 
-                    </IonSelect>
-                    <IonButton>Alle Gerichte</IonButton>
+                            </select>
+                            <IonButton>Alle Gerichte</IonButton>
+                        </div>
+                    </div>
                     <IonList>
-                        <UserStepsCard name={"lustiger Luchs"} steps={234334}/>
-                        <UserStepsCard name={"frecher Fuchs"} steps={4556564}/>
-                        <UserStepsCard name={"dummer Dachs"} steps={2}/>
+        {/*                {users.map((user, index) => (
+                            <UserStepsCard key={index} name={user.name} steps={user.steps} index={index + 1} />
+                        ))}*/}
+                        <UserStepsCard name={"lustiger Luchs"} steps={234334} index={1}/>
+                        <UserStepsCard name={"frecher Fuchs"} steps={4556564} index={2}/>
+                        <UserStepsCard name={"dummer Dachs"} steps={2} index={3}/>
                     </IonList>
 
-                    <IonButton>Excel-Datei herunterladen</IonButton>
+                    <IonButton className={"buttonRight"}>Excel-Datei herunterladen</IonButton>
 
 
                 </div>

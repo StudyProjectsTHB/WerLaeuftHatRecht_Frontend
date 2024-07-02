@@ -6,10 +6,11 @@ import './AddStepsModal.css';
 
 const CourtDeleteModal = ({isOpen, onClose, email}) => {
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={onClose}>
+        <IonModal isOpen={isOpen} onDidDismiss={onClose} className={"heightSet"}>
             <IonContent>
                 <div>
-                    Sind Sie sicher, dass Sie den Nutzenden {email} löschen möchten?
+                    <h1>Sind Sie sicher, dass Sie den Nutzenden {email} löschen möchten?</h1>
+                    <p>Dadurch verliert der Nutzende alle Berechtigungen und seinen Zugang zum Schrittzählerwettbewerb.</p>
                 </div>
 
                 <div className={"buttonContainer"}>

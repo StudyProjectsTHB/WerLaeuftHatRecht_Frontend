@@ -31,6 +31,7 @@ const ThreeQuarterDoughnutChart: React.FC<{value:number, maxValue:number}> = ({v
                     'rgb(217,217,217)',
                 ],
                 borderWidth: 1,
+                margin: "auto"
             },
         ],
 
@@ -48,12 +49,12 @@ const ThreeQuarterDoughnutChart: React.FC<{value:number, maxValue:number}> = ({v
             title: {
                 display: false
             },
-        },
+        }
     };
 
     return (
         <div className={`circular-progress-bar calendar`}>
-            <Doughnut data={data} options={options}/>
+            <Doughnut data={data} options={options} style={{}}/>
             <div className="circular-progress-bar_value">
                 <span className={"value"}>{value}</span> <p className={"stepGoal"}>/ {maxValue}</p>
             </div>
