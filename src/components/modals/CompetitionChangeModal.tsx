@@ -10,11 +10,11 @@ const CourtChangeModal = ({isOpen, onClose}) => {
     const [showDatePicker, setShowDatePicker] = useState(false);
 
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={onClose}>
+        <IonModal isOpen={isOpen} onDidDismiss={onClose} className={"heightSet"}>
             <IonContent>
                 <div>
-                    Sind Sie sicher, dass Sie den Zeitraum des Wettbewerbes auf den 01.01.2021 bis 01.02.2021 ändern möchten?
-                    Hierbei können bei den bisher eingetragenen Schritten Inkonsistenzen auftreten.
+                    <h1>Zeitraum des Wettbewerbes ändern?</h1>
+                    <p>Hierbei können bei den bisher eingetragenen Schritten Inkonsistenzen auftreten.</p>
                 </div>
 
                 <div className={"buttonContainer"}>

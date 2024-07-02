@@ -6,12 +6,12 @@ import './AddStepsModal.css';
 
 const CourtAddModal = ({isOpen, onClose}) => {
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={onClose}>
+        <IonModal isOpen={isOpen} onDidDismiss={onClose} className={"heightSet500"}>
             <IonContent>
-                <h2>Neues Gericht anlegen</h2>
+                <h1>Neues Gericht anlegen</h1>
                 <div>
                     <div>
-                        Namen eingeben
+                        <p>Namen eingeben</p>
                     </div>
                     <div className={"modalFlex"}>
                         <input type="text" placeholder="Namen eintragen"/>
@@ -19,7 +19,7 @@ const CourtAddModal = ({isOpen, onClose}) => {
                 </div>
                 <div>
                     <div>
-                        Mitarbeiteranzahl eingeben
+                        <p>Mitarbeiteranzahl eingeben</p>
                     </div>
                     <div className={"modalFlex"}>
                         <input type="number" placeholder="Mitarbeiteranzahl eintragen"/>
