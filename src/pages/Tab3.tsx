@@ -16,11 +16,11 @@ import React from "react";
 
 const Tab3: React.FC = () => {
     const history = useHistory();
-    // const location = useLocation();
-    //
-    // const getButtonClass = (path: string) => {
-    //     return location.pathname.startsWith(path) ? 'active' : 'secondary';
-    // };
+    const location = useLocation();
+
+    const getButtonClass = (path: string) => {
+        return location.pathname.startsWith(path) ? 'active' : 'secondary';
+    };
 
     return (
         <IonPage>
@@ -28,13 +28,12 @@ const Tab3: React.FC = () => {
                 <Greeting name={"wilder Esel"}/>
 
                 <div className={"NavStats"}>
-                    <h2>Statistiken</h2>
                     <div className={"buttonContainer"}>
-                        <button className={"secondary"} onClick={() => history.push('/tabs/tab3/OwnStatistics')}>Eigene
+                        <button className={getButtonClass('/tabs/tab3/OwnStatistics')} onClick={() => history.push('/tabs/tab3/OwnStatistics')}>Eigene
                         </button>
-                        <button className={"secondary"} onClick={() => history.push('/tabs/tab3/CourtStatistics')}>OLG XYZ
+                        <button className={getButtonClass('/tabs/tab3/CourtStatistics')} onClick={() => history.push('/tabs/tab3/CourtStatistics')}>OLG XYZ
                         </button>
-                        <button className={"secondary"} onClick={() => history.push('/tabs/tab3/AllCourtsStatistics')}>Alle
+                        <button className={getButtonClass('/tabs/tab3/AllCourtsStatistics')} onClick={() => history.push('/tabs/tab3/AllCourtsStatistics')}>Alle
                             Gerichte
                         </button>
                     </div>

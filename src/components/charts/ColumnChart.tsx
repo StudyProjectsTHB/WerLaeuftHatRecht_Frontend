@@ -51,7 +51,10 @@ const ColumnChart: React.FC<{labels:string[], columnData:number[], type:string}>
     };
 
     return (
-        <Bar data={data} options={options} style={{marginTop: '30px', marginBottom: '10px'}}/>
+        <div className={"balkenSchritte"}>
+            <p className={"label"}>Schritte</p>
+            <Bar data={data} options={options} style={{marginTop: '30px', marginBottom: '10px'}}/>
+        </div>
     );
 };
 

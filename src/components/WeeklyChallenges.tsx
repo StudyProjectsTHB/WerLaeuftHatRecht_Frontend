@@ -3,7 +3,7 @@ import React from 'react';
 const WeeklyChallenges: React.FC = () => {
     return (
         <div className="weekly-challenges">
-            <h3>Wöchentliche Herausforderungen</h3>
+            <h2>Wöchentliche Herausforderungen</h2>
             <div className={"challenge"}>
                 <div>
                     <p>Laufe an 2 aufeinanderfolgenden Tagen 15.000 Schritte</p>

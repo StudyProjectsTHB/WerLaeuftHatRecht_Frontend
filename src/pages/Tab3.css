@@ -1,6 +1,7 @@
 .NavStats {
     background: #F1F1F1;
-    padding-bottom: 30px;
+    padding-top: 10px;
+    padding-bottom: 20px;
     position: fixed;
     z-index: 1;
     top: 45px;
@@ -18,11 +19,15 @@
         padding: 10px;
         font-size: 16px;
         box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
+    }
 
-        &:hover, &:active, &:focus {
-            background: #223832;
-            color: #fff;
-        }
+    button.active{
+        background: #223832;
+        color: #fff;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+        box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
     }
 }
 
@@ -50,4 +55,8 @@
 .flex {
     display: flex;
     gap: 10px;
+}
+
+.settings {
+    padding-top: 60px;
 }

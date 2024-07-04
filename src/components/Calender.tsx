@@ -40,15 +40,23 @@ const CalendarView: React.FC = () => {
         return label;
     };
 
-    // @ts-ignore
-    return <Calendar
+    return (
+        <div className={"calendar-container"}>
+            <div className={"legende"}>
+                <p className={"red"}>keine Daten</p>
+                <p className={"yellow"}>Ziel nicht erreicht</p>
+                <p className={"green"}>Ziel erreicht</p>
+            </div>
+            <Calendar
                 onChange={setDate}
                 value={date}
                 tileContent={getTileContent}
                 navigationLabel={navigationLabel}
                 next2Label={null}
-                prev2Label={null}
-    />;
+                prev2Label={null}/>
+
+        </div>
+    )
 };
 
 export default CalendarView;

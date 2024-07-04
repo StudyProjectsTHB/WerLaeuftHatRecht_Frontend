@@ -1,8 +1,30 @@
 .circular-progress-bar.calendar {
     text-align: center;
+    position: relative;
 
     .button {
         margin-top: -50px;
+    }
+
+
+    .circular-progress-bar_value {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #000;
+
+        .value {
+            font-size: 46px;
+            font-weight: bold;
+        }
+
+        .stepGoal {
+            font-size: 20px;
+            color: #C4C4C4 !important;
+            margin-bottom: 0;
+            margin-top: 5px;
+        }
     }
 }
 
@@ -12,7 +34,6 @@
     filter: drop-shadow(2px 2px 2px rgb(0 0 0 / 0.1));
     font-family: Arial, Helvetica, sans-serif;
     padding: 10px;
-    margin-top: 20px;
     border: none !important;
 }
 
@@ -130,11 +151,28 @@ ion-modal {
     right: 10px;
     width: calc(100% - 20px);
     bottom: 0;
-    top: calc(60vh - 48px);
+    top: calc(100% - 40vh);
     background-color: #fff;
+
+    .ion-page {
+        overflow: hidden;
+    }
 
     ion-content {
         --background: #fff;
+        z-index: -1;
+
+        &::part(scroll) {
+            overflow-y: hidden !important;
+        }
+    }
+
+    .scroll-y {
+        overflow-y: hidden !important;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 
     label {
@@ -192,6 +230,56 @@ ion-modal {
 
 }
 
+.openModal .ion-page.Edit {
+    opacity: 0.1;
+}
+
 .openModal {
-    opacity: 0.6;
+    ion-tab-bar, .motivationCounter {
+        opacity: 0.1;
+    }
+}
+
+.balkenSchritte {
+    p.label {
+        margin: 0;
+        font-size: 12px;
+    }
+
+    canvas {
+        margin-top: 0 !important;
+    }
+}
+
+.legende {
+    font-size: 12px;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+
+    p {
+        position: relative;
+        padding-left: 15px;
+
+        &:before {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            left: 0px;
+        }
+    }
+
+    .green:before {
+        background-color: #00a400;
+    }
+
+    .yellow:before {
+        background-color: #ffa500;
+    }
+
+    .red:before {
+        background-color: #ff0000;
+    }
 }

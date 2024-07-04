@@ -4,7 +4,7 @@ import './Tab2.css';
 
 import Calender from '../components/Calender';
 import CalenderProgressBar from "../components/charts/CalenderProgressBar";
-import AddStepsModal from "../components/AddStepsModal";
+import AddStepsModal from "../components/modals/AddStepsModal";
 import {useEffect, useState} from "react";
 import Greeting from "../components/Greeting";
 
@@ -12,22 +12,32 @@ const Tab2: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("showModal")) {
+            setShowModal(true);
+        }
+    }, [location]);
+
+    useEffect(() => {
         const ionPage = document.querySelector(".PageModal");
         if (ionPage) {
             if (showModal) {
-                ionPage.classList.add("openModal");
+                document.body.classList.add("openModal");
             } else {
-                ionPage.classList.remove("openModal");
+                document.body.classList.remove("openModal");
             }
         }
     }, [showModal]);
 
   return (
-    <IonPage className={"PageModal Edit"} >
-      <IonContent fullscreen>
-          <Greeting name={"wilder Esel"}/>
-        <CalenderProgressBar value={8000} maxValue={10000} onClick={() => setShowModal(true)}/>
-        <Calender/>
+    <IonPage className={"PageModal Edit"} style={{marginBottom: "65px"}}>
+      <IonContent fullscreen className={"EditClass"}>
+        <Greeting name={"wilder Esel"}/>
+          <h1>Editieren</h1>
+          <div className={"gridEdit"}>
+            <CalenderProgressBar value={8000} maxValue={10000} onClick={() => setShowModal(true)}/>
+            <Calender/>
+          </div>
 
       </IonContent>
         <AddStepsModal isOpen={showModal} onClose={() => setShowModal(false)} />

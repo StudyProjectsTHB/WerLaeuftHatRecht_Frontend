@@ -1,8 +1,75 @@
+.loginContent {
+    --background: #274039;
+    color: #fff;
+
+    &::part(scroll) {
+        overflow-y: hidden !important;
+    }
+
+    .loginFlex {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-bottom: 20px;
+
+        input {
+            padding: 10px;
+            background: transparent;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            color: #fff;
+        }
+    }
+
+    h1 {
+        color: #fff !important;
+        font-size: 46px;
+    }
+
+    a {
+        color: #838383 !important;
+    }
+
+    button.secondary {
+        margin-bottom: 15px;
+        background: #fff;
+        border: 1px solid #fff;
+        color: #223832;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+        box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
+
+        &:hover, &:active, &:focus {
+            border: 1px solid #fff;
+            background-color: transparent;
+            color: #fff;
+        }
+    }
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}
+
 .greeting {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 16px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #f1f1f1;
 
     img {
         width: 50px;
@@ -19,10 +86,12 @@
     border-radius: 5px;
     margin-bottom: 20px;
     box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
+    margin-top: 60px;
 
     p {
         color: #fff !important;
         text-align: center;
+        margin: 0;
     }
 
 }
@@ -107,7 +176,7 @@
         text-align: left;
         justify-items: start;
         background-color: #fff;
-        padding: 10px 15px 10px 70px;
+        padding: 10px 15px;
         border-radius: 5px;
         box-shadow: 2px 16px 19px rgba(0, 0, 0, 0.1);
         position: relative;
@@ -147,20 +216,6 @@
                 left: 2px;
                 top: 0;
             }
-        }
-
-
-
-        &:before {
-            content: '';
-            background-image: url("/public/images/clock.png");
-            width: 30px;
-            height: 30px;
-            background-size: contain;
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
         }
     }
 
