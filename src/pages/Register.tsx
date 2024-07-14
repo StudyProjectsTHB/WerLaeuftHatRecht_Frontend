@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonButton, IonList } from '@ionic/react'
 import {useHistory, useLocation} from 'react-router-dom';
 
@@ -15,20 +15,47 @@ const Register: React.FC = () => {
 
     };
 
+    useEffect(() => {
+        // Funktion, die überprüft, ob "login" in der URL enthalten ist
+        function checkURLForLogin() {
+            // Die aktuelle URL abrufen
+            const currentURL = window.location.href;
+            console.log('Aktuelle URL:', currentURL);
+            const motivationCounterElement = document.querySelector('.motivationCounter');
+
+            // Überprüfen, ob "login" in der URL enthalten ist
+            if (currentURL.includes('register')) {
+                // Die Klasse 'hidden' zur MotivationCounter hinzufügen
+                if (motivationCounterElement) {
+                    motivationCounterElement.classList.add('hidden');
+                }
+            }
+            else {
+                if (motivationCounterElement) {
+                    motivationCounterElement.classList.remove('hidden');
+                }
+            }
+        }
+
+        // Die Funktion beim Laden der Komponente ausführen
+        checkURLForLogin();
+    }, []);
+
     return (
         <IonPage>
-            <IonContent>
-                <IonList>
-                    <IonItem>
-                        <IonLabel position="floating">Password</IonLabel>
-                        <IonInput
+            <IonContent className={"loginContent"}>
+                <div className={"login"}>
+                    <h1>Registrierung</h1>
+                    <div className={"loginFlex"}>
+                        <label>Password</label>
+                        <input
                             type="password"
                             value={password}
-                            onIonChange={e => setPassword(e.detail.value!)}
+                            onChange={e => setPassword(e.target.value!)}
                         />
-                    </IonItem>
-                </IonList>
-                <IonButton expand="full" onClick={handleRegister}>Register</IonButton>
+                    </div>
+                    <button className={"secondary"} onClick={handleRegister}>Registriere dich</button>
+                </div>
             </IonContent>
         </IonPage>
     );
