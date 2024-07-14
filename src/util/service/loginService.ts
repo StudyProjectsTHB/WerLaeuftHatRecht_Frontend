@@ -1,6 +1,6 @@
 import {jwtDecode} from 'jwt-decode';
 import {login, registerUserPassword} from "../api/userApi";
-import {AuthenticationRequestDTO, AuthenticationResponseDTO, UserPasswordsDTO} from "../api/config/dto";
+import {AuthenticationRequestDTO, AuthenticationResponseDTO, UserDTO, UserPasswordsDTO} from "../api/config/dto";
 import {useHistory} from "react-router";
 import {useState} from "react";
 
@@ -15,6 +15,18 @@ export const getToken = (): string | null => {
 const removeToken = (): void => {
     localStorage.removeItem('authToken');
 };
+
+const setUser = (user: string): void => {
+    localStorage.setItem('user', user);
+}
+
+export const getUser = (): UserDTO | null => {
+    return JSON.parse(localStorage.getItem('user') || '{}');
+}
+
+export const removeUser = (): void => {
+    localStorage.removeItem('user');
+}
 
 const isTokenExpired = (token: string): boolean => {
     const decodedToken = jwtDecode(token);
@@ -67,14 +79,15 @@ export const loginUser = async (email: string, password: string): Promise<void> 
     };
 
     const response: AuthenticationResponseDTO = await login(request);
-    console.log('Response:', response);
+    // console.log('Response:', response);
     setToken(response.accessToken);
+    setUser(JSON.stringify(response.user));
     // localStorage.setItem('user', JSON.stringify(response.user));
     // history.push('/tabs/tab1');
 }
 
 export const logout = (): void => {
     removeToken();
-    localStorage.removeItem('user');
+    removeUser();
 };
 

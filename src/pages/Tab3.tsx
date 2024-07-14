@@ -12,11 +12,38 @@ import AllCourtsStatistics from "./Tab3/AllCourtsStatistics";
 import CourtStatistics from "./Tab3/CourtStatistics";
 import {useHistory} from "react-router";
 import Greeting from "../components/Greeting";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {checkToken, getToken, getUser} from "../util/service/loginService";
 
 const Tab3: React.FC = () => {
+    const [loading, setLoading] = useState(true);
+    const [userAdjective, setUserAdjective] = useState("");
+    const [userNoun, setUserNoun] = useState("");
+    const [userStepGoal, setUserStepGoal] = useState(0);
+    const [group, setGroup] = useState("");
+
+
     const history = useHistory();
     const location = useLocation();
+
+    useEffect(() => {
+        if (!checkToken()) {
+            // history.push('/login');
+            window.location.assign('/login');
+
+        }
+        const token = getToken();
+        const user = getUser();
+
+        if (token && user) {
+            setUserAdjective(user.adjective);
+            setUserNoun(user.noun);
+            setUserStepGoal(user.stepGoal)
+            setGroup(user.group.name);
+
+            setLoading(false);
+        }
+    },[location, history]);
 
     const getButtonClass = (path: string) => {
         return location.pathname.startsWith(path) ? 'active' : 'secondary';
@@ -25,13 +52,13 @@ const Tab3: React.FC = () => {
     return (
         <IonPage>
             <IonContent>
-                <Greeting name={"wilder Esel"}/>
+                <Greeting adjective={userAdjective} noun={userNoun} group={group} />
 
                 <div className={"NavStats"}>
                     <div className={"buttonContainer"}>
                         <button className={getButtonClass('/tabs/tab3/OwnStatistics')} onClick={() => history.push('/tabs/tab3/OwnStatistics')}>Eigene
                         </button>
-                        <button className={getButtonClass('/tabs/tab3/CourtStatistics')} onClick={() => history.push('/tabs/tab3/CourtStatistics')}>OLG XYZ
+                        <button className={getButtonClass('/tabs/tab3/CourtStatistics')} onClick={() => history.push('/tabs/tab3/CourtStatistics')}>{group}
                         </button>
                         <button className={getButtonClass('/tabs/tab3/AllCourtsStatistics')} onClick={() => history.push('/tabs/tab3/AllCourtsStatistics')}>Alle
                             Gerichte

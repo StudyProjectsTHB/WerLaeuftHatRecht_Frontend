@@ -50,6 +50,7 @@ import Login from "./pages/Login";
 import Tabs from "./Tabs";
 import Register from "./pages/Register";
 import './theme/desktop.css';
+import React from "react";
 
 setupIonicReact();
 

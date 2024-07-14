@@ -14,7 +14,7 @@ import Greeting from "../../components/Greeting";
 import {ellipse, personOutline, settingsOutline, starOutline, trashOutline} from "ionicons/icons";
 
 
-const CourtCard: React.FC<{name:string,}> = ({name, onUserClick, onChangeClick, onDeleteClick}) => {
+const CourtCard: React.FC<{name:string, id:number, employeeCount:number}> = ({name, id, employeeCount,onUserClick, onChangeClick, onDeleteClick}) => {
     const history = useHistory();
     const location = useLocation();
     const [selectedValue, setSelectedValue] = useState<string | undefined>("OLG Cottbus");

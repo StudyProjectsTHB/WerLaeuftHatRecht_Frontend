@@ -5,12 +5,22 @@ import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const ColumnChart: React.FC<{labels:string[], columnData:number[], type:string}> = ({labels, columnData, type}) => {
+
+    const backgroundColors = columnData.map((_, index) =>
+        index === columnData.length - 1 ? 'rgba(255, 99, 132, 1)' : 'rgba(34, 56, 50, 1)'
+    );
+
+    const borderColors = columnData.map((_, index) =>
+        index === columnData.length - 1 ? 'rgba(255, 99, 132, 1)' : 'rgba(34, 56, 50, 1)'
+    );
+
+
     const data = {
         labels: labels,
         datasets: [
             {
-                backgroundColor: 'rgba(34, 56, 50, 1)',
-                borderColor: 'rgba(34, 56, 50, 1)',
+                backgroundColor: backgroundColors,
+                borderColor: borderColors,
                 borderWidth: 1,
                 hoverBackgroundColor: 'rgba(100, 100, 100, 255)',
                 hoverBorderColor: 'rgba(50,50,50,255)',
@@ -37,7 +47,7 @@ const ColumnChart: React.FC<{labels:string[], columnData:number[], type:string}>
             },
             y:{
                 ticks:{
-                    stepSize: 1000,
+                    // stepSize: 1000,
                     callback: function(value:any){
                         return `${value / 1000} K`
                     },

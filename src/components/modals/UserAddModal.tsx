@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     IonModal,
     IonButton,
@@ -12,11 +12,63 @@ import {
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './AddStepsModal.css';
+import {useHistory} from "react-router";
+import {useLocation} from "react-router-dom";
+import courts from "../../pages/Tab4/Courts";
+import {checkToken, getToken, getUser} from "../../util/service/loginService";
+import {createUser} from "../../util/service/userService";
 
-const UserAddModal = ({isOpen, onClose}) => {
-    const [selectedValue, setSelectedValue] = useState<string | undefined>("Alle Gerichte");
+const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
+    const [loading, setLoading] = useState<boolean>(true);
+    const [userAdjective, setUserAdjective] = useState<string>("");
+    const [userNoun, setUserNoun] = useState<string>("");
+    const [userStepGoal, setUserStepGoal] = useState<number>(0);
+    const [group, setGroup] = useState<string>("");
 
-    return (
+
+    const [selectedCourt, setSelectedCourt] = useState<string>(`${courtsIds[0]}`);
+
+    const [email, setEmail] = useState("");
+
+
+    const history = useHistory();
+    const location = useLocation();
+
+    useEffect(() => {
+        if (!checkToken()) {
+            // history.push('/login', {direction: 'none'});
+            window.location.assign('/login');
+        }
+
+        const token = getToken();
+        const user = getUser();
+        if (token && user) {
+            setUserAdjective(user.adjective);
+            setUserNoun(user.noun);
+            setUserStepGoal(user.stepGoal)
+            setGroup(user.group.name);
+            setLoading(false);
+        }
+    }, [location, history]);
+
+    const handleAddUser = async () => {
+        console.log(email, selectedCourt)
+        try {
+            const newUserToken = await createUser(getToken(), email, false, selectedCourt)
+            if (newUserToken) {
+                onClose();
+            } else {
+                alert("Nutzer konnte nicht hinzugefügt werden")
+            }
+        } catch (e) {
+            console.log(e)
+            alert("Nutzer konnte nicht hinzugefügt werden")
+        }
+
+    }
+
+
+            return (
         <IonModal isOpen={isOpen} onDidDismiss={onClose} className={"heightSet500"}>
             <IonContent>
                 <div>
@@ -24,24 +76,30 @@ const UserAddModal = ({isOpen, onClose}) => {
                 </div>
                 <div>
                     <p>Email eintragen</p>
-                    <input type="email" placeholder="Email eintragen"/>
+                    <input
+                        type="email"
+                        placeholder="Email eintragen"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                    />
                 </div>
                 <div>
                     <p>Gericht eintragen</p>
                     <select
-                        value={selectedValue}
-                        onChange={e => setSelectedValue(e.target.value)}
+                        value={selectedCourt}
+                        onChange={e => setSelectedCourt(e.target.value)}
                     >
-                        <option value="OLG Brandenburg">OLG Brandenburg</option>
-                        <option value="AG Cottbus">AG Cottbus</option>
-                        <option value="LG Potsdam">LG Potsdam</option>
+                        {courtsNames.map((court) => {
+                            return <option key={courtsNames.indexOf(court)} value={courtsIds[courtsNames.indexOf(court)]}>{court}</option>
+                        })}
+
 
                     </select>
                 </div>
 
                 <div className={"buttonContainer"}>
                         <button slot="end" onClick={onClose} className={"secondary"}>Abbrechen</button>
-                        <button onClick={onClose}>Speichern</button>
+                        <button onClick={handleAddUser} className={"primary"}>Speichern</button>
                     </div>
 
             </IonContent>

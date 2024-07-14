@@ -9,22 +9,109 @@ import {Redirect, Route, useLocation} from 'react-router-dom';
 
 import {useHistory} from "react-router";
 
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Greeting from "../../components/Greeting";
 import UserCard from "../../components/cards/UserCard";
 import UserStepsCard from "../../components/cards/UserStepsCard";
 import {arrowBack} from "ionicons/icons";
+import {checkToken, getToken, getUser} from "../../util/service/loginService";
+import {getAllCourts, getAllStatisticGroups, getAllStatisticGroupUsers} from "../../util/service/statisticsService";
 
 
 const Statistics: React.FC = () => {
-    const [selectedValue, setSelectedValue] = useState<string | undefined>("Alle Gerichte");
+    const [loading, setLoading] = useState(true);
+    const [userAdjective, setUserAdjective] = useState("");
+    const [userNoun, setUserNoun] = useState("");
+    const [userStepGoal, setUserStepGoal] = useState(0);
+    const [group, setGroup] = useState("");
+    const [courtsNames, setCourtsNames] = useState<string[]>([]);
+    const [courtsIds, setCourtsIds] = useState<number[]>([]);
+    const [usersOrCourtName, setUsersOrCourtName] = useState<string[]>([]);
+    const [usersOrCourtSteps, setUsersOrCourtSteps] = useState<number[]>([]);
+
+    const [selectedSelectCourtName, setSelectedSelectCourtName] = useState<string>("");
+    const [selectedSelectCourtId, setSelectedSelectCourtId] = useState<number>(0);
+    const [selectedCourtName, setSelectedCourtName] = useState<string | undefined>("Alle Gerichte");
+    const [selectedCourtId, setSelectedCourtId] = useState<number | undefined>(-1);
+
     const history = useHistory();
     const location = useLocation();
+
+    useEffect(() => {
+        if (!checkToken()) {
+            // history.push('/login', {direction: 'none'});
+            window.location.assign('/login');
+        }
+
+        const token = getToken();
+        const user = getUser();
+        if (token && user) {
+            setUserAdjective(user.adjective);
+            setUserNoun(user.noun);
+            setUserStepGoal(user.stepGoal)
+            setGroup(user.group.name);
+            setLoading(false);
+
+            if (!user.admin) {
+                window.location.assign('/tabs/tab1');
+            }
+
+            const courts = getAllCourts(token);
+            let usersOrCourt;
+            if (selectedCourtId != -1) {
+                usersOrCourt = getAllStatisticGroupUsers(token, selectedCourtId);
+            } else {
+                usersOrCourt = getAllStatisticGroups(token);
+
+            }
+
+            courts.then((courts) => {
+                setCourtsNames(courts.map(court => court.name));
+                setCourtsIds(courts.map(court => court.id));
+                setSelectedSelectCourtName(courts[0].name);
+                setSelectedSelectCourtId(courts[0].id);
+            });
+
+            usersOrCourt.then((usersOrCourt) => {
+                setUsersOrCourtName(usersOrCourt[1]);
+                setUsersOrCourtSteps(usersOrCourt[0]);
+            });
+        }
+    }, [location, history]);
+
+    const handleChangedCourt = (courtName: string) => {
+        console.log(courtsNames, courtsIds, courtName)
+        setSelectedCourtName(courtName);
+        let courtId;
+        if (courtName === "Alle Gerichte") {
+            courtId = -1;  // Keine neue Deklaration, sondern Zuweisung
+        } else {
+            courtId = courtsIds[courtsNames.indexOf(courtName)];  // Keine neue Deklaration, sondern Zuweisung
+        }
+        setSelectedCourtId(courtId);
+        console.log(courtId);
+
+        if (courtId != -1) {
+            const usersOrCourt = getAllStatisticGroupUsers(getToken(), courtId);
+
+            usersOrCourt.then((usersOrCourt) => {
+                setUsersOrCourtName(usersOrCourt[1]);
+                setUsersOrCourtSteps(usersOrCourt[0]);
+            });
+        } else {
+            const usersOrCourt = getAllStatisticGroups(getToken());
+
+            usersOrCourt.then((usersOrCourt) => {
+                setUsersOrCourtName(usersOrCourt[1]);
+                setUsersOrCourtSteps(usersOrCourt[0]);
+            });
+        }
+    }
 
     return (
         <IonPage>
             <IonContent>
-                <Greeting name={"wilder Esel"}/>
+                <Greeting adjective={userAdjective} noun={userNoun} group={group} />
 
                 <div className={"container"}>
                     <button onClick={() => {
@@ -39,24 +126,39 @@ const Statistics: React.FC = () => {
 
                         <div className={"buttonSelect"}>
                             <select
-                                value={selectedValue}
-                                onChange={e => setSelectedValue(e.target.value)}
+                                {...(selectedCourtName != "Alle Gerichte" ? {className: "select-selected"} : {})}
+                                value={selectedSelectCourtName}
+
+                                onChange={e => {
+                                    // setSelectedCourtName(e.target.value)
+                                    // setSelectedCourtId(courtsIds[courtsNames.indexOf(e.target.value)])
+                                    handleChangedCourt(e.target.value)
+                                    setSelectedSelectCourtName(e.target.value)
+                                }}
+
+                                onClick={() => {
+                                    handleChangedCourt(selectedSelectCourtName)
+                                }}
                             >
-                                <option value="OLG Brandenburg">OLG Brandenburg</option>
-                                <option value="AG Cottbus">AG Cottbus</option>
-                                <option value="LG Potsdam">LG Potsdam</option>
+                                {courtsNames.map((court) => <option value={court} key={court}>{court}</option>)}
 
                             </select>
-                            <IonButton>Alle Gerichte</IonButton>
+                            <IonButton
+                                {...(selectedCourtName != "Alle Gerichte" ? {className: "buttonNotSelected"} : {})}
+                                onClick={() => {
+                                // setSelectedCourtName("Alle Gerichte")
+                                // setSelectedCourtId(-1)
+                                handleChangedCourt("Alle Gerichte")
+                            }}>Alle Gerichte</IonButton>
                         </div>
                     </div>
                     <IonList>
         {/*                {users.map((user, index) => (
                             <UserStepsCard key={index} name={user.name} steps={user.steps} index={index + 1} />
                         ))}*/}
-                        <UserStepsCard name={"lustiger Luchs"} steps={234334} index={1}/>
-                        <UserStepsCard name={"frecher Fuchs"} steps={4556564} index={2}/>
-                        <UserStepsCard name={"dummer Dachs"} steps={2} index={3}/>
+                        {usersOrCourtName.map((name, index) => {
+                            return <UserStepsCard key={index} name={name} steps={usersOrCourtSteps[index]} index={index + 1} />
+                        })}
                     </IonList>
 
                     <IonButton className={"buttonRight"}>Excel-Datei herunterladen</IonButton>

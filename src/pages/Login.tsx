@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonButton, IonList, IonAlert } from '@ionic/react';
-import { useHistory } from 'react-router-dom';
+import {useHistory, useLocation} from 'react-router-dom';
 import { checkToken, loginUser} from "../util/service/loginService";
 
 const Login: React.FC = () => {
@@ -8,7 +8,9 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState<string>('');
     const [showAlert, setShowAlert] = useState<boolean>(false);
     const [alertMessage, setAlertMessage] = useState<string>('');
+
     const history = useHistory();
+    const location = useLocation()
 
     const handleLogin = async () => {
         console.log('Email:', email);

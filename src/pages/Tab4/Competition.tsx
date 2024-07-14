@@ -17,12 +17,18 @@ import {arrowBack} from "ionicons/icons";
 
 
 const Competition: React.FC = () => {
-    const history = useHistory();
-    const location = useLocation();
+    const [loading, setLoading] = useState(true);
+    const [userAdjective, setUserAdjective] = useState("");
+    const [userNoun, setUserNoun] = useState("");
+    const [userStepGoal, setUserStepGoal] = useState(0);
+    const [group, setGroup] = useState("");
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [showChangeModal, setShowChangeModal] = useState(false);
+
+    const history = useHistory();
+    const location = useLocation();
 
     const handleDateChange = (dates) => {
         const [start, end] = dates;
@@ -38,7 +44,7 @@ const Competition: React.FC = () => {
     return (
         <IonPage>
             <IonContent>
-                <Greeting name={"wilder Esel"}/>
+                <Greeting adjective={userAdjective} noun={userNoun} group={group} />
 
                 <div className="container">
                     <button onClick={() => {

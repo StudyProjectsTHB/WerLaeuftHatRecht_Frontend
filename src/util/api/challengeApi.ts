@@ -34,6 +34,5 @@ export const getChallenges = async (token: string, date: string = getCurrentDate
         }
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };

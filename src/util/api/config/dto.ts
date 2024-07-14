@@ -19,6 +19,7 @@ export interface Competition {
 export interface DayDTO {
     date: string;
     steps: number;
+    kilometers: number;
 }
 
 export interface StepsDTO {
@@ -52,6 +53,7 @@ export interface SingleUserStepsDTO {
     noun: string;
     adjective: string;
     steps: number;
+    kilometers: number;
 }
 
 export interface StatisticDurationDTO {
@@ -62,6 +64,7 @@ export interface StatisticDurationDTO {
 export interface UserStepsDTO {
     noun: string;
     adjective: string;
+    id: number;
     steps: number;
 }
 
@@ -77,11 +80,12 @@ export interface AuthenticationResponseDTO {
 
 export interface UserDTO {
     email: string;
-    isAdmin: boolean;
+    admin: boolean;
     noun: string;
     adjective: string;
     group: Group;
     stepGoal: number;
+    stepGoalKilometers: number;
     id: number;
     height?: number;
     stepSize?: number;
@@ -108,6 +112,9 @@ export interface UpdateUserDTO {
     stepGoal?: number;
     height?: number;
     stepSize?: number;
+    groupId?: number;
+    email?: string;
+    isAdmin?: boolean;
 }
 
 export interface EmailDTO {

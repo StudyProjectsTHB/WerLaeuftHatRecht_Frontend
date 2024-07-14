@@ -24,8 +24,7 @@ export const getCompetition = async (token: string): Promise<Competition> => {
         }
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };
 
 // Funktion, um die Competition zu aktualisieren
@@ -50,6 +49,5 @@ export const updateCompetition = async (token: string, updateCompetition: Update
         }
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };

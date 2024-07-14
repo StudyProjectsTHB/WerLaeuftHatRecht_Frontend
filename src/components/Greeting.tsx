@@ -1,7 +1,9 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
+import {convertUmlauts} from "../util/service/util";
 
-const Greeting: React.FC<{ name: string }> = ({ name }) => {
+const Greeting: React.FC<{ adjective: string, noun: string, group: string }> = ({adjective, noun, group}) => {
+    const image = `images/${convertUmlauts(noun)}.png`;
     const history = useHistory();
 
     const handleImageClick = () => {
@@ -11,15 +13,14 @@ const Greeting: React.FC<{ name: string }> = ({ name }) => {
     return (
         <div className="greeting">
             <div>
-                <h1>Hallo {name}!</h1>
-                <p style={{display: 'none'}} className={"greetingJustiz"}>OLG Cottbus</p>
+                <h1>Hallo {adjective + " " + noun}!</h1>
+                <p style={{display: 'none'}} className={"greetingJustiz"}>{group}</p>
             </div>
             <img
-                src="images/UserIcon.png"
+                src={image}
                 alt="greeting-icon"
                 onClick={handleImageClick}
-                style={{ cursor: 'pointer' }}
-
+                style={{cursor: 'pointer'}}
             />
         </div>
     );

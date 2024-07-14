@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonButton, IonList } from '@ionic/react'
-import { useHistory } from 'react-router-dom';
+import {useHistory, useLocation} from 'react-router-dom';
 
 const Register: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const history = useHistory();
+    const location = useLocation();
 
     const handleRegister = () => {
         console.log('Password:', password);

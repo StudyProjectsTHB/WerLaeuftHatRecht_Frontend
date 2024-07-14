@@ -3,11 +3,11 @@ import {API_BASE_URL} from "./config/config";
 import {GroupStepsDTO, SingleUserStepsDTO, StatisticDurationDTO, UserStepsDTO} from "./config/dto";
 
 // Funktion zum Erstellen einer Einzelbenutzerstatistik
-export const createUserStatistic = async (token: string, id: number, statisticDuration: StatisticDurationDTO): Promise<SingleUserStepsDTO> => {
+export const createUserStatistic = async (token: string | null, id: number, statisticDuration: StatisticDurationDTO): Promise<SingleUserStepsDTO> => {
     const url = `${API_BASE_URL}/statistics/users/${id}`;
 
     const response = await fetch(url, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -23,8 +23,7 @@ export const createUserStatistic = async (token: string, id: number, statisticDu
         }
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };
 
 // Funktion zum Erstellen von Benutzerstatistiken
@@ -32,7 +31,7 @@ export const createUserStatistics = async (token: string, statisticDuration: Sta
     const url = `${API_BASE_URL}/statistics/users`;
 
     const response = await fetch(url, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -44,8 +43,7 @@ export const createUserStatistics = async (token: string, statisticDuration: Sta
         throw new Error('An error occurred while fetching user statistics');
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };
 
 // Funktion zum Erstellen einer Gruppenstatistik
@@ -53,7 +51,7 @@ export const createGroupStatistic = async (token: string, id: number, statisticD
     const url = `${API_BASE_URL}/statistics/groups/${id}`;
 
     const response = await fetch(url, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -69,8 +67,7 @@ export const createGroupStatistic = async (token: string, id: number, statisticD
         }
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };
 
 // Funktion zum Erstellen von Gruppenbenutzerstatistiken
@@ -78,7 +75,7 @@ export const createGroupUserStatistic = async (token: string, id: number, statis
     const url = `${API_BASE_URL}/statistics/groups/${id}/users`;
 
     const response = await fetch(url, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -94,8 +91,7 @@ export const createGroupUserStatistic = async (token: string, id: number, statis
         }
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };
 
 // Funktion zum Erstellen von Gruppenstatistiken
@@ -103,7 +99,7 @@ export const createGroupStatistics = async (token: string, statisticDuration: St
     const url = `${API_BASE_URL}/statistics/groups`;
 
     const response = await fetch(url, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -115,6 +111,5 @@ export const createGroupStatistics = async (token: string, statisticDuration: St
         throw new Error('An error occurred while fetching group statistics');
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };

@@ -1,7 +1,16 @@
 // Definieren Sie die Interfaces für die verschiedenen DTOs
 import {API_BASE_URL} from "./config/config";
 
-import { AuthenticationRequestDTO, AuthenticationResponseDTO, EmailDTO, UpdateUserDTO, UserCreationDTO, UserDTO, UserPasswordsDTO, UserTokenDTO } from "./config/dto";
+import {
+    AuthenticationRequestDTO,
+    AuthenticationResponseDTO,
+    EmailDTO,
+    UpdateUserDTO,
+    UserCreationDTO,
+    UserDTO,
+    UserPasswordsDTO,
+    UserTokenDTO
+} from "./config/dto";
 
 // Funktion zum Einloggen eines Benutzers
 export const login = async (request: AuthenticationRequestDTO): Promise<AuthenticationResponseDTO> => {
@@ -25,8 +34,7 @@ export const login = async (request: AuthenticationRequestDTO): Promise<Authenti
         }
 
 
-        const data = await response.json();
-        return data;
+        return await response.json();
 
     } catch (error) {
         throw new Error('Login failed');
@@ -59,8 +67,7 @@ export const registerUserPassword = async (userPasswords: UserPasswordsDTO, toke
         }
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };
 
 // Funktion zum Erstellen von Benutzern
@@ -80,8 +87,7 @@ export const createUsers = async (token: string, userCreations: UserCreationDTO[
         throw new Error('User creation failed');
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };
 
 // Funktion zum Abrufen aller Benutzer
@@ -100,8 +106,7 @@ export const getUsers = async (token: string): Promise<UserDTO[]> => {
         throw new Error('Failed to fetch users');
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };
 
 // Funktion zum Abrufen des eigenen Benutzers
@@ -120,8 +125,7 @@ export const getOwnUser = async (token: string): Promise<UserDTO> => {
         throw new Error('Failed to fetch own user');
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };
 
 // Funktion zum Löschen eines Benutzers
@@ -154,6 +158,7 @@ export const updateUser = async (token: string, id: number, updateUser: UpdateUs
         body: JSON.stringify(updateUser),
     });
 
+
     if (!response.ok) {
         if (response.status === 404) {
             throw new Error('User not found');
@@ -164,8 +169,7 @@ export const updateUser = async (token: string, id: number, updateUser: UpdateUs
         }
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };
 
 // Funktion zum Starten des Passwort-Zurücksetzens

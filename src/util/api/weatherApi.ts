@@ -16,6 +16,5 @@ export const getWeather = async (token: string): Promise<Map<string, any>> => {
         throw new Error('Failed to fetch weather data');
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };

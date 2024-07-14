@@ -1,7 +1,7 @@
 // Definieren Sie die Interfaces für DayDTO, StepsDTO und DurationStepsDTO
 import {API_BASE_URL} from "./config/config";
 
-import {DayDTO, StepsDTO, DurationStepsDTO} from "./config/dto";
+import {DayDTO, DurationStepsDTO, StepsDTO} from "./config/dto";
 
 // Funktion zum Löschen eines Tages
 export const deleteDay = async (token: string, date: string): Promise<void> => {
@@ -49,8 +49,7 @@ export const updateDay = async (token: string, date: string, daySteps: StepsDTO)
         }
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };
 
 // Funktion zum Hinzufügen von Tagen
@@ -78,8 +77,7 @@ export const addDays = async (token: string, durationSteps: DurationStepsDTO): P
         }
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };
 
 // Funktion zum Abrufen der Tage
@@ -102,6 +100,5 @@ export const getDays = async (token: string): Promise<DayDTO[]> => {
         }
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 };

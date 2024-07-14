@@ -1,25 +1,26 @@
 import React from 'react';
 import WeeklyChallenges from "./WeeklyChallenges";
+import {UserChallengeDTO} from "../util/api/config/dto";
 
-const FinishedChallenges: React.FC = () => {
+const FinishedChallenges: React.FC<{finishedChallenges: UserChallengeDTO[]}> = ({finishedChallenges}) => {
+    let challengeList = [];
+    for (let i = 0; i < finishedChallenges.length; i++) {
+        challengeList.push(
+            <div className={"challenge"} key={i}>
+                <div>
+                    <p>{finishedChallenges[i].challengeString}</p>
+                    <p className={"counter"}>{finishedChallenges[i].progressString}</p>
+                </div>
+                <p className={"status"}>{finishedChallenges[i].completed ? "Fertig" : "Aktiv"}</p>
+            </div>
+        );
+    }
     return (
         <div className="weekly-challenges done">
-            <h2>Abgeschlossene Herausforderungen</h2>
-            <div className={"challenge"}>
-                <div>
-                    <p>Laufe an 3 aufeinanderfolgenden Tagen 20.000 Schritte</p>
-                    <p className={"counter"}>2/2 Tage</p>
-                </div>
-                <p className={"status"}>Fertig</p>
-            </div>
-            <div className={"challenge"}>
-                <div>
-                    <p>Laufe an 3 aufeinanderfolgenden Tagen 20.000 Schritte</p>
-                    <p className={"counter"}>2/2 Tage</p>
-                </div>
-                <p className={"status"}>Fertig</p>
-            </div>
+            <h2>Wöchentliche Herausforderungen</h2>
+            {challengeList}
         </div>
+
     );
 }
 
