@@ -2,35 +2,41 @@ import React from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-const ProgressBar: React.FC<{ value: number, maxValue:number, type:string }> = ({ value, maxValue, type }) => {
+const ProgressBar: React.FC<{ value: number, maxValue:number, type:string, group?:string }> = ({ value, maxValue, type, group }) => {
 
     const renderValue = () => {
-        if (type === "OverviewPlace") {
-            return maxValue - value + 1;
-        } else if (type === "CourtPlace") {
-            return maxValue - value + 1;
-        } else if (type === "AllCourtsPlace") {
-            return maxValue - value + 1;
+        if (type === "OverviewPlace" || type === "CourtPlace" || type === "AllCourtsPlace") {
+            return maxValue - value;
         } else {
             return value;
+        }
+
+    }
+
+    const renderMaxValue = () => {
+        if (type === "OverviewPlace" || type === "CourtPlace" || type === "AllCourtsPlace") {
+            return maxValue - 1;
+        } else {
+            return maxValue;
         }
     }
 
     const renderValueString = () => {
+        const formatValue = (num: number) => num.toLocaleString('de-DE');
         if (type === "OverviewSteps") {
-            return value;
+            return formatValue(value);
         } else if (type === "OverviewDistance") {
-            return value + " km";
+            return formatValue(value) + " km";
         } else if (type === "OverviewPlace") {
-            return value + ".";
+            return formatValue(value) + ".";
         } else if (type === "CourtPlace") {
-            return value + ". Platz";
+            return formatValue(value) + ". Platz";
         } else if (type === "CourtSteps") {
-            return (maxValue -value) + " Schritte (tgl.)";
+            return formatValue(maxValue - value) + " Schritte"; // Schritte tgl.
         } else if (type === "AllCourtsPlace") {
-            return value + ". Platz";
+            return formatValue(value) + ". Platz";
         } else if (type === "AllCourtsSteps") {
-            return value + " Schritte (tgl.)";
+            return formatValue(maxValue - value) + " Schritte"; // Schritte tgl.
         }
     }
 
@@ -42,7 +48,7 @@ const ProgressBar: React.FC<{ value: number, maxValue:number, type:string }> = (
         } else if (type === "OverviewPlace") {
             return "Platz";
         } else if (type === "CourtPlace") {
-            return "im OLG XYZ"
+            return `im ${group}`
         } else if (type === "CourtSteps") {
             return "um aufzusteigen";
         } else if (type === "AllCourtsPlace") {
@@ -56,7 +62,7 @@ const ProgressBar: React.FC<{ value: number, maxValue:number, type:string }> = (
         <div className={`circular-progress-bar ${type}`}>
             <CircularProgressbar
                 value= {renderValue()}
-                maxValue={maxValue - 1}
+                maxValue={renderMaxValue()}
                 />
             <div>
                 <div className="valuestring">

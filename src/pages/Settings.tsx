@@ -1,8 +1,8 @@
 import {IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar} from '@ionic/react';
 import React from "react";
 import Greeting from "../components/Greeting";
-import CalenderProgressBar from "../components/charts/CalenderProgressBar";
-import Calender from "../components/Calender";
+import CalenderProgressBar from "../components/charts/CalendarProgressBar";
+import Calender from "../components/Calendar";
 import AddStepsModal from "../components/modals/AddStepsModal";
 import {arrowBack, arrowForwardOutline, logOutOutline, personOutline, settingsOutline} from "ionicons/icons";
 import user from "./Tab4/User";

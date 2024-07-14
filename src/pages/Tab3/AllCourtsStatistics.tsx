@@ -1,38 +1,132 @@
 import {IonContent, IonHeader, IonPage, IonRouterOutlet, IonTabs, IonTitle, IonToolbar} from '@ionic/react';
-import { Redirect, Route } from 'react-router-dom';
-import { IonReactRouter } from '@ionic/react-router';
+import {Redirect, Route, useLocation} from 'react-router-dom';
+import {IonReactRouter} from '@ionic/react-router';
 import LineChart from "../../components/charts/LineChart";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import BarChart from "../../components/charts/BarChart";
 import ProgressBar from "../../components/charts/ProgressBar";
 import ColumnChart from "../../components/charts/ColumnChart";
+import {checkToken, getToken, getUser} from "../../util/service/loginService";
+import {useHistory} from "react-router";
+import {
+    getCourtCurrentPlace,
+    getCourtsStatistic,
+    getOwnCourtStatistic
+} from "../../util/service/allCourtsStatisticService";
 
 const AllCourtsStatistics: React.FC = () => {
+    const [loading, setLoading] = useState(true);
+    const [userAdjective, setUserAdjective] = useState("");
+    const [userNoun, setUserNoun] = useState("");
+    const [userStepGoal, setUserStepGoal] = useState(0);
+    const [group, setGroup] = useState("");
+    const [place, setPlace] = useState(1);
+    const [maxPlace, setMaxPlace] = useState(1);
+    const [ownCourtSteps, setOwnCourtSteps] = useState(0);
+    const [nextCourtSteps, setNextCourtSteps] = useState(0);
+    const [courtComparisonSteps, setCourtComparisonSteps] = useState([0]);
+    const [courtComparisonLabels, setCourtComparisonLabels] = useState([""]);
+    const [courtStatsSteps, setCourtStatsSteps] = useState([0]);
+    const [courtStatsLabels, setCourtStatsLabels] = useState([""]);
+
+
+    const history = useHistory();
+    const location = useLocation()
+
+    useEffect(() => {
+        if (!checkToken()) {
+            // history.push('/login');
+            window.location.assign('/login');
+        }
+        const token = getToken();
+        const user = getUser();
+        if (token && user) {
+            setUserAdjective(user.adjective);
+            setUserNoun(user.noun);
+            setUserStepGoal(user.stepGoal)
+            setGroup(user.group.name);
+            setLoading(false);
+
+            const placeMaxPlace = getCourtCurrentPlace(token, user.group);
+            const courtsStats = getCourtsStatistic(token);
+            const courtStats = getOwnCourtStatistic(token, user.group);
+
+            placeMaxPlace.then((response) => {
+                setPlace(response[0]);
+                setMaxPlace(response[1]);
+            });
+
+            courtsStats.then((data) => {
+                const groupIndex = data[2].indexOf(user.group.id);
+                const priorGroupIndex = groupIndex - 1 < 0 ? user.group.id : groupIndex - 1;
+                const statIds = []
+                setOwnCourtSteps(data[0][data[2].indexOf(user.group.id)]);
+                setNextCourtSteps(data[0][priorGroupIndex]);
+
+                // console.log(data[0][data[2].indexOf(user.group.id)]);
+                // console.log(data[0][priorGroupIndex]);
+
+                if (groupIndex === 0) {
+                    statIds.push(0);
+                    statIds.push(1);
+                    statIds.push(2);
+                } else if (groupIndex === data[0].length - 1) {
+                    statIds.push(data[2].length - 3);
+                    statIds.push(data[2].length - 2);
+                    statIds.push(data[2].length - 1);
+                } else {
+                    statIds.push(groupIndex - 1);
+                    statIds.push(groupIndex);
+                    statIds.push(groupIndex + 1);
+                }
+
+                const courtsSteps: number[] = [];
+                const courtsLabels: string[] = [];
+                statIds.forEach((id) => {
+                    if (data[0][id] === undefined) {
+                        return;
+                    }
+                    courtsSteps.push(data[0][id]);
+                    courtsLabels.push(`${data[1][id]}`);
+                });
+
+                setCourtComparisonSteps(courtsSteps);
+                setCourtComparisonLabels(courtsLabels);
+
+            });
+
+            courtStats.then((data) => {
+                setCourtStatsSteps(data[0]);
+                setCourtStatsLabels(data[1]);
+            });
+
+        }
+    }, [location, history]);
+
     return (
         <IonPage style={{marginTop: '110px', marginBottom: '65px'}} className={"statistics"}>
             <IonContent>
                 <h2>Dein Gericht im Vergleich</h2>
                 <div className="flex gridContainer">
                     <div className="wrapper weekly-stats">
-                        <ProgressBar value={1} maxValue={20} type={"AllCourtsPlace"}></ProgressBar>
+                        <ProgressBar value={place} maxValue={maxPlace} type={"AllCourtsPlace"}></ProgressBar>
                     </div>
                     <div className="wrapper weekly-stats">
-                        <ProgressBar value={0} maxValue={0} type={"AllCourtsSteps"}></ProgressBar>
+                        <ProgressBar value={ownCourtSteps} maxValue={nextCourtSteps} type={"AllCourtsSteps"}></ProgressBar>
                     </div>
                 </div>
                 <div className="gridContainer">
                     <div className="wrapper">
-                        <BarChart labels={["OLG Brandenburg", "LG Cottbus", "AG Fankfurt (Oder)"]}
-                                  barData={[6000, 4200, 4000]}/>
+                        <BarChart labels={courtComparisonLabels} barData={courtComparisonSteps} ownName={group}/>
                     </div>
                     <div className="wrapper">
-                        <ColumnChart labels={['KW 33', 'KW 34', 'KW 35']} columnData={[65, 81, 55]}
+                        <ColumnChart labels={courtStatsLabels} columnData={courtStatsSteps}
                                      type={'statistics'}/>
                     </div>
                 </div>
             </IonContent>
         </IonPage>
-);
+    );
 }
 
 export default AllCourtsStatistics;

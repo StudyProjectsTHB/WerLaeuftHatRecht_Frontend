@@ -2,6 +2,10 @@
     position: relative;
 }
 
+.react-calendar__navigation__label {
+    pointer-events: none;
+}
+
 .marker {
     width: 6px;
     height: 6px;

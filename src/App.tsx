@@ -1,15 +1,15 @@
-import { Redirect, Route } from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import {
-  IonApp,
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-  setupIonicReact
+    IonApp,
+    IonIcon,
+    IonLabel,
+    IonRouterOutlet,
+    IonTabBar,
+    IonTabButton,
+    IonTabs,
+    setupIonicReact
 } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
+import {IonReactRouter} from '@ionic/react-router';
 import {createOutline, ellipse, homeOutline, square, statsChartOutline, triangle} from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
@@ -50,24 +50,28 @@ import Login from "./pages/Login";
 import Tabs from "./Tabs";
 import Register from "./pages/Register";
 import './theme/desktop.css';
+import React from "react";
 
 setupIonicReact();
 
 const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route path="/login" component={Login} exact={true}/>
-        <Route path="/register" component={Register} exact={true}/>
-        <Route path="/tabs" component={Tabs}/>
-        <Route exact path="/" render={() => <Redirect to="/login"/>}/>
-      </IonRouterOutlet>
-      <div className={"motivationCounter"} style={{display: 'none'}}>
-        <h2>28 Tage verbleibend</h2>
-        <p>Gib Vollgas. Du schaffst das!</p>
-      </div>
-    </IonReactRouter>
-  </IonApp>
+    <IonApp>
+        <IonReactRouter>
+            <IonRouterOutlet>
+                <Switch>
+                    <Route path="/login" component={Login} exact={true}/>
+                    <Route path="/register/:token" component={Register} exact={true}/>
+                    <Route path="/tabs" component={Tabs}/>
+                    <Route exact path="/" render={() => <Redirect to="/login"/>}/>
+                    <Route path="*" render={() => <Redirect to="/login" />} />
+                </Switch>
+            </IonRouterOutlet>
+            <div className={"motivationCounter"} style={{display: 'none'}}>
+                <h2>28 Tage verbleibend</h2>
+                <p>Gib Vollgas. Du schaffst das!</p>
+            </div>
+        </IonReactRouter>
+    </IonApp>
 );
 
 export default App;

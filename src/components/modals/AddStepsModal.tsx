@@ -4,15 +4,28 @@ import {IonModal, IonButton, IonContent, IonHeader, IonToolbar, IonTitle} from '
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './AddStepsModal.css';
+import {AddStepsModalProps} from "../types";
+import {checkToken, getToken, getUser} from "../../util/service/loginService";
+import {useHistory} from "react-router";
+import {addSteps} from "../../util/service/addStepsService";
 
-const AddStepsModal = ({isOpen, onClose}) => {
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-    const [showDatePicker, setShowDatePicker] = useState(false);
+const AddStepsModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
+    const [loading, setLoading] = useState<boolean>(true);
+    const [userAdjective, setUserAdjective] = useState<string>("");
+    const [userNoun, setUserNoun] = useState<string>("");
+    const [userStepGoal, setUserStepGoal] = useState<number>(0);
+    const [group, setGroup] = useState<string>("");
+
+    const [startDate, setStartDate] = useState<Date>(new Date());
+    const [endDate, setEndDate] = useState<Date>(new Date());
+    const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
     const datepickerRef = useRef(null);
+    const [enteredSteps, setEnteredSteps] = useState<number>(0);
+
+    const history = useHistory();
 
 
-    const handleDateChange = (dates) => {
+    const handleDateChange = (dates: [Date, Date]): void => {
         const [start, end] = dates;
         setStartDate(start);
         setEndDate(end);
@@ -21,6 +34,28 @@ const AddStepsModal = ({isOpen, onClose}) => {
     const toggleDatePicker = () => {
         setShowDatePicker(!showDatePicker);
     };
+
+    useEffect(() => {
+        if (!checkToken()) {
+            // history.push('/login', {direction: 'none'});
+            window.location.assign('/login');
+        }
+
+        const token = getToken();
+        const user = getUser();
+        if (token && user) {
+            setUserAdjective(user.adjective);
+            setUserNoun(user.noun);
+            setUserStepGoal(user.stepGoal)
+            setGroup(user.group.name);
+            setLoading(false);
+        }
+    }, [history, isOpen]);
+
+    useEffect(() => {
+        setStartDate(new Date(date));
+        setEndDate(new Date(date));
+    }, [date]);
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -40,6 +75,24 @@ const AddStepsModal = ({isOpen, onClose}) => {
         };
     }, [showDatePicker]);
 
+    const handleAddSteps = async () => {
+        if (enteredSteps <= 0 || isNaN(enteredSteps)) {
+            alert("Bitte gib eine gültige Anzahl an Schritten ein.");
+            return;
+        }
+        try {
+            const stepDays = await addSteps(getToken(), enteredSteps, startDate.toISOString().split('T')[0], endDate.toISOString().split('T')[0]);
+            if (stepDays) {
+                onClose();
+            } else {
+                alert("Fehler beim Hinzufügen der Schritte")
+            }
+        }
+        catch (e) {
+            console.log(e)
+            alert("Fehler beim Hinzufügen der Schritte")
+        }
+    }
 
     return (
         <IonModal isOpen={isOpen} onDidDismiss={onClose}>
@@ -51,7 +104,11 @@ const AddStepsModal = ({isOpen, onClose}) => {
                 <div>
                     <div className={"modalFlex"}>
                         <label>Schritte:</label>
-                        <input type="number" placeholder="Schritte eintragen"/>
+                        <input
+                            type="number"
+                            placeholder="Schritte eintragen"
+                            onChange={e => setEnteredSteps(parseInt(e.target.value))}
+                        />
                     </div>
                     <div className={"modalFlex"}>
                         <label>Zeitraum:</label>
@@ -78,7 +135,7 @@ const AddStepsModal = ({isOpen, onClose}) => {
                     </div>
                     <div className={"buttonContainer"}>
                         <button slot="end" onClick={onClose} className={"secondary"}>Abbrechen</button>
-                        <button onClick={onClose}>Schritte erfassen</button>
+                        <button onClick={handleAddSteps}>Schritte erfassen</button>
                     </div>
                 </div>
             </IonContent>

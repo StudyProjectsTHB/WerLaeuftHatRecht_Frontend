@@ -4,14 +4,23 @@ import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const BarChart: React.FC<{labels:string[], barData:number[]}> = ({labels, barData}) => {
+const BarChart: React.FC<{labels:string[], barData:number[], ownName:string}> = ({labels, barData, ownName}) => {
+
+    const backgroundColors = labels.map((label) =>
+        label === ownName ? 'rgba(255, 99, 132, 1)' : 'rgba(34, 56, 50, 1)'
+    );
+
+    const borderColors = labels.map((label) =>
+        label === ownName ? 'rgba(255, 99, 132, 1)' : 'rgba(34, 56, 50, 1)'
+    );
+
     const data = {
         labels: labels,
         datasets: [
             {
                 data: barData,
-                backgroundColor: 'rgba(34, 56, 50, 1)',
-                borderColor: 'rgba(34, 56, 50, 1)',
+                backgroundColor: backgroundColors,
+                borderColor: borderColors,
                 borderWidth: 1,
                 hoverBackgroundColor: 'rgba(100, 100, 100, 255)',
                 hoverBorderColor: 'rgba(50,50,50,255)'
@@ -24,6 +33,12 @@ const BarChart: React.FC<{labels:string[], barData:number[]}> = ({labels, barDat
         indexAxis: 'y',
         scales: {
             x: {
+                ticks:{
+                    // stepSize: 1000,
+                    callback: function(value:any){
+                        return `${value / 1000} K`
+                    },
+                },
                 grid: {
                     display: false
                 }

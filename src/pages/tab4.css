@@ -285,3 +285,25 @@ ion-modal {
         flex-direction: column;
     }
 }
+
+
+.buttonNotSelected{
+    --background: #d3d3d3;
+    --background-activated: #c0c0c0;
+    --background-focused: #c0c0c0;
+    --background-hover: #c0c0c0;
+    --color: #000000;
+    /*border-radius: 5px*/
+
+}
+
+.select-selected {
+    background-color: #274039;
+    color: #FFFFFF;
+    position: relative;
+    /*outline: none; */
+}
+
+.select-selected:focus {
+    outline: none;
+}

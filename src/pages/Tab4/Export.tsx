@@ -9,22 +9,50 @@ import {Redirect, Route, useLocation} from 'react-router-dom';
 
 import {useHistory} from "react-router";
 
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Greeting from "../../components/Greeting";
 import UserCard from "../../components/cards/UserCard";
 import UserStepsCard from "../../components/cards/UserStepsCard";
 import {arrowBack, ellipse} from "ionicons/icons";
+import {checkToken, getToken, getUser} from "../../util/service/loginService";
 
 
 const Statistics: React.FC = () => {
+    const [loading, setLoading] = useState(true);
+    const [userAdjective, setUserAdjective] = useState("");
+    const [userNoun, setUserNoun] = useState("");
+    const [userStepGoal, setUserStepGoal] = useState(0);
+    const [group, setGroup] = useState("");
+
     const [selectedValue, setSelectedValue] = useState<string | undefined>("Alle Gerichte");
     const history = useHistory();
     const location = useLocation();
 
+    useEffect(() => {
+        if (!checkToken()) {
+            // history.push('/login', {direction: 'none'});
+            window.location.assign('/login');
+        }
+
+        const token = getToken();
+        const user = getUser();
+        if (token && user) {
+            setUserAdjective(user.adjective);
+            setUserNoun(user.noun);
+            setUserStepGoal(user.stepGoal)
+            setGroup(user.group.name);
+            setLoading(false);
+
+            if (!user.admin) {
+                window.location.assign('/tabs/tab1');
+            }
+        }
+    }, [location, history]);
+
     return (
         <IonPage>
             <IonContent>
-                <Greeting name={"wilder Esel"}/>
+                <Greeting adjective={userAdjective} noun={userNoun} group={group} />
 
                 <div className={"container"}>
                     <button onClick={() => {
