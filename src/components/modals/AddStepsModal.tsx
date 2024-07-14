@@ -50,7 +50,7 @@ const AddStepsModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
             setGroup(user.group.name);
             setLoading(false);
         }
-    }, [history]);
+    }, [history, isOpen]);
 
     useEffect(() => {
         setStartDate(new Date(date));

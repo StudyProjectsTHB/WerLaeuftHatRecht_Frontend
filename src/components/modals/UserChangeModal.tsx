@@ -35,7 +35,7 @@ const UserChangeModal = ({ isOpen, onClose, email, id}) => {
             setLoading(false);
         }
         setNewEmail(email)
-    }, [location, history]);
+    }, [location, history, isOpen]);
 
     const handleChangeUser = async () => {
         try {

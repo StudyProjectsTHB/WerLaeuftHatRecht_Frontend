@@ -34,10 +34,9 @@ const CourtDeleteModal = ({isOpen, onClose, email, id}) => {
             setGroup(user.group.name);
             setLoading(false);
         }
-    }, [location, history]);
+    }, [location, history, isOpen]);
 
     const handleDeleteUser = async () => {
-        console.log(email, id)
         try {
             const deleted = await removeUser( getToken(), id)
 

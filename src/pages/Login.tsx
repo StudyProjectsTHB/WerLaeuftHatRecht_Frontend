@@ -55,7 +55,7 @@ const Login: React.FC = () => {
                         />
                     </div>
                 <button className={"secondary"} onClick={handleLogin}>Anmelden</button>
-                <a>Passwort vergessen</a>
+                {/*<a>Passwort vergessen</a>*/}
                 </div>
                 <IonAlert
                     isOpen={showAlert}

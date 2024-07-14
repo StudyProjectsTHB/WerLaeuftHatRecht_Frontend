@@ -26,7 +26,7 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
     const [group, setGroup] = useState<string>("");
 
 
-    const [selectedCourt, setSelectedCourt] = useState<string>(`${courtsIds[0]}`);
+    const [selectedCourt, setSelectedCourt] = useState<string>("");
 
     const [email, setEmail] = useState("");
 
@@ -48,14 +48,19 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
             setUserStepGoal(user.stepGoal)
             setGroup(user.group.name);
             setLoading(false);
+
+            setSelectedCourt(courtsIds[0])
         }
-    }, [location, history]);
+
+    }, [location, history, isOpen]);
 
     const handleAddUser = async () => {
-        console.log(email, selectedCourt)
         try {
             const newUserToken = await createUser(getToken(), email, false, selectedCourt)
             if (newUserToken) {
+                console.log(newUserToken)
+                setSelectedCourt(courtsIds[0])
+                setEmail("")
                 onClose();
             } else {
                 alert("Nutzer konnte nicht hinzugefügt werden")
@@ -68,7 +73,7 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
     }
 
 
-            return (
+    return (
         <IonModal isOpen={isOpen} onDidDismiss={onClose} className={"heightSet500"}>
             <IonContent>
                 <div>
@@ -90,7 +95,8 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
                         onChange={e => setSelectedCourt(e.target.value)}
                     >
                         {courtsNames.map((court) => {
-                            return <option key={courtsNames.indexOf(court)} value={courtsIds[courtsNames.indexOf(court)]}>{court}</option>
+                            return <option key={courtsNames.indexOf(court)}
+                                           value={courtsIds[courtsNames.indexOf(court)]}>{court}</option>
                         })}
 
 
@@ -98,9 +104,9 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
                 </div>
 
                 <div className={"buttonContainer"}>
-                        <button slot="end" onClick={onClose} className={"secondary"}>Abbrechen</button>
-                        <button onClick={handleAddUser} className={"primary"}>Speichern</button>
-                    </div>
+                    <button slot="end" onClick={onClose} className={"secondary"}>Abbrechen</button>
+                    <button onClick={handleAddUser} className={"primary"}>Speichern</button>
+                </div>
 
             </IonContent>
         </IonModal>

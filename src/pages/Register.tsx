@@ -1,31 +1,49 @@
 import React, {useEffect, useState} from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonButton, IonList } from '@ionic/react'
-import {useHistory, useLocation} from 'react-router-dom';
+import {useHistory, useLocation, useParams} from 'react-router-dom';
+import {checkToken, getToken, getUser, registerUser} from "../util/service/loginService";
 
 const Register: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [passwordConfirm, setPasswordConfirm] = useState<string>('')
+
     const history = useHistory();
     const location = useLocation();
+    const token = useParams<{token: string}>();
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
         console.log('Password:', password);
-        // Füge hier deine Registrierungs-Logik hinzu
-        history.push('/login');
+        console.log('PasswordConfirm:', passwordConfirm);
+        console.log('Token:', token.token);
 
+        try {
+            const registered = await registerUser(token.token, password, passwordConfirm);
+            if (registered) {
+                history.push('/login', {direction: 'none'});
+            } else {
+                alert('Fehler bei der Registrierung');
+            }
+        }catch (e) {
+            console.log(e);
+            alert('Fehler bei der Registrierung');
+        }
     };
 
     useEffect(() => {
-        // Funktion, die überprüft, ob "login" in der URL enthalten ist
+        if (checkToken()) {
+            // history.push('/login', {direction: 'none'});
+            window.location.assign('/tabs/tab1');
+        }
+    }, [history]);
+
+    useEffect(() => {
         function checkURLForLogin() {
-            // Die aktuelle URL abrufen
             const currentURL = window.location.href;
             console.log('Aktuelle URL:', currentURL);
             const motivationCounterElement = document.querySelector('.motivationCounter');
 
-            // Überprüfen, ob "login" in der URL enthalten ist
             if (currentURL.includes('register')) {
-                // Die Klasse 'hidden' zur MotivationCounter hinzufügen
                 if (motivationCounterElement) {
                     motivationCounterElement.classList.add('hidden');
                 }
@@ -47,11 +65,19 @@ const Register: React.FC = () => {
                 <div className={"login"}>
                     <h1>Registrierung</h1>
                     <div className={"loginFlex"}>
-                        <label>Password</label>
+                        <label>Passwort</label>
                         <input
                             type="password"
                             value={password}
                             onChange={e => setPassword(e.target.value!)}
+                        />
+                    </div>
+                    <div className={"loginFlex"}>
+                        <label>Passwort bestätigen</label>
+                        <input
+                            type="password"
+                            value={passwordConfirm}
+                            onChange={e => setPasswordConfirm(e.target.value!)}
                         />
                     </div>
                     <button className={"secondary"} onClick={handleRegister}>Registriere dich</button>

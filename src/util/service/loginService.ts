@@ -57,21 +57,20 @@ export const checkToken = (): boolean => {
     return true;
 }
 
-export const registerUser = async (token: string, password: string): Promise<void> => {
-    const request: UserPasswordsDTO = {
+export const registerUser = async (token: string, password: string, passwordConfirm:string): Promise<UserDTO> => {
+    const userPasswords: UserPasswordsDTO = {
         password: password,
-        confirmPassword: password
+        passwordConfirm: passwordConfirm
     };
 
-    try {
-        await registerUserPassword(request, token);
-    } catch (error) {
-        console.error('Error registering user:', error);
-    }
+    console.log(userPasswords);
+
+    const response = await registerUserPassword(userPasswords, token);
+
+    return response;
 }
 
 export const loginUser = async (email: string, password: string): Promise<void> => {
-    // const history = useHistory();
 
     const request: AuthenticationRequestDTO = {
         email: email,

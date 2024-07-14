@@ -33,10 +33,9 @@ const CourtDeleteModal = ({isOpen, onClose, email, id, isAdmin}) => {
             setGroup(user.group.name);
             setLoading(false);
         }
-    }, [location, history]);
+    }, [location, history, isOpen]);
 
     const handleAdminUser = async () => {
-        console.log(email, id)
         try {
             const changed = await changeUserAdmin(getToken(), id, !isAdmin)
             if (changed) {

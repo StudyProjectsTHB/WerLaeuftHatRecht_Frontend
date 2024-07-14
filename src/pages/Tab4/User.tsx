@@ -104,7 +104,6 @@ const User: React.FC = () => {
             const groups = getAllCourts(token);
 
             users.then((users) => {
-                console.log(users);
                 setUsersName(users.map((user) => user.adjective + " " + user.noun));
                 setUsersEmail(users.map((user) => user.email));
                 setUsersId(users.map((user) => user.id));

@@ -99,7 +99,7 @@ export interface UserCreationDTO {
 
 export interface UserPasswordsDTO {
     password: string;
-    confirmPassword: string;
+    passwordConfirm: string;
 }
 
 export interface UserTokenDTO {
