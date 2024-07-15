@@ -147,7 +147,7 @@ const User: React.FC = () => {
 
                         </select>
                     </div>
-                    <IonList>
+                    <IonList className={"overflowList"}>
                         {usersName.map((name, index) => {
                             if (selectedValue === "Alle Gerichte" || usersCourts[index] === selectedValue) {
 
