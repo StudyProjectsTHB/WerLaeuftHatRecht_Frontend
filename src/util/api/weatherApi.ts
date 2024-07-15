@@ -1,7 +1,8 @@
 // Funktion zum Abrufen der Wetterdaten
 import {API_BASE_URL} from "./config/config";
+import {WeatherResponseDTO} from "./config/dto";
 
-export const getWeather = async (token: string): Promise<Map<string, any>> => {
+export const getWeather = async (token: string): Promise<WeatherResponseDTO> => {
     const url = `${API_BASE_URL}/weather`;
 
     const response = await fetch(url, {

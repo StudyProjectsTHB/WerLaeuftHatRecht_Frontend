@@ -1,8 +1,9 @@
-import {StatisticDurationDTO, UserChallengeDTO, UserDTO} from '../api/config/dto';
+import {StatisticDurationDTO, UserChallengeDTO, UserDTO, WeatherResponseDTO} from '../api/config/dto';
 import {createGroupUserStatistic, createUserStatistic} from "../api/statisticsApi";
 import {getCompetition} from "../api/competitionApi";
 import {getDays} from "../api/dayApi";
 import {getChallenges} from "../api/challengeApi";
+import {getWeather} from "../api/weatherApi";
 
 
 export const todaysSteps = async (token: string, user: UserDTO): Promise<number> => {
@@ -76,3 +77,11 @@ export const getWeeklyChartSteps = async (token: string, user: UserDTO): Promise
 export const getWeeklyChallenges = async (token: string, date?: string): Promise<UserChallengeDTO[]> => {
     return await getChallenges(token, date);
 }
+
+
+export const getCurrentWeather = async (token: string): Promise<WeatherResponseDTO> => {
+    const response = await getWeather(token);
+    console.log(response);
+    return response;
+}
+

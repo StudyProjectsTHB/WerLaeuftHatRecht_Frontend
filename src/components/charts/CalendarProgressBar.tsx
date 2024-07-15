@@ -11,7 +11,7 @@ import {IonButton} from "@ionic/react";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
-const ThreeQuarterDoughnutChart: React.FC<{value:number, maxValue:number}> = ({value, maxValue, onClick}) => {
+const ThreeQuarterDoughnutChart: React.FC<{value:number, maxValue:number, onClick}> = ({value, maxValue, onClick}) => {
 
 
     const reachedMaxValue = value >= maxValue;
