@@ -11,7 +11,7 @@ import {
 } from '@ionic/react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import './AddStepsModal.css';
+import './StepsAddModal.css';
 import {useHistory} from "react-router";
 import {useLocation} from "react-router-dom";
 import courts from "../../pages/Tab4/Courts";
@@ -58,7 +58,6 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
         try {
             const newUserToken = await createUser(getToken(), email, false, selectedCourt)
             if (newUserToken) {
-                console.log(newUserToken)
                 setSelectedCourt(courtsIds[0])
                 setEmail("")
                 onClose();

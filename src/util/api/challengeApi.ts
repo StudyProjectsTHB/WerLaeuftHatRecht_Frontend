@@ -1,17 +1,12 @@
 import {API_BASE_URL} from "./config/config";
 
 import {UserChallengeDTO} from "./config/dto";
+import {getCurrentDate} from "../service/util";
 
 // Definieren Sie das Interface für UserChallengeDTO
 
 // Funktion, um das aktuelle Datum im Format YYYY-MM-DD zu erhalten
-const getCurrentDate = (): string => {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-};
+
 
 // Funktion, um die Herausforderungen vom Server zu holen
 export const getChallenges = async (token: string, date: string = getCurrentDate()): Promise<UserChallengeDTO[]> => {

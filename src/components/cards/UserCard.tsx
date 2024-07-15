@@ -14,6 +14,7 @@ import Greeting from "../../components/Greeting";
 import {ellipse, settingsOutline, star, starOutline, trashOutline} from "ionicons/icons";
 import {checkToken, getToken, getUser} from "../../util/service/loginService";
 import {changeUserGroup, getAllCourts} from "../../util/service/userService";
+import {convertUmlauts} from "../../util/service/util";
 
 
 const UserCard: React.FC<{name:string, userId:number ,email:string, group:string, groupId:number, isAdmin:boolean ,courtNames:string[], courtIds:number[]}> = ({name, userId, email, group, groupId,isAdmin, courtNames, courtIds, onChangeClick, onAdminClick, onDeleteClick}) => {
@@ -25,6 +26,7 @@ const UserCard: React.FC<{name:string, userId:number ,email:string, group:string
     const history = useHistory();
     const location = useLocation();
     const [selectedValue, setSelectedValue] = useState<string>(group);
+    const [selectedUserImage, setSelectedUserImage] = useState<string>("images/UserIcon.png");
 
     useEffect(() => {
         if (!checkToken()) {
@@ -39,11 +41,14 @@ const UserCard: React.FC<{name:string, userId:number ,email:string, group:string
             setUserNoun(user.noun);
             setUserStepGoal(user.stepGoal)
             setLoading(false);
+
+            const userImage = `images/${convertUmlauts(name.split(" ")[1])}.png`;
+            setSelectedUserImage(userImage);
+
         }
     }, [history]);
 
     const handleCourtChangeUser = async (newCourt:string) => {
-        console.log(email, newCourt)
         const newCourtId = courtIds[courtNames.indexOf(newCourt)]
         try {
             const changed = await changeUserGroup(getToken(), userId, newCourtId)
@@ -61,7 +66,7 @@ const UserCard: React.FC<{name:string, userId:number ,email:string, group:string
     return (
         <div className="containerAdmin">
             <img
-                src="images/UserIcon.png"
+                src={selectedUserImage}
                 alt="greeting-icon"
             />
             <div className={"name"}>

@@ -16,6 +16,8 @@ import CompetitionChangeModal from "../../components/modals/CompetitionChangeMod
 import {arrowBack} from "ionicons/icons";
 import {checkToken, getToken, getUser} from "../../util/service/loginService";
 import {getCompetition} from "../../util/api/competitionApi";
+import de from 'date-fns/locale/de';
+import { registerLocale, setDefaultLocale } from 'react-datepicker';
 
 
 const Competition: React.FC = () => {
@@ -31,9 +33,11 @@ const Competition: React.FC = () => {
     const [showChangeModal, setShowChangeModal] = useState(false);
     const datepickerRef = useRef(null);
 
-
     const history = useHistory();
     const location = useLocation();
+
+    registerLocale('de', de);
+    setDefaultLocale('de');
 
     const handleDateChange = (dates:[Date, Date]):void => {
         const [start, end] = dates;
@@ -123,6 +127,7 @@ const Competition: React.FC = () => {
                                     selectsRange
                                     inline
                                     onCalendarClose={() => setShowDatePicker(false)}
+                                    locale={"de"}
                                 />
                             </div>
                         )}

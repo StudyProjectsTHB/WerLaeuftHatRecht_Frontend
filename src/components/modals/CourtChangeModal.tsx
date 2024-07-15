@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {IonModal, IonButton, IonContent, IonHeader, IonToolbar, IonTitle} from '@ionic/react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import './AddStepsModal.css';
+import './StepsAddModal.css';
 import {checkToken, getToken, getUser} from "../../util/service/loginService";
 import {useHistory} from "react-router";
 import {changeGroup} from "../../util/service/groupService";
@@ -39,12 +39,10 @@ const CourtChangeModal = ({isOpen, onClose, name, id, count}) => {
 
             setCourtName(name);
             setCourtCount(count);
-            console.log(name, count)
         }
     }, [location, history, isOpen]);
 
     const handleChangeCourt = async () => {
-        console.log(courtName, courtCount)
         try {
             const changedCourt = await changeGroup(getToken(), id, courtName, courtCount)
 

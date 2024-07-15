@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {IonModal, IonButton, IonContent, IonHeader, IonToolbar, IonTitle} from '@ionic/react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import './AddStepsModal.css';
+import './StepsAddModal.css';
 import {useHistory} from "react-router";
 import {checkToken, getToken, getUser} from "../../util/service/loginService";
 import {removeGroup} from "../../util/service/groupService";
@@ -37,7 +37,6 @@ const CourtDeleteModal = ({isOpen, onClose, name, id}) => {
     }, [history]);
 
     const handleDeleteCourt = async () => {
-        console.log(name, id)
         try {
             // const newCourt = await addGroup(getToken(), courtName, courtCount)
             const deletedCourtBool = await removeGroup(getToken(), id)

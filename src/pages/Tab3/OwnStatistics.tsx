@@ -23,6 +23,7 @@ const OwnStatistics: React.FC = () => {
     const [userAdjective, setUserAdjective] = useState("");
     const [userNoun, setUserNoun] = useState("");
     const [userStepGoal, setUserStepGoal] = useState(0);
+    const [userKilometerGoal, setUserKilometerGoal] = useState(0);
     const [group, setGroup] = useState("");
     const [totalSteps, setTotalSteps] = useState(0);
     const [totalKilometers, setTotalKilometers] = useState(0);
@@ -49,6 +50,7 @@ const OwnStatistics: React.FC = () => {
             setUserAdjective(user.adjective);
             setUserNoun(user.noun);
             setUserStepGoal(user.stepGoal)
+            setUserKilometerGoal(user.stepGoalKilometers)
             setGroup(user.group.name);
             setLoading(false);
 
@@ -90,7 +92,7 @@ const OwnStatistics: React.FC = () => {
                 <h2>Dein Wettbewerb</h2>
                 <div className="wrapper">
                     <WeeklyStats steps={totalSteps} distance={totalKilometers} rank={place}
-                                 maxSteps={userStepGoal * lapsedDays} maxDistance={50} maxRank={maxPlace}/>
+                                 maxSteps={userStepGoal * lapsedDays} maxDistance={userKilometerGoal * lapsedDays} maxRank={maxPlace}/>
                 </div>
                 <div className={"gridContainer"}>
 

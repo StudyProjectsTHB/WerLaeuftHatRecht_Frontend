@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {IonModal, IonButton, IonContent, IonHeader, IonToolbar, IonTitle} from '@ionic/react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import './AddStepsModal.css';
+import './StepsAddModal.css';
 import {checkToken, getToken, getUser} from "../../util/service/loginService";
 import {location} from "ionicons/icons";
 import {useHistory} from "react-router";
@@ -45,7 +45,6 @@ const CompetitionChangeModal = ({isOpen, onClose, startDate, endDate}) => {
     }, [location, history, isOpen]);
 
     const handleDateChange = async () => {
-        console.log(startDate, endDate)
         try{
             const newCompetition = await changeCompetition(getToken(), startDate, endDate);
 

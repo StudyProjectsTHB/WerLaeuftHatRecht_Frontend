@@ -15,4 +15,5 @@ export interface NavigationLabelProps {
 export interface AddStepsModalProps {
     isOpen: boolean;
     onClose: () => void;
+    date: string;
 }

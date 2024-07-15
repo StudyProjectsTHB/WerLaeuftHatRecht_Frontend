@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {IonTabs, IonRouterOutlet, IonTabBar, IonTabButton, IonIcon, IonLabel} from '@ionic/react';
-import {Route, Redirect} from 'react-router-dom';
+import {Route, Redirect, useLocation} from 'react-router-dom';
 import {IonReactRouter} from '@ionic/react-router';
 import {
     createOutline,
     ellipse,
-    homeOutline,
+    homeOutline, location,
     settingsOutline,
     square,
     statsChartOutline,
@@ -25,10 +25,44 @@ import Export from "./pages/Tab4/Export";
 import Login from "./pages/Login";
 
 import './theme/desktop.css';
+import {checkToken, getToken, getUser} from "./util/service/loginService";
+import {useHistory} from "react-router";
 
 const Tabs: React.FC = () => {
-  const isAdmin = true;
-    return (
+    const [loading, setLoading] = useState(true);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1024);
+
+    const history = useHistory();
+    const location = useLocation()
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 1024) {
+                setIsDesktop(false)
+            } else {
+                setIsDesktop(true)
+            }
+        }
+        if (!checkToken()) {
+            window.location.assign('/login');
+        }
+
+
+        const token = getToken();
+        const user = getUser(token);
+        if (token && user) {
+            setIsAdmin(user.admin);
+            setLoading(false);
+        }
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+
+    }, [location, history]);
+
+            return (
         <IonReactRouter>
             <IonTabs>
                 <IonRouterOutlet>
@@ -79,7 +113,7 @@ const Tabs: React.FC = () => {
                         <IonIcon aria-hidden="true" icon={statsChartOutline}/>
                         <IonLabel>Statistiken</IonLabel>
                     </IonTabButton>
-                  {isAdmin && (
+                  {isAdmin && isDesktop && (
                       <IonTabButton tab="tab4" href="/tabs/tab4">
                         <IonIcon aria-hidden="true" icon={settingsOutline}/>
                         <IonLabel>Manager</IonLabel>

@@ -2,7 +2,7 @@ import {Group, StatisticDurationDTO, UserDTO} from "../api/config/dto";
 import {getCompetition} from "../api/competitionApi";
 import {createGroupStatistic, createGroupStatistics, createUserStatistic} from "../api/statisticsApi";
 import {getCompetitionData} from "./competitionService";
-import {getCalendarWeeksBetweenDates} from "./util";
+import {getCalendarWeeksBetweenDates, getCurrentDate} from "./util";
 
 
 export const getCourtCurrentPlace = async (token: string, group: Group): Promise<[number, number]> => {
@@ -18,7 +18,7 @@ export const getCourtCurrentPlace = async (token: string, group: Group): Promise
     return [response.findIndex((groupStep => groupStep.group.id === group.id)) + 1, response.length];
 }
 
-export const getCourtsStatistic = async (token: string): Promise<[number[], string[], number[]]> => {
+export const getCourtsStatistic = async (token: string): Promise<[number[], string[], number[], number[]]> => {
     const competition = await getCompetition(token);
     const statisticDuration: StatisticDurationDTO = {
         startDate: competition.startDate,
@@ -27,16 +27,17 @@ export const getCourtsStatistic = async (token: string): Promise<[number[], stri
 
     const response = await createGroupStatistics(token, statisticDuration);
 
-    const groupSteps = response.map(groupStep => Math.round(groupStep.stepsPerUser));
+    const groupStepsPerUser = response.map(groupStep => Math.round(groupStep.stepsPerUser));
     const groupNames = response.map(groupStep => groupStep.group.name);
     const groupIds = response.map(groupStep => groupStep.group.id);
+    const groupSteps = response.map(groupStep => groupStep.steps);
 
-    return [groupSteps, groupNames, groupIds];
+    return [groupStepsPerUser, groupNames, groupIds, groupSteps];
 }
 
 export const getOwnCourtStatistic = async (token: string, group: Group): Promise<[number[], string[], string[]]> => {
     const competition = await getCompetitionData(token);
-    const today = new Date().toISOString()
+    const today = getCurrentDate();
     const endDate = today < competition[1] ? today : competition[1];
     const response = getCalendarWeeksBetweenDates(competition[0], endDate);
 

@@ -2,7 +2,7 @@ import {StatisticDurationDTO, UserChallengeDTO, UserDTO} from "../api/config/dto
 import {createUserStatistic} from "../api/statisticsApi";
 import {getCompetitionData} from "./competitionService";
 import {getCurrentPlace, getWeeklyChallenges} from "./overviewStatisticService";
-import {getCalendarWeeksBetweenDates} from "./util";
+import {getCalendarWeeksBetweenDates, getCurrentDate} from "./util";
 import {getFinishedChallenges} from "../api/challengeApi";
 
 export const totalStepsAndKilometers = async (token: string, user: UserDTO): Promise<[number, string]> => {
@@ -30,7 +30,7 @@ export const getFinishedWeeklyChallenges = async (token: string): Promise<UserCh
 
 export const getOwnStatistic = async (token: string, user: UserDTO): Promise<[number[], string[], string[]]> => {
     const competition = await getCompetitionData(token);
-    const today = new Date().toISOString()
+    const today = getCurrentDate();
     const endDate = today < competition[1] ? today : competition[1];
     const response = getCalendarWeeksBetweenDates(competition[0], endDate);
 

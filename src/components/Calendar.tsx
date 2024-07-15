@@ -3,6 +3,7 @@ import Calendar from 'react-calendar';
 import { TileContentProps, Markers, NavigationLabelProps } from '../types';
 import 'react-calendar/dist/Calendar.css';
 import './Calendar.css';
+import {formatDate} from "../util/service/util";
 
 const CalendarView: React.FC<{days:string[], steps:number[], stepGoal: number, onDateClick: (date: string) => void}> = ({days, steps, stepGoal, onDateClick}) => {
     const [date, setDate] = React.useState(new Date());
@@ -27,7 +28,7 @@ const CalendarView: React.FC<{days:string[], steps:number[], stepGoal: number, o
     const getTileContent = ({ date, view }: TileContentProps): React.ReactNode => {
         if (view === 'month') {
             const normalizedDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-            const dateString = normalizedDate.toISOString().split('T')[0];
+            const dateString = formatDate(normalizedDate);
             if (markers[dateString]) {
                 return <div className={`marker ${markers[dateString]}`} />;
             }
@@ -58,9 +59,8 @@ const CalendarView: React.FC<{days:string[], steps:number[], stepGoal: number, o
 
     const handleDateChange = (selectedDate:Date) => {
         setDate(selectedDate);
-        // onDateClick(selectedDate.toISOString().split('T')[0]);
         const normalizedDate = new Date(Date.UTC(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate()));
-        const dateString = normalizedDate.toISOString().split('T')[0];
+        const dateString = formatDate(normalizedDate);
         onDateClick(dateString);
     };
 

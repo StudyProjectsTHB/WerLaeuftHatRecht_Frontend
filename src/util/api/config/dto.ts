@@ -120,3 +120,14 @@ export interface UpdateUserDTO {
 export interface EmailDTO {
     email: string;
 }
+
+export interface WeatherDTO {
+    maxTemperature: number;
+    weather: string;
+}
+
+export interface WeatherResponseDTO {
+    today: WeatherDTO;
+    tomorrow: WeatherDTO;
+    day_after_tomorrow: WeatherDTO;
+}

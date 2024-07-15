@@ -1,10 +1,15 @@
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
+import {Bar} from 'react-chartjs-2';
 import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartOptions} from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const BarChart: React.FC<{labels:string[], barData:number[], ownName:string, type:string}> = ({labels, barData, ownName, type}) => {
+const BarChart: React.FC<{ labels: string[], barData: number[], ownName: string, type: string }> = ({
+                                                                                                        labels,
+                                                                                                        barData,
+                                                                                                        ownName,
+                                                                                                        type
+                                                                                                    }) => {
 
     const backgroundColors = labels.map((label) =>
         label === ownName ? 'rgba(34, 56, 50, 1)' : 'rgb(111,122,116)'
@@ -33,9 +38,9 @@ const BarChart: React.FC<{labels:string[], barData:number[], ownName:string, typ
         indexAxis: 'y',
         scales: {
             x: {
-                ticks:{
+                ticks: {
                     // stepSize: 1000,
-                    callback: function(value:any){
+                    callback: function (value: any) {
                         return `${value / 1000} K`
                     },
                 },
@@ -59,10 +64,10 @@ const BarChart: React.FC<{labels:string[], barData:number[], ownName:string, typ
             },
             tooltip: {
                 callbacks: {
-                    title: function(tooltipItems) {
+                    title: function (tooltipItems) {
                         return `${tooltipItems[0].label}`;
                     },
-                    label: function(tooltipItem) {
+                    label: function (tooltipItem) {
                         return type === 'courtStatistics' ? ` ${tooltipItem.raw.toLocaleString('de-DE')} Schritte pro Nutzer` : ` ${tooltipItem.raw.toLocaleString('de-DE')} Schritte`;
                     },
                 }
@@ -71,7 +76,7 @@ const BarChart: React.FC<{labels:string[], barData:number[], ownName:string, typ
     };
 
     return (
-        <Bar data={data} options={options} />
+        <Bar data={data} options={options}/>
     );
 };
 

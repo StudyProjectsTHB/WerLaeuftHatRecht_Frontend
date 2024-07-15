@@ -16,6 +16,7 @@ import UserStepsCard from "../../components/cards/UserStepsCard";
 import {arrowBack} from "ionicons/icons";
 import {checkToken, getToken, getUser} from "../../util/service/loginService";
 import {getAllCourts, getAllStatisticGroups, getAllStatisticGroupUsers} from "../../util/service/statisticsService";
+import Papa from 'papaparse';
 
 
 const Statistics: React.FC = () => {
@@ -27,6 +28,7 @@ const Statistics: React.FC = () => {
     const [courtsNames, setCourtsNames] = useState<string[]>([]);
     const [courtsIds, setCourtsIds] = useState<number[]>([]);
     const [usersOrCourtName, setUsersOrCourtName] = useState<string[]>([]);
+    const [usersOrCourtStepsPerUser, setUsersOrCourtStepsPerUser] = useState<number[]>([]);
     const [usersOrCourtSteps, setUsersOrCourtSteps] = useState<number[]>([]);
 
     const [selectedSelectCourtName, setSelectedSelectCourtName] = useState<string>("");
@@ -62,7 +64,6 @@ const Statistics: React.FC = () => {
                 usersOrCourt = getAllStatisticGroupUsers(token, selectedCourtId);
             } else {
                 usersOrCourt = getAllStatisticGroups(token);
-
             }
 
             courts.then((courts) => {
@@ -74,13 +75,17 @@ const Statistics: React.FC = () => {
 
             usersOrCourt.then((usersOrCourt) => {
                 setUsersOrCourtName(usersOrCourt[1]);
-                setUsersOrCourtSteps(usersOrCourt[0]);
+                setUsersOrCourtStepsPerUser(usersOrCourt[0]);
+                if (selectedCourtId != -1) {
+                    setUsersOrCourtSteps([0]);
+                } else {
+                    setUsersOrCourtSteps(usersOrCourt[3]);
+                }
             });
         }
     }, [location, history]);
 
     const handleChangedCourt = (courtName: string) => {
-        console.log(courtsNames, courtsIds, courtName)
         setSelectedCourtName(courtName);
         let courtId;
         if (courtName === "Alle Gerichte") {
@@ -89,24 +94,58 @@ const Statistics: React.FC = () => {
             courtId = courtsIds[courtsNames.indexOf(courtName)];  // Keine neue Deklaration, sondern Zuweisung
         }
         setSelectedCourtId(courtId);
-        console.log(courtId);
-
         if (courtId != -1) {
             const usersOrCourt = getAllStatisticGroupUsers(getToken(), courtId);
 
             usersOrCourt.then((usersOrCourt) => {
                 setUsersOrCourtName(usersOrCourt[1]);
-                setUsersOrCourtSteps(usersOrCourt[0]);
+                setUsersOrCourtStepsPerUser(usersOrCourt[0]);
             });
         } else {
             const usersOrCourt = getAllStatisticGroups(getToken());
 
             usersOrCourt.then((usersOrCourt) => {
                 setUsersOrCourtName(usersOrCourt[1]);
-                setUsersOrCourtSteps(usersOrCourt[0]);
+                setUsersOrCourtStepsPerUser(usersOrCourt[0]);
+                if (selectedCourtId != -1) {
+                    setUsersOrCourtSteps([0]);
+                } else {
+                    setUsersOrCourtSteps(usersOrCourt[3]);
+                }
             });
         }
     }
+
+    const handleDownloadCSV = () => {
+
+        const csvData = selectedCourtId != -1 ?
+            usersOrCourtName.map((name, index) => ({
+                Name: name,
+                Schritte: usersOrCourtStepsPerUser[index]
+            })) :
+            usersOrCourtName.map((name, index) => ({
+                Name: name,
+                Schritte: usersOrCourtSteps[index],
+                "Schritte pro Nutzer": usersOrCourtStepsPerUser[index],
+
+            }));
+
+        const csv = Papa.unparse(csvData, {delimiter: ";"});
+        const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+        console.log(blob);
+        const link = document.createElement("a");
+
+        if (link.download !== undefined) {
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `${selectedCourtName} ${selectedCourtId != -1 ? "Nutzer-" : "Gerichte-"}Statistik.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+
 
     return (
         <IonPage>
@@ -146,24 +185,22 @@ const Statistics: React.FC = () => {
                             <IonButton
                                 {...(selectedCourtName != "Alle Gerichte" ? {className: "buttonNotSelected"} : {})}
                                 onClick={() => {
-                                // setSelectedCourtName("Alle Gerichte")
-                                // setSelectedCourtId(-1)
                                 handleChangedCourt("Alle Gerichte")
                             }}>Alle Gerichte</IonButton>
                         </div>
                     </div>
-                    <IonButton className={"buttonRight"}>Excel-Datei herunterladen</IonButton>
+                    <IonButton className={"buttonRight"} onClick={handleDownloadCSV}>Excel-Datei herunterladen</IonButton>
 
                     <IonList className={"overflowList"}>
-        {/*                {users.map((user, index) => (
-                            <UserStepsCard key={index} name={user.name} steps={user.steps} index={index + 1} />
-                        ))}*/}
                         {usersOrCourtName.map((name, index) => {
-                            return <UserStepsCard key={index} name={name} steps={usersOrCourtSteps[index]} index={index + 1} />
+                            return <UserStepsCard key={index}
+                                                  name={name}
+                                                  steps={usersOrCourtStepsPerUser[index]}
+                                                  index={index + 1}
+                            />
                         })}
                     </IonList>
 
-                    {/*<IonButton className={"buttonRight"}>Excel-Datei herunterladen</IonButton>*/}
 
 
                 </div>

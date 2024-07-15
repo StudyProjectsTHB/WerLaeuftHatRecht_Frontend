@@ -4,7 +4,7 @@ import './Tab2.css';
 
 import Calender from '../components/Calendar';
 import CalenderProgressBar from "../components/charts/CalendarProgressBar";
-import AddStepsModal from "../components/modals/AddStepsModal";
+import StepsAddModal from "../components/modals/StepsAddModal";
 import React, {useEffect, useState} from "react";
 import Greeting from "../components/Greeting";
 import {useLocation} from "react-router-dom";
@@ -76,13 +76,13 @@ const Tab2: React.FC = () => {
         }
     }, [showModal]);
 
-    useEffect(() => {
-        const params = new URLSearchParams(location.search);
-        if (params.get("showModal")) {
-            params.delete("showModal");
-            history.replace({ search: params.toString() });
-        }
-    }, [location.search, history]);
+    // useEffect(() => {
+    //     const params = new URLSearchParams(location.search);
+    //     if (params.get("showModal")) {
+    //         params.delete("showModal");
+    //         history.replace({ search: params.toString() });
+    //     }
+    // }, [location.search, history]);
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -113,7 +113,7 @@ const Tab2: React.FC = () => {
           </div>
 
       </IonContent>
-        <AddStepsModal isOpen={showModal} onClose={handleCloseModal} date={selectedDate} />
+        <StepsAddModal isOpen={showModal} onClose={handleCloseModal} date={selectedDate} />
     </IonPage>
   );
 };

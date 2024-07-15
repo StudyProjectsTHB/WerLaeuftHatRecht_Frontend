@@ -1,4 +1,15 @@
-import {IonContent, IonHeader, IonLoading, IonPage, IonTitle, IonToolbar} from '@ionic/react';
+import {
+    IonCard,
+    IonCardContent,
+    IonContent,
+    IonHeader,
+    IonIcon,
+    IonLoading,
+    IonPage,
+    IonText,
+    IonTitle,
+    IonToolbar
+} from '@ionic/react';
 import './Tab1.css';
 import React, {useEffect, useState} from "react";
 
@@ -11,18 +22,21 @@ import {useHistory} from "react-router";
 
 import {checkToken, getToken, getUser} from "../util/service/loginService";
 import {
-    getCurrentPlace, getWeeklyChallenges,
+    getCurrentPlace, getCurrentWeather, getWeeklyChallenges,
     getWeeklyChartSteps,
     todaysSteps,
     weeklyStepsAndKilometers
 } from "../util/service/overviewStatisticService";
 import {useLocation} from "react-router-dom";
+import {personOutline, sunnyOutline} from "ionicons/icons";
+import Weather from "../components/cards/Weather";
 
 const Tab1: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [userAdjective, setUserAdjective] = useState("");
     const [userNoun, setUserNoun] = useState("");
     const [userStepGoal, setUserStepGoal] = useState(0);
+    const [userKilometerGoal, setUserKilometerGoal] = useState(0);
     const [group, setGroup] = useState("");
     const [dailySteps, setDailySteps] = useState(0);
     const [weeklySteps, setWeeklySteps] = useState(0);
@@ -32,6 +46,8 @@ const Tab1: React.FC = () => {
     const [weeklyChartSteps, setWeeklyChartSteps] = useState([0, 0, 0, 0, 0, 0, 0]);
     const [weeklyChartDays, setWeeklyChartDays] = useState(["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]);
     const [weeklyChallenges, setWeeklyChallenges] = useState([]);
+    const [weatherToday, setWeatherToday] = useState({temperature: 0, condition: ''});
+    const [weatherTomorrow, setWeatherTomorrow] = useState({temperature: 0, condition: ''});
 
     const history = useHistory();
     const location = useLocation()
@@ -49,6 +65,7 @@ const Tab1: React.FC = () => {
             setUserAdjective(user.adjective);
             setUserNoun(user.noun);
             setUserStepGoal(user.stepGoal)
+            setUserKilometerGoal(user.stepGoalKilometers)
             setGroup(user.group.name);
 
 
@@ -57,6 +74,7 @@ const Tab1: React.FC = () => {
             const placeMaxPlace = getCurrentPlace(token, user);
             const weeklyChart = getWeeklyChartSteps(token, user);
             const weeklyChallenges = getWeeklyChallenges(token);
+            const weatherToday = getCurrentWeather(token);
 
 
             stepsToday.then((data) => {
@@ -83,6 +101,11 @@ const Tab1: React.FC = () => {
             weeklyChallenges.then((data) => {
                 setWeeklyChallenges(data);
             })
+
+            weatherToday.then((data) => {
+                setWeatherToday({temperature: data.today.maxTemperature, condition: data.today.weather});
+                setWeatherTomorrow({temperature: data.tomorrow.maxTemperature, condition: data.tomorrow.weather});
+            });
         }
 
         // setLoading(false);
@@ -102,7 +125,7 @@ const Tab1: React.FC = () => {
                     <h2>Diese Woche</h2>
                     <div className={"wrapper"}>
                         <WeeklyStats steps={weeklySteps} distance={weeklyKilometers} rank={place}
-                                     maxSteps={userStepGoal * 7} maxDistance={50} maxRank={maxPlace}/>
+                                     maxSteps={userStepGoal * 7} maxDistance={userKilometerGoal * 7} maxRank={maxPlace}/>
                     </div>
                     <div className={"gridContainer"}>
                         <div className={"wrapper barchart"}>
@@ -110,6 +133,12 @@ const Tab1: React.FC = () => {
                                          columnData={weeklyChartSteps} type={'dashboard'}/>
                         </div>
                         <WeeklyChallenges weeklyChallenges={weeklyChallenges}/>
+                    </div>
+
+                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center',}}>
+                        <Weather temperature={weatherToday.temperature} condition={weatherTomorrow.condition} label={"Heute"}/>
+                        <Weather temperature={weatherTomorrow.temperature} condition={weatherTomorrow.condition} label={"Morgen"}/>
+
                     </div>
 
                 </div>
