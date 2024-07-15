@@ -1,6 +1,7 @@
 import {DayDTO, DurationStepsDTO} from "../api/config/dto";
 import {addDays, getDays} from "../api/dayApi";
 import {getCompetition} from "../api/competitionApi";
+import {formatDate, getCurrentDate} from "./util";
 
 const generateDateRange = async (startDate: string, endDate: string): Promise<string[]> => {
     const start = new Date(startDate);
@@ -8,7 +9,7 @@ const generateDateRange = async (startDate: string, endDate: string): Promise<st
     const dateArray: string[] = [];
 
     for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-        dateArray.push(new Date(d).toISOString().split('T')[0]);
+        dateArray.push(formatDate(new Date(d)));
     }
 
     return dateArray;
@@ -18,7 +19,7 @@ const generateDateRange = async (startDate: string, endDate: string): Promise<st
 export const getStepDays = async (token: string): Promise<DayDTO[]> => {
 
     const competition = await getCompetition(token);
-    const today = new Date().toISOString().split('T')[0];
+    const today = getCurrentDate();
 
     const endDate = today < competition.endDate ? today : competition.endDate;
 
@@ -39,12 +40,15 @@ export const getStepDays = async (token: string): Promise<DayDTO[]> => {
 
 export const addSteps = async (token: string, steps: number, startDate:string, endDate:string): Promise<DayDTO[]> => {
     const competition = await getCompetition(token);
-    const today = new Date().toISOString().split('T')[0];
+    const today = getCurrentDate()
+    const today2 = getCurrentDate()
     const durationSteps: DurationStepsDTO = {
         steps,
         startDate,
         endDate
     };
+
+    console.log(startDate, endDate, competition.startDate, competition.endDate, today, today2);
 
     if (startDate < competition.startDate || endDate > today || endDate > competition.endDate) {
         throw new Error('Invalid date range');

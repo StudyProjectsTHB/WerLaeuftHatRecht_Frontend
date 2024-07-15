@@ -4,13 +4,13 @@ import {getCompetition} from "../api/competitionApi";
 import {getDays} from "../api/dayApi";
 import {getChallenges} from "../api/challengeApi";
 import {getWeather} from "../api/weatherApi";
+import {formatDate, getCurrentDate} from "./util";
 
 
 export const todaysSteps = async (token: string, user: UserDTO): Promise<number> => {
-    const today = new Date();
     const statisticDuration: StatisticDurationDTO = {
-        startDate: today.toISOString(),
-        endDate: today.toISOString(),
+        startDate: getCurrentDate(),
+        endDate: getCurrentDate(),
     };
 
     const response = await createUserStatistic(token, user.id, statisticDuration);
@@ -21,10 +21,11 @@ export const todaysSteps = async (token: string, user: UserDTO): Promise<number>
 
 export const weeklyStepsAndKilometers = async (token: string, user: UserDTO): Promise<[number, string]> => {
     const today = new Date();
+    console.log(today);
     const lastWeek = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
     const request: StatisticDurationDTO = {
-        startDate: lastWeek.toISOString(),
-        endDate: today.toISOString(),
+        startDate: formatDate(lastWeek),
+        endDate: getCurrentDate(),
     };
 
     const response = await createUserStatistic(token, user.id, request);
@@ -56,7 +57,7 @@ export const getWeeklyChartSteps = async (token: string, user: UserDTO): Promise
     for (let i = 0; i < 7; i++) {
         const date = new Date(today);
         date.setDate(today.getDate() - i);
-        const dateString = date.toISOString().split('T')[0];
+        const dateString = formatDate(date);
         const dayOfWeek = daysOfWeek[date.getDay()];
 
         const dayData = response.find(d => d.date === dateString);

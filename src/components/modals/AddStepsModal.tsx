@@ -10,6 +10,7 @@ import {useHistory} from "react-router";
 import {addSteps} from "../../util/service/addStepsService";
 import de from 'date-fns/locale/de';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
+import {formatDate} from "../../util/service/util";
 
 const AddStepsModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -86,7 +87,7 @@ const AddStepsModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
             return;
         }
         try {
-            const stepDays = await addSteps(getToken(), enteredSteps, startDate.toISOString().split('T')[0], endDate.toISOString().split('T')[0]);
+            const stepDays = await addSteps(getToken(), enteredSteps, formatDate(startDate), formatDate(endDate));
             if (stepDays) {
                 onClose();
             } else {

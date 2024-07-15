@@ -10,7 +10,14 @@ import {Redirect, Route, useLocation} from 'react-router-dom';
 import {useHistory} from "react-router";
 
 import React, {useState} from "react";
-import {cloudOutline, rainyOutline, snowOutline, sunnyOutline, thunderstormOutline} from "ionicons/icons";
+import {
+    cloudOutline,
+    partlySunnyOutline,
+    rainyOutline,
+    snowOutline,
+    sunnyOutline,
+    thunderstormOutline
+} from "ionicons/icons";
 
 const Weather: React.FC<{temperature:number, condition:string, label:string}> = ({temperature, condition, label}) => {
     const history = useHistory();
@@ -21,7 +28,7 @@ const Weather: React.FC<{temperature:number, condition:string, label:string}> = 
             case 'sonnig':
                 return sunnyOutline;
             case 'bewölkt':
-                return cloudOutline;
+                return partlySunnyOutline;
             case 'regen':
                 return rainyOutline;
             case 'schnee':
