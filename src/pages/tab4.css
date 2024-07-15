@@ -307,3 +307,8 @@ ion-modal {
 .select-selected:focus {
     outline: none;
 }
+
+.overflowList {
+    overflow: scroll;
+    height: calc(100vh - 381px);
+}

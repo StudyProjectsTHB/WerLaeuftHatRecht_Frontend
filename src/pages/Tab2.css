@@ -100,14 +100,15 @@
     color: #3c4043;
     position: relative;
 
+    /* Hier Farben für Kalender anpassen */
     &.react-calendar__tile--active {
-        background: #c5c5c5 !important;
-        color: white;
+        background: #424242 !important;
+        color: #fff;
     }
 
     &.react-calendar__tile--now {
-        background: #223832 !important;
-        color: #fff !important;
+        background: #727272 !important;
+        color: #000 !important;
     }
 }
 

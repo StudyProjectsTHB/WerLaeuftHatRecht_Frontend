@@ -50,7 +50,7 @@ const CourtDeleteModal = ({isOpen, onClose, email, id, isAdmin}) => {
 
     }
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={onClose} className={"heightSet"}>
+        <IonModal isOpen={isOpen} onDidDismiss={onClose} className={""}>
             <IonContent>
                 {!isAdmin ? (
                     <>
