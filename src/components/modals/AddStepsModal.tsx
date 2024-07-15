@@ -8,6 +8,8 @@ import {AddStepsModalProps} from "../types";
 import {checkToken, getToken, getUser} from "../../util/service/loginService";
 import {useHistory} from "react-router";
 import {addSteps} from "../../util/service/addStepsService";
+import de from 'date-fns/locale/de';
+import { registerLocale, setDefaultLocale } from 'react-datepicker';
 
 const AddStepsModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -23,6 +25,9 @@ const AddStepsModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
     const [enteredSteps, setEnteredSteps] = useState<number>(0);
 
     const history = useHistory();
+
+    registerLocale('de', de);
+    setDefaultLocale('de');
 
 
     const handleDateChange = (dates: [Date, Date]): void => {
@@ -94,6 +99,12 @@ const AddStepsModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
         }
     }
 
+    const handleEnterPress = (e) => {
+        if (e.key === 'Enter') {
+            handleAddSteps();
+        }
+    }
+
     return (
         <IonModal isOpen={isOpen} onDidDismiss={onClose}>
             <IonContent>
@@ -108,6 +119,7 @@ const AddStepsModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
                             type="number"
                             placeholder="Schritte eintragen"
                             onChange={e => setEnteredSteps(parseInt(e.target.value))}
+                            onKeyPress={handleEnterPress}
                         />
                     </div>
                     <div className={"modalFlex"}>
@@ -129,6 +141,7 @@ const AddStepsModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
                                     selectsRange
                                     inline
                                     onCalendarClose={() => setShowDatePicker(false)}
+                                    locale={"de"}
                                 />
                             </div>
                         )}

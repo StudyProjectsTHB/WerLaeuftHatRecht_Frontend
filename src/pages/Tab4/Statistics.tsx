@@ -155,15 +155,15 @@ const Statistics: React.FC = () => {
                     <IonButton className={"buttonRight"}>Excel-Datei herunterladen</IonButton>
 
                     <IonList className={"overflowList"}>
-        {/*                {users.map((user, index) => (
-                            <UserStepsCard key={index} name={user.name} steps={user.steps} index={index + 1} />
-                        ))}*/}
                         {usersOrCourtName.map((name, index) => {
-                            return <UserStepsCard key={index} name={name} steps={usersOrCourtSteps[index]} index={index + 1} />
+                            return <UserStepsCard key={index}
+                                                  name={name}
+                                                  steps={usersOrCourtSteps[index]}
+                                                  index={index + 1}
+                            />
                         })}
                     </IonList>
 
-                    {/*<IonButton className={"buttonRight"}>Excel-Datei herunterladen</IonButton>*/}
 
 
                 </div>
