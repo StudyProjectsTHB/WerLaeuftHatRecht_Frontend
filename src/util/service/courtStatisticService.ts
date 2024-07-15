@@ -8,7 +8,7 @@ export const getOwnCourtCurrentPlace = async (token: string, user: UserDTO): Pro
     return await getCurrentPlace(token, user);
 }
 
-export const getCourtOwnStatistic = async (token: string, user: UserDTO): Promise<[number[], string[]]> => {
+export const getCourtOwnStatistic = async (token: string, user: UserDTO): Promise<[number[], string[], string[]]> => {
     return await getOwnStatistic(token, user);
 }
 

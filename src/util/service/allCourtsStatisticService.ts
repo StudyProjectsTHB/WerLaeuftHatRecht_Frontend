@@ -27,26 +27,30 @@ export const getCourtsStatistic = async (token: string): Promise<[number[], stri
 
     const response = await createGroupStatistics(token, statisticDuration);
 
-    const groupSteps = response.map(groupStep => groupStep.steps);
+    const groupSteps = response.map(groupStep => Math.round(groupStep.stepsPerUser));
     const groupNames = response.map(groupStep => groupStep.group.name);
     const groupIds = response.map(groupStep => groupStep.group.id);
 
     return [groupSteps, groupNames, groupIds];
 }
 
-export const getOwnCourtStatistic = async (token: string, group: Group): Promise<[number[], string[]]> => {
+export const getOwnCourtStatistic = async (token: string, group: Group): Promise<[number[], string[], string[]]> => {
     const competition = await getCompetitionData(token);
     const today = new Date().toISOString()
-    const response = getCalendarWeeksBetweenDates(competition[0], today);
+    const endDate = today < competition[1] ? today : competition[1];
+    const response = getCalendarWeeksBetweenDates(competition[0], endDate);
 
     const weeklySteps = []
+    const weeks = []
     for (let i = 0; i < response.length; i++) {
         const request: StatisticDurationDTO = {
             startDate: response[i].startOfWeek,
             endDate: response[i].endOfWeek
         };
         const res = await createGroupStatistic(token, group.id, request);
-        weeklySteps.push(res.steps)
+        const week = new Date(response[i].startOfWeek).toLocaleDateString() + " - " + new Date(response[i].endOfWeek).toLocaleDateString()
+        weeklySteps.push(Math.round(res.stepsPerUser))
+        weeks.push(week)
     }
-    return [weeklySteps, response.map((week) =>"KW " + week.weekNumber)]
+    return [weeklySteps, response.map((week) =>"KW " + week.weekNumber), weeks]
 }

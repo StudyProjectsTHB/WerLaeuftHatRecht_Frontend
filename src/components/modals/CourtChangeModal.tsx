@@ -29,7 +29,7 @@ const CourtChangeModal = ({isOpen, onClose, name, id, count}) => {
         }
 
         const token = getToken();
-        const user = getUser();
+        const user = getUser(token);
         if (token && user) {
             setUserAdjective(user.adjective);
             setUserNoun(user.noun);

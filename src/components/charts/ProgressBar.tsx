@@ -36,7 +36,7 @@ const ProgressBar: React.FC<{ value: number, maxValue:number, type:string, group
         } else if (type === "AllCourtsPlace") {
             return formatValue(value) + ". Platz";
         } else if (type === "AllCourtsSteps") {
-            return formatValue(maxValue - value) + " Schritte"; // Schritte tgl.
+            return formatValue(maxValue - value) + " Schritte pro Nutzer"; // Schritte tgl.
         }
     }
 

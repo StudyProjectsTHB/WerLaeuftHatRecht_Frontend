@@ -15,9 +15,23 @@ const FinishedChallenges: React.FC<{finishedChallenges: UserChallengeDTO[]}> = (
             </div>
         );
     }
+    if (challengeList.length === 0) {
+        challengeList.push(
+            <div className={"challenge"} key={0}>
+                <div>
+                    <p>{"Sieht so aus als hättest noch keine Herausforderungen absolviert. :("}</p>
+                    <p className={"counter"}>{"Schau doch mal bei den aktuellen Herausforderungen vorbei!"}</p>
+                </div>
+                <p className={"status"}>{"Aktiv"}</p>
+            </div>
+        );
+
+    }
+
+
     return (
         <div className="weekly-challenges done">
-            <h2>Wöchentliche Herausforderungen</h2>
+            <h2>Absolvierte Herausforderungen</h2>
             {challengeList}
         </div>
 

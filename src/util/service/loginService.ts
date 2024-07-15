@@ -1,5 +1,5 @@
 import {jwtDecode} from 'jwt-decode';
-import {login, registerUserPassword} from "../api/userApi";
+import {getOwnUser, login, registerUserPassword} from "../api/userApi";
 import {AuthenticationRequestDTO, AuthenticationResponseDTO, UserDTO, UserPasswordsDTO} from "../api/config/dto";
 import {useHistory} from "react-router";
 import {useState} from "react";
@@ -20,7 +20,11 @@ const setUser = (user: string): void => {
     localStorage.setItem('user', user);
 }
 
-export const getUser = (): UserDTO | null => {
+export const getUser = (token:string): UserDTO | null => {
+    const user = getOwnUser(token);
+    user.then((response) => {
+        localStorage.setItem('user', JSON.stringify(response));
+    });
     return JSON.parse(localStorage.getItem('user') || '{}');
 }
 
@@ -85,8 +89,9 @@ export const loginUser = async (email: string, password: string): Promise<void> 
     // history.push('/tabs/tab1');
 }
 
-export const logout = (): void => {
+export const logoutUser = (): void => {
     removeToken();
     removeUser();
+    localStorage.clear();
 };
 

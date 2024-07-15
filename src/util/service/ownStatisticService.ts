@@ -3,6 +3,7 @@ import {createUserStatistic} from "../api/statisticsApi";
 import {getCompetitionData} from "./competitionService";
 import {getCurrentPlace, getWeeklyChallenges} from "./overviewStatisticService";
 import {getCalendarWeeksBetweenDates} from "./util";
+import {getFinishedChallenges} from "../api/challengeApi";
 
 export const totalStepsAndKilometers = async (token: string, user: UserDTO): Promise<[number, string]> => {
     const competition = await getCompetitionData(token);
@@ -23,23 +24,27 @@ export const getOwnCurrentPlace = async (token: string, user: UserDTO): Promise<
     return await getCurrentPlace(token, user);
 }
 
-export const getFinishedChallenges = async (token: string): Promise<UserChallengeDTO[]> => {
-    return await getWeeklyChallenges(token);
+export const getFinishedWeeklyChallenges = async (token: string): Promise<UserChallengeDTO[]> => {
+    return await getFinishedChallenges(token);
 }
 
-export const getOwnStatistic = async (token: string, user: UserDTO): Promise<[number[], string[]]> => {
+export const getOwnStatistic = async (token: string, user: UserDTO): Promise<[number[], string[], string[]]> => {
     const competition = await getCompetitionData(token);
     const today = new Date().toISOString()
-    const response = getCalendarWeeksBetweenDates(competition[0], today);
+    const endDate = today < competition[1] ? today : competition[1];
+    const response = getCalendarWeeksBetweenDates(competition[0], endDate);
 
-    const weekySteps = []
+    const weeklySteps = []
+    const weeks = []
     for (let i = 0; i < response.length; i++) {
         const request: StatisticDurationDTO = {
             startDate: response[i].startOfWeek,
             endDate: response[i].endOfWeek
         };
         const res = await createUserStatistic(token, user.id, request);
-        weekySteps.push(res.steps)
+        const week = new Date(response[i].startOfWeek).toLocaleDateString() + " - " + new Date(response[i].endOfWeek).toLocaleDateString()
+        weeklySteps.push(res.steps)
+        weeks.push(week)
     }
-    return [weekySteps, response.map((week) =>"KW " + week.weekNumber)]
+    return [weeklySteps, response.map((week) =>"KW " + week.weekNumber), weeks]
 }

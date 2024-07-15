@@ -4,14 +4,14 @@ import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const BarChart: React.FC<{labels:string[], barData:number[], ownName:string}> = ({labels, barData, ownName}) => {
+const BarChart: React.FC<{labels:string[], barData:number[], ownName:string, type:string}> = ({labels, barData, ownName, type}) => {
 
     const backgroundColors = labels.map((label) =>
-        label === ownName ? 'rgb(34,56,50)' : 'rgb(111,122,116)'
+        label === ownName ? 'rgba(34, 56, 50, 1)' : 'rgb(111,122,116)'
     );
 
     const borderColors = labels.map((label) =>
-        label === ownName ? 'rgb(34,56,50)' : 'rgb(111,122,116)'
+        label === ownName ? 'rgba(34, 56, 50, 1)' : 'rgb(111,122,116)'
     );
 
     const data = {
@@ -56,6 +56,16 @@ const BarChart: React.FC<{labels:string[], barData:number[], ownName:string}> = 
             },
             title: {
                 display: false,
+            },
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        return `${tooltipItems[0].label}`;
+                    },
+                    label: function(tooltipItem) {
+                        return type === 'courtStatistics' ? ` ${tooltipItem.raw.toLocaleString('de-DE')} Schritte pro Nutzer` : ` ${tooltipItem.raw.toLocaleString('de-DE')} Schritte`;
+                    },
+                }
             },
         },
     };

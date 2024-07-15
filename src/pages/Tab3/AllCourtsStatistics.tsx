@@ -28,6 +28,7 @@ const AllCourtsStatistics: React.FC = () => {
     const [courtComparisonLabels, setCourtComparisonLabels] = useState([""]);
     const [courtStatsSteps, setCourtStatsSteps] = useState([0]);
     const [courtStatsLabels, setCourtStatsLabels] = useState([""]);
+    const [courtStatsWeeks, setCourtStatsWeeks] = useState([""]);
 
 
     const history = useHistory();
@@ -39,7 +40,7 @@ const AllCourtsStatistics: React.FC = () => {
             window.location.assign('/login');
         }
         const token = getToken();
-        const user = getUser();
+        const user = getUser(token);
         if (token && user) {
             setUserAdjective(user.adjective);
             setUserNoun(user.noun);
@@ -58,13 +59,10 @@ const AllCourtsStatistics: React.FC = () => {
 
             courtsStats.then((data) => {
                 const groupIndex = data[2].indexOf(user.group.id);
-                const priorGroupIndex = groupIndex - 1 < 0 ? user.group.id : groupIndex - 1;
+                const priorGroupIndex = groupIndex - 1 < 0 ? groupIndex : groupIndex - 1;
                 const statIds = []
                 setOwnCourtSteps(data[0][data[2].indexOf(user.group.id)]);
                 setNextCourtSteps(data[0][priorGroupIndex]);
-
-                // console.log(data[0][data[2].indexOf(user.group.id)]);
-                // console.log(data[0][priorGroupIndex]);
 
                 if (groupIndex === 0) {
                     statIds.push(0);
@@ -98,6 +96,7 @@ const AllCourtsStatistics: React.FC = () => {
             courtStats.then((data) => {
                 setCourtStatsSteps(data[0]);
                 setCourtStatsLabels(data[1]);
+                setCourtStatsWeeks(data[2]);
             });
 
         }
@@ -117,11 +116,11 @@ const AllCourtsStatistics: React.FC = () => {
                 </div>
                 <div className="gridContainer">
                     <div className="wrapper">
-                        <BarChart labels={courtComparisonLabels} barData={courtComparisonSteps} ownName={group}/>
+                        <BarChart labels={courtComparisonLabels} barData={courtComparisonSteps} ownName={group} type={'courtStatistics'}/>
                     </div>
                     <div className="wrapper">
                         <ColumnChart labels={courtStatsLabels} columnData={courtStatsSteps}
-                                     type={'statistics'}/>
+                                     type={'courtStatistics'} weeks={courtStatsWeeks}/>
                     </div>
                 </div>
             </IonContent>

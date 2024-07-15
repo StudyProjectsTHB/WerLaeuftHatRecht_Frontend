@@ -4,10 +4,10 @@ import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const ColumnChart: React.FC<{labels:string[], columnData:number[], type:string}> = ({labels, columnData, type}) => {
+const ColumnChart: React.FC<{labels:string[], columnData:number[], type:string, weeks:string[]}> = ({labels, columnData, type, weeks}) => {
 
     const backgroundColors = columnData.map((_, index) =>
-        index === columnData.length - 1 ? 'rgb(111,122,116)' : 'rgba(34, 56, 50, 1)'
+        index === columnData.length - 1 ? 'rgba(34, 56, 50, 1)' : 'rgb(111,122,116)'
     );
 
     const borderColors = columnData.map((_, index) =>
@@ -38,6 +38,20 @@ const ColumnChart: React.FC<{labels:string[], columnData:number[], type:string}>
             title: {
                 display: false,
             },
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        if (weeks)
+                            return weeks[tooltipItems[0].dataIndex];
+                        else
+                            return tooltipItems[0].label;
+                    },
+                    label: function(tooltipItem) {
+                        return type === 'courtStatistics' ? ` ${tooltipItem.raw.toLocaleString('de-DE')} Schritte pro Nutzer` : ` ${tooltipItem.raw.toLocaleString('de-DE')} Schritte`;
+                        // return ` ${tooltipItem.raw}`;
+                    },
+                }
+            },
         },
         scales:{
             x: {
@@ -62,7 +76,8 @@ const ColumnChart: React.FC<{labels:string[], columnData:number[], type:string}>
 
     return (
         <div className={"balkenSchritte"}>
-            <p className={"label"}>Schritte</p>
+            {/*<p className={"label"}>Schritte</p>*/}
+            {<p className={"label"}>{type === 'courtStatistics' ? 'Schritte pro Nutzer' : 'Schritte'}</p>}
             <Bar data={data} options={options} style={{marginTop: '30px', marginBottom: '10px'}}/>
         </div>
     );

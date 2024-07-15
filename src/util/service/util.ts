@@ -31,6 +31,7 @@ export const getLapsedDays = async (token: string): Promise<number> => {
     const competition = await getCompetitionData(token);
     const startDate = new Date(competition[0]);
     const today = new Date();
+    const endDate = today < new Date(competition[1]) ? today : new Date(competition[1]);
     const diffTime = Math.abs(today.getTime() - startDate.getTime());
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 }

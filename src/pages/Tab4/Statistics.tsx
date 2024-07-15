@@ -44,7 +44,7 @@ const Statistics: React.FC = () => {
         }
 
         const token = getToken();
-        const user = getUser();
+        const user = getUser(token);
         if (token && user) {
             setUserAdjective(user.adjective);
             setUserNoun(user.noun);
@@ -152,6 +152,8 @@ const Statistics: React.FC = () => {
                             }}>Alle Gerichte</IonButton>
                         </div>
                     </div>
+                    <IonButton className={"buttonRight"}>Excel-Datei herunterladen</IonButton>
+
                     <IonList className={"overflowList"}>
         {/*                {users.map((user, index) => (
                             <UserStepsCard key={index} name={user.name} steps={user.steps} index={index + 1} />
@@ -161,7 +163,7 @@ const Statistics: React.FC = () => {
                         })}
                     </IonList>
 
-                    <IonButton className={"buttonRight"}>Excel-Datei herunterladen</IonButton>
+                    {/*<IonButton className={"buttonRight"}>Excel-Datei herunterladen</IonButton>*/}
 
 
                 </div>

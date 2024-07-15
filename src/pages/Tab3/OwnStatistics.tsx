@@ -12,7 +12,7 @@ import {checkToken, getToken, getUser} from "../../util/service/loginService";
 import {useHistory} from "react-router";
 import {
     totalStepsAndKilometers,
-    getFinishedChallenges,
+    getFinishedWeeklyChallenges,
     getOwnCurrentPlace,
     getOwnStatistic,
 } from "../../util/service/ownStatisticService";
@@ -31,6 +31,7 @@ const OwnStatistics: React.FC = () => {
     const [finishedChallenges, setFinishedChallenges] = useState([]);
     const [ownStatsSteps, setOwnStatsSteps] = useState([0]);
     const [ownStatsLabels, setOwnStatsLabels] = useState(['']);
+    const [ownStatsWeeks, setOwnStatsWeeks] = useState(['']);
     const [lapsedDays, setLapsedDays] = useState(0);
 
     const history = useHistory();
@@ -43,7 +44,7 @@ const OwnStatistics: React.FC = () => {
             window.location.assign('/login');
         }
         const token = getToken();
-        const user = getUser();
+        const user = getUser(token);
         if (token && user) {
             setUserAdjective(user.adjective);
             setUserNoun(user.noun);
@@ -53,7 +54,7 @@ const OwnStatistics: React.FC = () => {
 
             const totSteps = totalStepsAndKilometers(token, user);
             const placeMaxPlace = getOwnCurrentPlace(token, user);
-            const challenges = getFinishedChallenges(token);
+            const challenges = getFinishedWeeklyChallenges(token);
             const ownStats = getOwnStatistic(token, user);
             const lapsedDays = getLapsedDays(token);
 
@@ -74,6 +75,7 @@ const OwnStatistics: React.FC = () => {
             ownStats.then((data) => {
                 setOwnStatsSteps(data[0]);
                 setOwnStatsLabels(data[1]);
+                setOwnStatsWeeks(data[2]);
             });
 
             lapsedDays.then((data) => {
@@ -94,7 +96,7 @@ const OwnStatistics: React.FC = () => {
 
                 <div className="wrapper">
                     <ColumnChart labels={ownStatsLabels} columnData={ownStatsSteps}
-                                 type={'statistics'}/>
+                                 type={'statistics'} weeks={ownStatsWeeks}/>
                 </div>
                 <FinishedChallenges finishedChallenges={finishedChallenges}/>
                 </div>
