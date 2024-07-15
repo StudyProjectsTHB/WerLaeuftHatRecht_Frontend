@@ -27,7 +27,7 @@ export const getCourtsStatistic = async (token: string): Promise<[number[], stri
 
     const response = await createGroupStatistics(token, statisticDuration);
 
-    const groupSteps = response.map(groupStep => groupStep.steps);
+    const groupSteps = response.map(groupStep => Math.round(groupStep.stepsPerUser));
     const groupNames = response.map(groupStep => groupStep.group.name);
     const groupIds = response.map(groupStep => groupStep.group.id);
 
@@ -46,7 +46,7 @@ export const getOwnCourtStatistic = async (token: string, group: Group): Promise
             endDate: response[i].endOfWeek
         };
         const res = await createGroupStatistic(token, group.id, request);
-        weeklySteps.push(res.steps)
+        weeklySteps.push(res.stepsPerUser)
     }
     return [weeklySteps, response.map((week) =>"KW " + week.weekNumber)]
 }

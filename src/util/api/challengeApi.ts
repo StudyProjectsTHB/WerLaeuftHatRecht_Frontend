@@ -36,3 +36,26 @@ export const getChallenges = async (token: string, date: string = getCurrentDate
 
     return await response.json();
 };
+
+export const getFinishedChallenges = async (token: string): Promise<UserChallengeDTO[]> => {
+    const url = `${API_BASE_URL}/challenges/successfully`;
+
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (!response.ok) {
+        if (response.status === 401) {
+            // Unauthorised error handling
+            throw new Error('Unauthorized');
+        } else {
+            throw new Error('An error occurred while fetching challenges');
+        }
+    }
+
+    return await response.json();
+}

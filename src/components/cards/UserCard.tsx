@@ -33,7 +33,7 @@ const UserCard: React.FC<{name:string, userId:number ,email:string, group:string
         }
 
         const token = getToken();
-        const user = getUser();
+        const user = getUser(token);
         if (token && user) {
             setUserAdjective(user.adjective);
             setUserNoun(user.noun);

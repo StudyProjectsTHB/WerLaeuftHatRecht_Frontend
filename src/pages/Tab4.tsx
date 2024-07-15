@@ -37,7 +37,7 @@ const Tab4: React.FC = () => {
         }
 
         const token = getToken();
-        const user = getUser();
+        const user = getUser(token);
 
 
         if (token && user) {

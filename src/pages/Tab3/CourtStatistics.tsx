@@ -42,7 +42,7 @@ const CourtStatistics: React.FC = () => {
             window.location.assign('/login');
         }
         const token = getToken();
-        const user = getUser();
+        const user = getUser(token);
         if (token && user) {
             setUserAdjective(user.adjective);
             setUserNoun(user.noun);
@@ -70,7 +70,7 @@ const CourtStatistics: React.FC = () => {
 
             courtStats.then((data) => {
                 const userIndex = data[2].indexOf(user.id);
-                const priorUserIndex = userIndex - 1 < 0 ? user.id : userIndex - 1;
+                const priorUserIndex = userIndex - 1 < 0 ? userIndex : userIndex - 1;
                 const statIds = []
                 setOwnSteps(data[0][data[2].indexOf(user.id)]);
                 setNextSteps(data[0][priorUserIndex]);

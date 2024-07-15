@@ -7,11 +7,11 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 const BarChart: React.FC<{labels:string[], barData:number[], ownName:string}> = ({labels, barData, ownName}) => {
 
     const backgroundColors = labels.map((label) =>
-        label === ownName ? 'rgba(255, 99, 132, 1)' : 'rgba(34, 56, 50, 1)'
+        label === ownName ? 'rgba(34, 56, 50, 1)' : 'rgb(111,122,116)'
     );
 
     const borderColors = labels.map((label) =>
-        label === ownName ? 'rgba(255, 99, 132, 1)' : 'rgba(34, 56, 50, 1)'
+        label === ownName ? 'rgba(34, 56, 50, 1)' : 'rgb(111,122,116)'
     );
 
     const data = {

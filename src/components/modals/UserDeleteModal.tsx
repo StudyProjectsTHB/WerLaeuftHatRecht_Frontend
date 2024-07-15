@@ -26,7 +26,7 @@ const CourtDeleteModal = ({isOpen, onClose, email, id}) => {
         }
 
         const token = getToken();
-        const user = getUser();
+        const user = getUser(token);
         if (token && user) {
             setUserAdjective(user.adjective);
             setUserNoun(user.noun);
