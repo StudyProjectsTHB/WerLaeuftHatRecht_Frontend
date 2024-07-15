@@ -7,11 +7,11 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 const ColumnChart: React.FC<{labels:string[], columnData:number[], type:string}> = ({labels, columnData, type}) => {
 
     const backgroundColors = columnData.map((_, index) =>
-        index === columnData.length - 1 ? 'rgba(255, 99, 132, 1)' : 'rgba(34, 56, 50, 1)'
+        index === columnData.length - 1 ? 'rgb(111,122,116)' : 'rgba(34, 56, 50, 1)'
     );
 
     const borderColors = columnData.map((_, index) =>
-        index === columnData.length - 1 ? 'rgba(255, 99, 132, 1)' : 'rgba(34, 56, 50, 1)'
+        index === columnData.length - 1 ? 'rgb(34,56,50)' : 'rgb(111,122,116)'
     );
 
 

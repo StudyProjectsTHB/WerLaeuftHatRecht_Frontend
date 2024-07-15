@@ -12,6 +12,28 @@ const Login: React.FC = () => {
     const history = useHistory();
     const location = useLocation()
 
+    useEffect(() => {
+        function checkURLForLogin() {
+            const currentURL = window.location.href;
+            console.log('Aktuelle URL:', currentURL);
+            const motivationCounterElement = document.querySelector('.motivationCounter');
+
+            if (currentURL.includes('login')) {
+                if (motivationCounterElement) {
+                    motivationCounterElement.classList.add('hidden');
+                }
+            }
+            else {
+                if (motivationCounterElement) {
+                    motivationCounterElement.classList.remove('hidden');
+                }
+            }
+        }
+
+        // Die Funktion beim Laden der Komponente ausführen
+        checkURLForLogin();
+    }, []);
+
     const handleLogin = async () => {
         console.log('Email:', email);
         console.log('Password:', password);
