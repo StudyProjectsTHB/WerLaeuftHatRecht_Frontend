@@ -152,7 +152,7 @@ const Statistics: React.FC = () => {
                             }}>Alle Gerichte</IonButton>
                         </div>
                     </div>
-                    <IonList>
+                    <IonList className={"overflowList"}>
         {/*                {users.map((user, index) => (
                             <UserStepsCard key={index} name={user.name} steps={user.steps} index={index + 1} />
                         ))}*/}

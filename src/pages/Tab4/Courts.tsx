@@ -112,7 +112,7 @@ const Courts: React.FC = () => {
                     <div className={"flex headline"}>
                     <h2>Gerichte</h2>
                     </div>
-                    <IonList>
+                    <IonList className={"overflowList"}>
                         {courtsNames.map((name, index) => {
                             return (
                                 <CourtCard name={name}
