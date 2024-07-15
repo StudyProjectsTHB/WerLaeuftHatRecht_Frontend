@@ -20,7 +20,9 @@ export const getStepDays = async (token: string): Promise<DayDTO[]> => {
     const competition = await getCompetition(token);
     const today = new Date().toISOString().split('T')[0];
 
-    const dateRange = await generateDateRange(competition.startDate, today);
+    const endDate = today < competition.endDate ? today : competition.endDate;
+
+    const dateRange = await generateDateRange(competition.startDate, endDate);
 
     const response = await getDays(token);
 

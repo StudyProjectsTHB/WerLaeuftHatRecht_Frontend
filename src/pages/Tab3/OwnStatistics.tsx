@@ -31,6 +31,7 @@ const OwnStatistics: React.FC = () => {
     const [finishedChallenges, setFinishedChallenges] = useState([]);
     const [ownStatsSteps, setOwnStatsSteps] = useState([0]);
     const [ownStatsLabels, setOwnStatsLabels] = useState(['']);
+    const [ownStatsWeeks, setOwnStatsWeeks] = useState(['']);
     const [lapsedDays, setLapsedDays] = useState(0);
 
     const history = useHistory();
@@ -74,6 +75,7 @@ const OwnStatistics: React.FC = () => {
             ownStats.then((data) => {
                 setOwnStatsSteps(data[0]);
                 setOwnStatsLabels(data[1]);
+                setOwnStatsWeeks(data[2]);
             });
 
             lapsedDays.then((data) => {
@@ -94,7 +96,7 @@ const OwnStatistics: React.FC = () => {
 
                 <div className="wrapper">
                     <ColumnChart labels={ownStatsLabels} columnData={ownStatsSteps}
-                                 type={'statistics'}/>
+                                 type={'statistics'} weeks={ownStatsWeeks}/>
                 </div>
                 <FinishedChallenges finishedChallenges={finishedChallenges}/>
                 </div>

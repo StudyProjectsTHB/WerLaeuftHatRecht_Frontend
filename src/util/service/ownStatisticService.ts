@@ -28,19 +28,23 @@ export const getFinishedWeeklyChallenges = async (token: string): Promise<UserCh
     return await getFinishedChallenges(token);
 }
 
-export const getOwnStatistic = async (token: string, user: UserDTO): Promise<[number[], string[]]> => {
+export const getOwnStatistic = async (token: string, user: UserDTO): Promise<[number[], string[], string[]]> => {
     const competition = await getCompetitionData(token);
     const today = new Date().toISOString()
-    const response = getCalendarWeeksBetweenDates(competition[0], today);
+    const endDate = today < competition[1] ? today : competition[1];
+    const response = getCalendarWeeksBetweenDates(competition[0], endDate);
 
     const weeklySteps = []
+    const weeks = []
     for (let i = 0; i < response.length; i++) {
         const request: StatisticDurationDTO = {
             startDate: response[i].startOfWeek,
             endDate: response[i].endOfWeek
         };
         const res = await createUserStatistic(token, user.id, request);
+        const week = new Date(response[i].startOfWeek).toLocaleDateString() + " - " + new Date(response[i].endOfWeek).toLocaleDateString()
         weeklySteps.push(res.steps)
+        weeks.push(week)
     }
-    return [weeklySteps, response.map((week) =>"KW " + week.weekNumber)]
+    return [weeklySteps, response.map((week) =>"KW " + week.weekNumber), weeks]
 }

@@ -25,6 +25,7 @@ const CourtStatistics: React.FC = () => {
     const [place, setPlace] = useState(1);
     const [maxPlace, setMaxPlace] = useState(1);
     const [ownStatsSteps, setOwnStatsSteps] = useState([0]);
+    const [ownStatsWeeks, setOwnStatsWeeks] = useState([""]);
     const [ownStatsLabels, setOwnStatsLabels] = useState([""]);
     const [lapsedDays, setLapsedDays] = useState(0);
     const [ownSteps, setOwnSteps] = useState(0);
@@ -62,6 +63,7 @@ const CourtStatistics: React.FC = () => {
             ownStats.then((data) => {
                 setOwnStatsSteps(data[0]);
                 setOwnStatsLabels(data[1]);
+                setOwnStatsWeeks(data[2]);
             });
 
             lapsedDays.then((data) => {
@@ -119,11 +121,11 @@ const CourtStatistics: React.FC = () => {
                 </div>
                 <div className="gridContainer">
                     <div className="wrapper">
-                        <BarChart labels={userComparisonLabels} barData={userComparisonSteps} ownName={`${userAdjective} ${userNoun}`}/>
+                        <BarChart labels={userComparisonLabels} barData={userComparisonSteps} ownName={`${userAdjective} ${userNoun}`} type={'statistics'}/>
                     </div>
                     <div className="wrapper">
                         <ColumnChart labels={ownStatsLabels} columnData={ownStatsSteps}
-                                     type={'statistics'}/>
+                                     type={'statistics'} weeks={ownStatsWeeks}/>
                     </div>
                 </div>
             </IonContent>

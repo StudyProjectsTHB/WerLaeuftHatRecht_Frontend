@@ -28,6 +28,7 @@ const AllCourtsStatistics: React.FC = () => {
     const [courtComparisonLabels, setCourtComparisonLabels] = useState([""]);
     const [courtStatsSteps, setCourtStatsSteps] = useState([0]);
     const [courtStatsLabels, setCourtStatsLabels] = useState([""]);
+    const [courtStatsWeeks, setCourtStatsWeeks] = useState([""]);
 
 
     const history = useHistory();
@@ -95,6 +96,7 @@ const AllCourtsStatistics: React.FC = () => {
             courtStats.then((data) => {
                 setCourtStatsSteps(data[0]);
                 setCourtStatsLabels(data[1]);
+                setCourtStatsWeeks(data[2]);
             });
 
         }
@@ -114,11 +116,11 @@ const AllCourtsStatistics: React.FC = () => {
                 </div>
                 <div className="gridContainer">
                     <div className="wrapper">
-                        <BarChart labels={courtComparisonLabels} barData={courtComparisonSteps} ownName={group}/>
+                        <BarChart labels={courtComparisonLabels} barData={courtComparisonSteps} ownName={group} type={'courtStatistics'}/>
                     </div>
                     <div className="wrapper">
                         <ColumnChart labels={courtStatsLabels} columnData={courtStatsSteps}
-                                     type={'courtStatistics'}/>
+                                     type={'courtStatistics'} weeks={courtStatsWeeks}/>
                     </div>
                 </div>
             </IonContent>

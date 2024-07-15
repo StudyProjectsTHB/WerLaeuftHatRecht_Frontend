@@ -9,11 +9,13 @@ import {Redirect, Route, useLocation} from 'react-router-dom';
 
 import {useHistory} from "react-router";
 
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Greeting from "../../components/Greeting";
 import DatePicker from "react-datepicker";
 import CompetitionChangeModal from "../../components/modals/CompetitionChangeModal";
 import {arrowBack} from "ionicons/icons";
+import {checkToken, getToken, getUser} from "../../util/service/loginService";
+import {getCompetition} from "../../util/api/competitionApi";
 
 
 const Competition: React.FC = () => {
@@ -22,15 +24,18 @@ const Competition: React.FC = () => {
     const [userNoun, setUserNoun] = useState("");
     const [userStepGoal, setUserStepGoal] = useState(0);
     const [group, setGroup] = useState("");
+
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [showChangeModal, setShowChangeModal] = useState(false);
+    const datepickerRef = useRef(null);
+
 
     const history = useHistory();
     const location = useLocation();
 
-    const handleDateChange = (dates) => {
+    const handleDateChange = (dates:[Date, Date]):void => {
         const [start, end] = dates;
         setStartDate(start);
         setEndDate(end);
@@ -39,6 +44,52 @@ const Competition: React.FC = () => {
     const toggleDatePicker = () => {
         setShowDatePicker(!showDatePicker);
     };
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (datepickerRef.current && !datepickerRef.current.contains(event.target)) {
+                setShowDatePicker(false);
+            }
+        };
+
+        if (showDatePicker) {
+            document.addEventListener('mousedown', handleOutsideClick);
+        } else {
+            document.removeEventListener('mousedown', handleOutsideClick);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleOutsideClick);
+        };
+    }, [showDatePicker]);
+
+    useEffect(() => {
+        if (!checkToken()) {
+            // history.push('/login', {direction: 'none'});
+            window.location.assign('/login');
+        }
+
+        const token = getToken();
+        const user = getUser(token);
+        if (token && user) {
+            setUserAdjective(user.adjective);
+            setUserNoun(user.noun);
+            setUserStepGoal(user.stepGoal)
+            setGroup(user.group.name);
+            setLoading(false);
+
+            if (!user.admin) {
+                window.location.assign('/tabs/tab1');
+            }
+
+            const competition = getCompetition(token);
+
+            competition.then((response) => {
+                setStartDate(new Date(response.startDate));
+                setEndDate(new Date(response.endDate));
+            });
+        }
+    }, [location, history]);
 
 
     return (
@@ -63,7 +114,7 @@ const Competition: React.FC = () => {
                             {startDate && endDate ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}` : 'Zeitraum auswählen'}
                         </div>
                         {showDatePicker && (
-                            <div className="datepicker-container">
+                            <div className="datepicker-container" ref={datepickerRef}>
                                 <DatePicker
                                     selected={startDate}
                                     onChange={handleDateChange}
@@ -81,7 +132,7 @@ const Competition: React.FC = () => {
                     </IonButton>
                 </div>
             </IonContent>
-            <CompetitionChangeModal isOpen={showChangeModal} onClose={() => setShowChangeModal(false)} />
+            <CompetitionChangeModal isOpen={showChangeModal} onClose={() => setShowChangeModal(false)} startDate={startDate} endDate={endDate} />
         </IonPage>
     )
 };
