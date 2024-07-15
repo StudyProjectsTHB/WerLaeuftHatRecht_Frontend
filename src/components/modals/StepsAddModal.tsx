@@ -1,23 +1,24 @@
-// AddStepsModal.jsx
-import React, {useEffect, useRef, useState} from 'react';
-import {IonModal, IonButton, IonContent, IonHeader, IonToolbar, IonTitle} from '@ionic/react';
+import React, { useEffect, useRef, useState } from 'react';
+import { IonModal, IonContent } from '@ionic/react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import './AddStepsModal.css';
-import {AddStepsModalProps} from "../types";
-import {checkToken, getToken, getUser} from "../../util/service/loginService";
-import {useHistory} from "react-router";
-import {addSteps} from "../../util/service/addStepsService";
+import './StepsAddModal.css';
+import { checkToken, getToken, getUser } from "../../util/service/loginService";
+import { useHistory } from "react-router";
+import { addSteps } from "../../util/service/addStepsService";
 import de from 'date-fns/locale/de';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
-import {formatDate} from "../../util/service/util";
+import { formatDate } from "../../util/service/util";
+import { AddStepsModalProps } from "../../types";
+import StepsDeleteModal from "./StepsDeleteModal";
 
-const AddStepsModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
+const StepsAddModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [userAdjective, setUserAdjective] = useState<string>("");
     const [userNoun, setUserNoun] = useState<string>("");
     const [userStepGoal, setUserStepGoal] = useState<number>(0);
     const [group, setGroup] = useState<string>("");
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [endDate, setEndDate] = useState<Date>(new Date());
@@ -30,11 +31,16 @@ const AddStepsModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
     registerLocale('de', de);
     setDefaultLocale('de');
 
-
     const handleDateChange = (dates: [Date, Date]): void => {
         const [start, end] = dates;
+        console.log(dates);
         setStartDate(start);
         setEndDate(end);
+    };
+
+    const handleOpenDeleteModal = () => {
+        console.log("Opening Delete Modal"); // Debug log
+        setShowDeleteModal(true);
     };
 
     const toggleDatePicker = () => {
@@ -43,7 +49,6 @@ const AddStepsModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
 
     useEffect(() => {
         if (!checkToken()) {
-            // history.push('/login', {direction: 'none'});
             window.location.assign('/login');
         }
 
@@ -93,18 +98,17 @@ const AddStepsModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
             } else {
                 alert("Fehler beim Hinzufügen der Schritte")
             }
+        } catch (e) {
+            console.log(e);
+            alert("Fehler beim Hinzufügen der Schritte");
         }
-        catch (e) {
-            console.log(e)
-            alert("Fehler beim Hinzufügen der Schritte")
-        }
-    }
+    };
 
     const handleEnterPress = (e) => {
         if (e.key === 'Enter') {
             handleAddSteps();
         }
-    }
+    };
 
     return (
         <IonModal isOpen={isOpen} onDidDismiss={onClose}>
@@ -151,10 +155,14 @@ const AddStepsModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
                         <button slot="end" onClick={onClose} className={"secondary"}>Abbrechen</button>
                         <button onClick={handleAddSteps}>Schritte erfassen</button>
                     </div>
+                    <button style={{ backgroundColor: 'red', color: 'white' }} onClick={handleOpenDeleteModal}>
+                        Schritte löschen
+                    </button>
                 </div>
             </IonContent>
+            <StepsDeleteModal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)} startDate={startDate} endDate={endDate} id={0} />
         </IonModal>
     );
 };
 
-export default AddStepsModal;
+export default StepsAddModal;

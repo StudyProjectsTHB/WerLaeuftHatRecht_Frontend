@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import Greeting from "../components/Greeting";
 import CalenderProgressBar from "../components/charts/CalendarProgressBar";
 import Calender from "../components/Calendar";
-import AddStepsModal from "../components/modals/AddStepsModal";
+import StepsAddModal from "../components/modals/StepsAddModal";
 import {arrowBack, arrowForwardOutline, logOutOutline, personOutline, settingsOutline} from "ionicons/icons";
 import user from "./Tab4/User";
 import {useHistory} from "react-router";
