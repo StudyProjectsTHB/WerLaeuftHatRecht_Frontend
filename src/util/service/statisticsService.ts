@@ -1,6 +1,5 @@
 import {getAllGroups} from "./groupService";
-import {Group, StatisticDurationDTO, UserStepsDTO} from "../api/config/dto";
-import {getCourtStatistic} from "./courtStatisticService";
+import {Group, StatisticDurationDTO} from "../api/config/dto";
 import {getCompetitionData} from "./competitionService";
 import {createGroupUserStatistic, createUserStatistics} from "../api/statisticsApi";
 import {getCourtsStatistic} from "./allCourtsStatisticService";

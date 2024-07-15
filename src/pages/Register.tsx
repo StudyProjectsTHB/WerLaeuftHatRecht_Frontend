@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonButton, IonList } from '@ionic/react'
+import { IonContent, IonPage } from '@ionic/react'
 import {useHistory, useLocation, useParams} from 'react-router-dom';
-import {checkToken, getToken, getUser, registerUser} from "../util/service/loginService";
+import {checkToken, registerUser} from "../util/service/loginService";
 
 const Register: React.FC = () => {
     const [email, setEmail] = useState<string>('');

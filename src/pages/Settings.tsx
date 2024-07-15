@@ -1,14 +1,10 @@
-import {IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar} from '@ionic/react';
+import {IonContent, IonIcon, IonPage} from '@ionic/react';
 import React, {useEffect, useState} from "react";
 import Greeting from "../components/Greeting";
-import CalenderProgressBar from "../components/charts/CalendarProgressBar";
-import Calender from "../components/Calendar";
-import StepsAddModal from "../components/modals/StepsAddModal";
-import {arrowBack, arrowForwardOutline, logOutOutline, personOutline, settingsOutline} from "ionicons/icons";
-import user from "./Tab4/User";
+import {arrowForwardOutline, logOutOutline, personOutline, settingsOutline} from "ionicons/icons";
 import {useHistory} from "react-router";
 import {useLocation} from "react-router-dom";
-import {checkToken, getToken, getUser, loginUser, logoutUser} from "../util/service/loginService";
+import {checkToken, getToken, getUser, logoutUser} from "../util/service/loginService";
 
 const Settings: React.FC = () => {
     const [loading, setLoading] = useState(true);

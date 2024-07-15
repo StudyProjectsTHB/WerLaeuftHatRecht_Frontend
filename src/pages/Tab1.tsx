@@ -1,14 +1,6 @@
 import {
-    IonCard,
-    IonCardContent,
     IonContent,
-    IonHeader,
-    IonIcon,
-    IonLoading,
-    IonPage,
-    IonText,
-    IonTitle,
-    IonToolbar
+    IonPage
 } from '@ionic/react';
 import './Tab1.css';
 import React, {useEffect, useState} from "react";
@@ -28,7 +20,6 @@ import {
     weeklyStepsAndKilometers
 } from "../util/service/overviewStatisticService";
 import {useLocation} from "react-router-dom";
-import {personOutline, sunnyOutline} from "ionicons/icons";
 import Weather from "../components/cards/Weather";
 
 const Tab1: React.FC = () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 const ProgressBar: React.FC<{ value: number, maxValue:number, type:string, group?:string }> = ({ value, maxValue, type, group }) => {

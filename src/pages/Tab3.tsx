@@ -1,5 +1,4 @@
 import {
-    IonButton,
     IonContent,
     IonPage,
     IonRouterOutlet,

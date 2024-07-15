@@ -4,12 +4,8 @@ import {Route, Redirect, useLocation} from 'react-router-dom';
 import {IonReactRouter} from '@ionic/react-router';
 import {
     createOutline,
-    ellipse,
-    homeOutline, location,
-    settingsOutline,
-    square,
-    statsChartOutline,
-    triangle
+    homeOutline, settingsOutline,
+    statsChartOutline
 } from 'ionicons/icons';
 
 import Tab1 from './pages/Tab1';
@@ -22,7 +18,6 @@ import Courts from "./pages/Tab4/Courts";
 import Competition from "./pages/Tab4/Competition";
 import Statistics from "./pages/Tab4/Statistics";
 import Export from "./pages/Tab4/Export";
-import Login from "./pages/Login";
 
 import './theme/desktop.css';
 import {checkToken, getToken, getUser} from "./util/service/loginService";

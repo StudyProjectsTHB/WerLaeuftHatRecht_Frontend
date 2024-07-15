@@ -1,6 +1,6 @@
-import {Group, StatisticDurationDTO, UserDTO} from "../api/config/dto";
+import {Group, StatisticDurationDTO} from "../api/config/dto";
 import {getCompetition} from "../api/competitionApi";
-import {createGroupStatistic, createGroupStatistics, createUserStatistic} from "../api/statisticsApi";
+import {createGroupStatistic, createGroupStatistics} from "../api/statisticsApi";
 import {getCompetitionData} from "./competitionService";
 import {getCalendarWeeksBetweenDates, getCurrentDate} from "./util";
 

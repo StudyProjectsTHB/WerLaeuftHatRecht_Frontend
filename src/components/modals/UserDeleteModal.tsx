@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {IonModal, IonButton, IonContent, IonHeader, IonToolbar, IonTitle} from '@ionic/react';
-import DatePicker from 'react-datepicker';
+import {IonModal, IonContent} from '@ionic/react';
 import "react-datepicker/dist/react-datepicker.css";
 import './StepsAddModal.css';
 import {useHistory} from "react-router";
 import {useLocation} from "react-router-dom";
 import {checkToken, getToken, getUser} from "../../util/service/loginService";
-import {removeGroup} from "../../util/service/groupService";
 import {removeUser} from "../../util/service/userService";
 
 const CourtDeleteModal = ({isOpen, onClose, email, id}) => {

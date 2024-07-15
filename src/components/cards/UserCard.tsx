@@ -1,19 +1,17 @@
 import {
-    IonButton,
-    IonContent, IonIcon,
-    IonPage,
-    IonRouterOutlet, IonSelect, IonSelectOption,
+    IonIcon,
+
+
 } from '@ionic/react';
-import {Redirect, Route, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 
 
 import {useHistory} from "react-router";
 
 import React, {useEffect, useState} from "react";
-import Greeting from "../../components/Greeting";
-import {ellipse, settingsOutline, star, starOutline, trashOutline} from "ionicons/icons";
+import {settingsOutline, star, starOutline, trashOutline} from "ionicons/icons";
 import {checkToken, getToken, getUser} from "../../util/service/loginService";
-import {changeUserGroup, getAllCourts} from "../../util/service/userService";
+import {changeUserGroup} from "../../util/service/userService";
 import {convertUmlauts} from "../../util/service/util";
 
 

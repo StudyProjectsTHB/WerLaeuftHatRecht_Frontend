@@ -1,17 +1,11 @@
 import {
-    IonButton,
     IonContent,
     IonPage,
-    IonRouterOutlet,
+
 } from '@ionic/react';
 import './Tab3.css';
-import {Redirect, Route, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 
-import Export from "./Tab4/Export";
-import User from "./Tab4/User";
-import Competition from "./Tab4/Competition";
-import Courts from "./Tab4/Courts";
-import Statistics from "./Tab4/Statistics";
 import {useHistory} from "react-router";
 import Greeting from "../components/Greeting";
 import React, {useEffect, useState} from "react";

@@ -2,9 +2,9 @@ import {
     IonButton,
     IonContent, IonIcon,
     IonPage,
-    IonRouterOutlet,
+
 } from '@ionic/react';
-import {Redirect, Route, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 
 
 import {useHistory} from "react-router";
