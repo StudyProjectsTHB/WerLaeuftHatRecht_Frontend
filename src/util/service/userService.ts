@@ -49,6 +49,5 @@ export const changeUserAdmin = async (token: string, id: number, isAdmin: boolea
     const user: UpdateUserDTO = {
         isAdmin: isAdmin
     }
-    console.log(user);
     return await updateUser(token, id, user);
 }

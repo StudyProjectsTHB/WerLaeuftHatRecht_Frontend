@@ -49,7 +49,6 @@ const UserCard: React.FC<{name:string, userId:number ,email:string, group:string
     }, [history]);
 
     const handleCourtChangeUser = async (newCourt:string) => {
-        console.log(email, newCourt)
         const newCourtId = courtIds[courtNames.indexOf(newCourt)]
         try {
             const changed = await changeUserGroup(getToken(), userId, newCourtId)

@@ -45,7 +45,6 @@ const CompetitionChangeModal = ({isOpen, onClose, startDate, endDate}) => {
     }, [location, history, isOpen]);
 
     const handleDateChange = async () => {
-        console.log(startDate, endDate)
         try{
             const newCompetition = await changeCompetition(getToken(), startDate, endDate);
 

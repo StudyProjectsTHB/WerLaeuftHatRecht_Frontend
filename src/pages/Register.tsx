@@ -13,10 +13,6 @@ const Register: React.FC = () => {
     const token = useParams<{token: string}>();
 
     const handleRegister = async () => {
-        console.log('Password:', password);
-        console.log('PasswordConfirm:', passwordConfirm);
-        console.log('Token:', token.token);
-
         try {
             const registered = await registerUser(token.token, password, passwordConfirm);
             if (registered) {
@@ -40,7 +36,6 @@ const Register: React.FC = () => {
     useEffect(() => {
         function checkURLForLogin() {
             const currentURL = window.location.href;
-            console.log('Aktuelle URL:', currentURL);
             const motivationCounterElement = document.querySelector('.motivationCounter');
 
             if (currentURL.includes('register')) {

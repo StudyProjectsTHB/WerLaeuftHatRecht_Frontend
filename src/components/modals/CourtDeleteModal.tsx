@@ -37,7 +37,6 @@ const CourtDeleteModal = ({isOpen, onClose, name, id}) => {
     }, [history]);
 
     const handleDeleteCourt = async () => {
-        console.log(name, id)
         try {
             // const newCourt = await addGroup(getToken(), courtName, courtCount)
             const deletedCourtBool = await removeGroup(getToken(), id)

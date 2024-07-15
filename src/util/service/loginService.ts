@@ -1,8 +1,6 @@
 import {jwtDecode} from 'jwt-decode';
 import {getOwnUser, login, registerUserPassword} from "../api/userApi";
 import {AuthenticationRequestDTO, AuthenticationResponseDTO, UserDTO, UserPasswordsDTO} from "../api/config/dto";
-import {useHistory} from "react-router";
-import {useState} from "react";
 
 export const setToken = (token: string): void => {
     localStorage.setItem('authToken', token);
@@ -67,11 +65,7 @@ export const registerUser = async (token: string, password: string, passwordConf
         passwordConfirm: passwordConfirm
     };
 
-    console.log(userPasswords);
-
-    const response = await registerUserPassword(userPasswords, token);
-
-    return response;
+    return await registerUserPassword(userPasswords, token);
 }
 
 export const loginUser = async (email: string, password: string): Promise<void> => {
@@ -82,11 +76,8 @@ export const loginUser = async (email: string, password: string): Promise<void> 
     };
 
     const response: AuthenticationResponseDTO = await login(request);
-    // console.log('Response:', response);
     setToken(response.accessToken);
     setUser(JSON.stringify(response.user));
-    // localStorage.setItem('user', JSON.stringify(response.user));
-    // history.push('/tabs/tab1');
 }
 
 export const logoutUser = (): void => {

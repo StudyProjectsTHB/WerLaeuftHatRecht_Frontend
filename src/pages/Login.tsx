@@ -15,7 +15,6 @@ const Login: React.FC = () => {
     useEffect(() => {
         function checkURLForLogin() {
             const currentURL = window.location.href;
-            console.log('Aktuelle URL:', currentURL);
             const motivationCounterElement = document.querySelector('.motivationCounter');
 
             if (currentURL.includes('login')) {
@@ -35,9 +34,6 @@ const Login: React.FC = () => {
     }, []);
 
     const handleLogin = async () => {
-        console.log('Email:', email);
-        console.log('Password:', password);
-
         try {
             await loginUser(email, password);
             history.push('/tabs/tab1');

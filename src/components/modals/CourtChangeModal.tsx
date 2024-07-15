@@ -39,12 +39,10 @@ const CourtChangeModal = ({isOpen, onClose, name, id, count}) => {
 
             setCourtName(name);
             setCourtCount(count);
-            console.log(name, count)
         }
     }, [location, history, isOpen]);
 
     const handleChangeCourt = async () => {
-        console.log(courtName, courtCount)
         try {
             const changedCourt = await changeGroup(getToken(), id, courtName, courtCount)
 

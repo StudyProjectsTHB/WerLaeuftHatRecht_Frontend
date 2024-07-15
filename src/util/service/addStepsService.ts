@@ -50,11 +50,5 @@ export const addSteps = async (token: string, steps: number, startDate:string, e
         throw new Error('Invalid date range');
     }
 
-    console.log(durationSteps);
-
-    const response = await addDays(token, durationSteps);
-
-    console.log(response);
-
-    return response;
+    return await addDays(token, durationSteps);
 }

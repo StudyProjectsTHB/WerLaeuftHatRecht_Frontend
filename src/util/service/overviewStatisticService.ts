@@ -80,8 +80,6 @@ export const getWeeklyChallenges = async (token: string, date?: string): Promise
 
 
 export const getCurrentWeather = async (token: string): Promise<WeatherResponseDTO> => {
-    const response = await getWeather(token);
-    console.log(response);
-    return response;
+    return await getWeather(token);
 }
 

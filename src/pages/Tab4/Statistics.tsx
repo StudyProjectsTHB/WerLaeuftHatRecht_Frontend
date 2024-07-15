@@ -80,7 +80,6 @@ const Statistics: React.FC = () => {
     }, [location, history]);
 
     const handleChangedCourt = (courtName: string) => {
-        console.log(courtsNames, courtsIds, courtName)
         setSelectedCourtName(courtName);
         let courtId;
         if (courtName === "Alle Gerichte") {
@@ -89,8 +88,6 @@ const Statistics: React.FC = () => {
             courtId = courtsIds[courtsNames.indexOf(courtName)];  // Keine neue Deklaration, sondern Zuweisung
         }
         setSelectedCourtId(courtId);
-        console.log(courtId);
-
         if (courtId != -1) {
             const usersOrCourt = getAllStatisticGroupUsers(getToken(), courtId);
 

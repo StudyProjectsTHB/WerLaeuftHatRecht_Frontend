@@ -105,8 +105,6 @@ const Tab1: React.FC = () => {
             weatherToday.then((data) => {
                 setWeatherToday({temperature: data.today.maxTemperature, condition: data.today.weather});
                 setWeatherTomorrow({temperature: data.tomorrow.maxTemperature, condition: data.tomorrow.weather});
-                console.log(data);
-                console.log(weatherToday, weatherTomorrow);
             });
         }
 

@@ -58,7 +58,6 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
         try {
             const newUserToken = await createUser(getToken(), email, false, selectedCourt)
             if (newUserToken) {
-                console.log(newUserToken)
                 setSelectedCourt(courtsIds[0])
                 setEmail("")
                 onClose();
