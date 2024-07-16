@@ -1,7 +1,7 @@
 import {IonButton, IonContent, IonIcon, IonPage} from '@ionic/react';
 import React, {useEffect, useState} from "react";
 import Greeting from "../components/Greeting";
-import {arrowForwardOutline, logOutOutline, personOutline, settingsOutline} from "ionicons/icons";
+import {arrowBack, arrowForwardOutline, logOutOutline, personOutline, settingsOutline} from "ionicons/icons";
 import {useHistory} from "react-router";
 import {useLocation} from "react-router-dom";
 import {checkToken, getToken, getUser, logoutUser} from "../util/service/loginService";
@@ -47,9 +47,17 @@ const UserSettings: React.FC = () => {
     return (
         <IonPage className={"PageModal Edit settings"}>
             <IonContent fullscreen>
-                <h1>Persönliche Einstellungen</h1>
+
                 <Greeting adjective={userAdjective} noun={userNoun} group={group}/>
+                <button onClick={() => {
+                    history.push("/tabs/settings")
+                }} className={"buttonBack"}>
+                    <IonIcon aria-hidden="true" icon={arrowBack}/>
+                    <p>Zurück</p>
+                </button>
+                <h1>Persönliche Einstellungen</h1>
                 <div className={"settingsContainer"}>
+
                     <div>
                         <h2>Ziele</h2>
                         <p> Hier können Sie Ihr Schrittziel anpassen. </p>
@@ -65,7 +73,8 @@ const UserSettings: React.FC = () => {
                             </div>
                         </div>
                         <h2>Größe und Schrittbreite</h2>
-                        <p> Hier können Sie Ihre Größe und Schrittbreite anpassen für eine genauere Distanzberechnung. </p>
+                        <p> Hier können Sie Ihre Größe und Schrittbreite anpassen für eine genauere
+                            Distanzberechnung. </p>
                         <p> Bitte beachten Sie, dass Sie nur einen Wert angeben können. </p>
                         <div className={"flexSetting"}>
                             <div>
