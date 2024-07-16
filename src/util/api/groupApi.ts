@@ -1,9 +1,7 @@
-// Definieren Sie die Interfaces für Group und GroupCreationDTO
 import {API_BASE_URL} from "./config/config";
 import {Group, GroupCreationDTO} from "./config/dto";
 
 
-// Funktion zum Erstellen von Gruppen
 export const createGroups = async (token: string, groupCreations: GroupCreationDTO[]): Promise<Group[]> => {
     const url = `${API_BASE_URL}/groups`;
 
@@ -23,7 +21,6 @@ export const createGroups = async (token: string, groupCreations: GroupCreationD
     return await response.json();
 };
 
-// Funktion zum Löschen einer Gruppe
 export const deleteGroup = async (token: string, id: number): Promise<void> => {
     const url = `${API_BASE_URL}/groups/${id}`;
 
@@ -40,7 +37,6 @@ export const deleteGroup = async (token: string, id: number): Promise<void> => {
     }
 };
 
-// Funktion zum Aktualisieren einer Gruppe
 export const updateGroup = async (token: string, id: number, groupCreation: GroupCreationDTO): Promise<Group> => {
     const url = `${API_BASE_URL}/groups/${id}`;
 
@@ -64,7 +60,6 @@ export const updateGroup = async (token: string, id: number, groupCreation: Grou
     return await response.json();
 };
 
-// Funktion zum Abrufen einer Gruppe
 export const getGroup = async (token: string, id: number): Promise<Group> => {
     const url = `${API_BASE_URL}/groups/${id}`;
 
@@ -87,7 +82,6 @@ export const getGroup = async (token: string, id: number): Promise<Group> => {
     return await response.json();
 };
 
-// Funktion zum Abrufen aller Gruppen
 export const getGroups = async (token: string): Promise<Group[]> => {
     const url = `${API_BASE_URL}/groups`;
 

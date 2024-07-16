@@ -53,11 +53,11 @@ const UserCard: React.FC<{name:string, userId:number ,email:string, group:string
             if (changed) {
                 setSelectedValue(newCourt);
             } else {
-                alert("Fehler beim Ändern des Gerichts des Nutzenden")
+                alert("Fehler beim Ändern des Gerichts des Nutzers")
             }
         } catch (e) {
             console.log(e)
-            alert("Fehler beim Ändern des Gerichts des Nutzenden")
+            alert("Fehler beim Ändern des Gerichts des Nutzers")
         }
     }
 

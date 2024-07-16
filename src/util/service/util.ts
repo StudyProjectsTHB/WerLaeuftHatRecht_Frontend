@@ -6,19 +6,16 @@ export const getCalendarWeeksBetweenDates = (startDate:string, endDate:string):{
     endOfWeek: string;
     weekNumber: string
 }[] => {
-    // Berechne den Start der Woche für das Startdatum
     const start = startOfWeek(new Date(startDate), { weekStartsOn: 1 }); // Woche beginnt am Montag
     const end = endOfWeek(new Date(endDate), { weekStartsOn: 1 });
 
 
-    // Berechne die Wochenintervalle, die zwischen dem Start- und Enddatum liegen
     const weeks = eachWeekOfInterval({
         start,
         end,
     }, { weekStartsOn: 1});
 
 
-    // Formatiere die Wochenstart- und -enddaten sowie die Kalenderwoche
     return weeks.map(week => ({
         startOfWeek: format(startOfWeek(week, {weekStartsOn: 1}), 'yyyy-MM-dd'),
         endOfWeek: format(endOfWeek(week, {weekStartsOn: 1}), 'yyyy-MM-dd'),

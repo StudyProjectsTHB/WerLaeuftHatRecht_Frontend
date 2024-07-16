@@ -60,7 +60,6 @@ const Tabs: React.FC = () => {
             }
         }
 
-        // Die Funktion beim Laden der Komponente ausführen
         checkURLForLogin();
     }, [location, daysRemaining]);
 

@@ -12,6 +12,18 @@ const Login: React.FC = () => {
     const history = useHistory();
     const location = useLocation()
 
+    const handleEnterPress = (e) => {
+        if (e.key === 'Enter') {
+            handleLogin();
+        }
+    };
+
+    useEffect(() => {
+        if (checkToken()) {
+            history.push('/tabs/tab1');
+        }
+    }, []);
+
     useEffect(() => {
         function checkURLForLogin() {
             const currentURL = window.location.href;
@@ -29,7 +41,6 @@ const Login: React.FC = () => {
             }
         }
 
-        // Die Funktion beim Laden der Komponente ausführen
         checkURLForLogin();
     }, [location]);
 
@@ -43,13 +54,6 @@ const Login: React.FC = () => {
             setShowAlert(true);
         }
     };
-
-    useEffect(() => {
-        // Funktion, die überprüft, ob "login" in der URL enthalten ist
-        if (checkToken()) {
-            history.push('/tabs/tab1');
-        }
-    }, []);
 
     return (
         <IonPage>
@@ -70,6 +74,7 @@ const Login: React.FC = () => {
                             type="password"
                             value={password}
                             onChange={e => setPassword(e.target.value!)}
+                            onKeyPress={handleEnterPress}
                         />
                     </div>
                 <button className={"secondary"} onClick={handleLogin}>Anmelden</button>

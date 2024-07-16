@@ -39,8 +39,8 @@ const ThreeQuarterDoughnutChart: React.FC<{value:number, maxValue:number, onClic
     };
 
     const options = {
-        rotation: -135, // Start position of the chart
-        circumference: 270, // Sweep angle of the chart
+        rotation: -135,
+        circumference: 270,
         cutout: '90%',
         plugins: {
             legend: {

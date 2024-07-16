@@ -10,7 +10,9 @@ const WeeklyChallenges: React.FC<{ weeklyChallenges: UserChallengeDTO[] }> = ({w
                     <p>{weeklyChallenges[i].challengeString}</p>
                     <p className={"counter"}>{weeklyChallenges[i].progressString}</p>
                 </div>
-                <p className={"status"}>{weeklyChallenges[i].completed ? "Fertig" : "Aktiv"}</p>
+                <p className={weeklyChallenges[i].completed ? "fstatus" : "astatus"}>
+                    {weeklyChallenges[i].completed ? "Fertig" : "Aktiv"}
+                </p>
             </div>
         );
 

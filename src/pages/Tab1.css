@@ -195,7 +195,29 @@
             }
         }
 
-        p.status {
+        p.fstatus {
+            background-color: #f7f7f7;
+            padding: 0 5px 0 25px;
+            height: min-content;
+            font-size: 14px;
+            color: #46B451 !important;
+            position: relative;
+            border-radius: 2px;
+            margin: 0;
+            line-height: 1.6;
+
+            &:before {
+                content: '';
+                background-image: url("/public/images/check-circle.png");
+                width: 18px;
+                height: 18px;
+                background-size: contain;
+                position: absolute;
+                left: 2px;
+                top: 0;
+            }
+        }
+        p.astatus {
             background-color: #f7f7f7;
             padding: 0 5px 0 25px;
             height: min-content;

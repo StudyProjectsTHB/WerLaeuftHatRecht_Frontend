@@ -26,6 +26,12 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
     const history = useHistory();
     const location = useLocation();
 
+    const handleEnterPress = (e) => {
+        if (e.key === 'Enter') {
+            handleAddUser();
+        }
+    };
+
     useEffect(() => {
         if (!checkToken()) {
             // history.push('/login', {direction: 'none'});
@@ -50,6 +56,7 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
         try {
             const newUserToken = await createUser(getToken(), email, false, selectedCourt)
             if (newUserToken) {
+                console.log(newUserToken)
                 setSelectedCourt(courtsIds[0])
                 setEmail("")
                 onClose();
@@ -77,6 +84,7 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
                         placeholder="Email eintragen"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
+                        onKeyPress={handleEnterPress}
                     />
                 </div>
                 <div>

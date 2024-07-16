@@ -57,7 +57,7 @@ const CourtDeleteModal = ({isOpen, onClose, email, id, isAdmin}) => {
                             <h1>{email} zum Admin machen?</h1>
                             <p>Administratoren können die Details aller Nutzer bearbeiten, den Wettbewerb verwalten,
                                 Gerichte löschen und andere Nutzer zum Administrator machen.
-                                Bitte bestätigen Sie nur, wenn der Nutzende ({email}) die Berechtigungen hierfür erhalten
+                                Bitte bestätigen Sie nur, wenn der Nutzer ({email}) die Berechtigungen hierfür erhalten
                                 soll!</p>
                         </div>
                         <div className={"buttonContainer"}>
@@ -71,7 +71,7 @@ const CourtDeleteModal = ({isOpen, onClose, email, id, isAdmin}) => {
                             <h1>{email} nicht mehr zum Admin machen?</h1>
                             <p>Administratoren können die Details aller Nutzer bearbeiten, den Wettbewerb verwalten,
                                 Gerichte löschen und andere Nutzer zum Administrator machen.
-                                Bitte bestätigen Sie nur, wenn der Nutzende ({email}) die Berechtigungen hierfür nicht mehr
+                                Bitte bestätigen Sie nur, wenn der Nutzer ({email}) die Berechtigungen hierfür nicht mehr
                                 erhalten soll!</p>
                         </div>
                         <div className={"buttonContainer"}>

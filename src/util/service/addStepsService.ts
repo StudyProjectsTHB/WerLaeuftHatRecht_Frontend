@@ -1,5 +1,5 @@
 import {DayDTO, DurationStepsDTO} from "../api/config/dto";
-import {addDays, getDays} from "../api/dayApi";
+import {addDays, deleteDays, getDays} from "../api/dayApi";
 import {getCompetition} from "../api/competitionApi";
 import {formatDate, getCurrentDate} from "./util";
 
@@ -38,21 +38,22 @@ export const getStepDays = async (token: string): Promise<DayDTO[]> => {
     });
 }
 
-export const addSteps = async (token: string, steps: number, startDate:string, endDate:string): Promise<DayDTO[]> => {
+export const addSteps = async (token: string, steps: number, startDate: string, endDate: string): Promise<DayDTO[]> => {
     const competition = await getCompetition(token);
     const today = getCurrentDate()
-    const today2 = getCurrentDate()
     const durationSteps: DurationStepsDTO = {
         steps,
         startDate,
         endDate
     };
 
-    console.log(startDate, endDate, competition.startDate, competition.endDate, today, today2);
-
     if (startDate < competition.startDate || endDate > today || endDate > competition.endDate) {
         throw new Error('Invalid date range');
     }
 
     return await addDays(token, durationSteps);
+}
+
+export const deleteSteps = async (token: string, startDate: string, endDate: string): Promise<boolean> => {
+    return deleteDays(token, startDate, endDate);
 }

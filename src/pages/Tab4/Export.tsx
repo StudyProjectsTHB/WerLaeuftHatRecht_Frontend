@@ -80,13 +80,12 @@ const Statistics: React.FC = () => {
 
         const csv = Papa.unparse(csvData, {delimiter: ";"});
         const blob = new Blob(["\uFEFF" + csv], {type: 'text/csv;charset=utf-8;'});
-        console.log(blob);
         const link = document.createElement("a");
 
         if (link.download !== undefined) {
             const url = URL.createObjectURL(blob);
             link.setAttribute("href", url);
-            link.setAttribute("download", `${selectedCourtName} Nutzer-Statistik.csv`);
+            link.setAttribute("download", `${selectedCourtName} Nutzende-Statistik.csv`);
             link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
@@ -112,7 +111,6 @@ const Statistics: React.FC = () => {
         }));
         const csv = Papa.unparse(csvData, {delimiter: ";"});
         const blob = new Blob(["\uFEFF" + csv], {type: 'text/csv;charset=utf-8;'});
-        console.log(blob);
         const link = document.createElement("a");
 
         if (link.download !== undefined) {

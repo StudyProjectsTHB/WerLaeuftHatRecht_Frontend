@@ -1,4 +1,3 @@
-// Funktion zum Abrufen der Wetterdaten
 import {API_BASE_URL} from "./config/config";
 import {WeatherResponseDTO} from "./config/dto";
 

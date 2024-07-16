@@ -1,8 +1,6 @@
-// Definieren Sie die Interfaces für die verschiedenen DTOs
 import {API_BASE_URL} from "./config/config";
 import {GroupStepsDTO, SingleUserStepsDTO, StatisticDurationDTO, UserStepsDTO} from "./config/dto";
 
-// Funktion zum Erstellen einer Einzelbenutzerstatistik
 export const createUserStatistic = async (token: string | null, id: number, statisticDuration: StatisticDurationDTO): Promise<SingleUserStepsDTO> => {
     const url = `${API_BASE_URL}/statistics/users/${id}`;
 
@@ -26,7 +24,6 @@ export const createUserStatistic = async (token: string | null, id: number, stat
     return await response.json();
 };
 
-// Funktion zum Erstellen von Benutzerstatistiken
 export const createUserStatistics = async (token: string, statisticDuration: StatisticDurationDTO): Promise<UserStepsDTO[]> => {
     const url = `${API_BASE_URL}/statistics/users`;
 
@@ -46,7 +43,6 @@ export const createUserStatistics = async (token: string, statisticDuration: Sta
     return await response.json();
 };
 
-// Funktion zum Erstellen einer Gruppenstatistik
 export const createGroupStatistic = async (token: string, id: number, statisticDuration: StatisticDurationDTO): Promise<GroupStepsDTO> => {
     const url = `${API_BASE_URL}/statistics/groups/${id}`;
 
@@ -70,7 +66,6 @@ export const createGroupStatistic = async (token: string, id: number, statisticD
     return await response.json();
 };
 
-// Funktion zum Erstellen von Gruppenbenutzerstatistiken
 export const createGroupUserStatistic = async (token: string, id: number, statisticDuration: StatisticDurationDTO): Promise<UserStepsDTO[]> => {
     const url = `${API_BASE_URL}/statistics/groups/${id}/users`;
 
@@ -94,7 +89,6 @@ export const createGroupUserStatistic = async (token: string, id: number, statis
     return await response.json();
 };
 
-// Funktion zum Erstellen von Gruppenstatistiken
 export const createGroupStatistics = async (token: string, statisticDuration: StatisticDurationDTO): Promise<GroupStepsDTO[]> => {
     const url = `${API_BASE_URL}/statistics/groups`;
 

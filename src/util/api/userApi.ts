@@ -1,4 +1,3 @@
-// Definieren Sie die Interfaces für die verschiedenen DTOs
 import {API_BASE_URL} from "./config/config";
 
 import {
@@ -12,7 +11,6 @@ import {
     UserTokenDTO
 } from "./config/dto";
 
-// Funktion zum Einloggen eines Benutzers
 export const login = async (request: AuthenticationRequestDTO): Promise<AuthenticationResponseDTO> => {
     const url = `${API_BASE_URL}/users/login`;
 
@@ -43,7 +41,6 @@ export const login = async (request: AuthenticationRequestDTO): Promise<Authenti
 
 };
 
-// Funktion zum Registrieren eines Benutzers mit Token
 export const registerUserPassword = async (userPasswords: UserPasswordsDTO, token: string): Promise<UserDTO> => {
     const url = `${API_BASE_URL}/users/register/${token}`;
 
@@ -70,7 +67,6 @@ export const registerUserPassword = async (userPasswords: UserPasswordsDTO, toke
     return await response.json();
 };
 
-// Funktion zum Erstellen von Benutzern
 export const createUsers = async (token: string, userCreations: UserCreationDTO[]): Promise<UserTokenDTO[]> => {
     const url = `${API_BASE_URL}/users`;
 
@@ -90,7 +86,6 @@ export const createUsers = async (token: string, userCreations: UserCreationDTO[
     return await response.json();
 };
 
-// Funktion zum Abrufen aller Benutzer
 export const getUsers = async (token: string): Promise<UserDTO[]> => {
     const url = `${API_BASE_URL}/users`;
 
@@ -109,7 +104,6 @@ export const getUsers = async (token: string): Promise<UserDTO[]> => {
     return await response.json();
 };
 
-// Funktion zum Abrufen des eigenen Benutzers
 export const getOwnUser = async (token: string): Promise<UserDTO> => {
     const url = `${API_BASE_URL}/users/self`;
 
@@ -128,7 +122,6 @@ export const getOwnUser = async (token: string): Promise<UserDTO> => {
     return await response.json();
 };
 
-// Funktion zum Löschen eines Benutzers
 export const deleteUser = async (token: string, id: number): Promise<void> => {
     const url = `${API_BASE_URL}/users/${id}`;
 
@@ -145,7 +138,6 @@ export const deleteUser = async (token: string, id: number): Promise<void> => {
     }
 };
 
-// Funktion zum Aktualisieren eines Benutzers
 export const updateUser = async (token: string, id: number, updateUser: UpdateUserDTO): Promise<UserDTO> => {
     const url = `${API_BASE_URL}/users/${id}`;
 
@@ -172,7 +164,6 @@ export const updateUser = async (token: string, id: number, updateUser: UpdateUs
     return await response.json();
 };
 
-// Funktion zum Starten des Passwort-Zurücksetzens
 export const startPasswordReset = async (emailDTO: EmailDTO): Promise<void> => {
     const url = `${API_BASE_URL}/users/password/reset`;
 
@@ -189,7 +180,6 @@ export const startPasswordReset = async (emailDTO: EmailDTO): Promise<void> => {
     }
 };
 
-// Funktion zum Zurücksetzen des Passworts
 export const resetPassword = async (userPasswords: UserPasswordsDTO, token: string): Promise<void> => {
     const url = `${API_BASE_URL}/users/password/reset/${token}`;
 

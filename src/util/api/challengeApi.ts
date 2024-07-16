@@ -3,12 +3,6 @@ import {API_BASE_URL} from "./config/config";
 import {UserChallengeDTO} from "./config/dto";
 import {getCurrentDate} from "../service/util";
 
-// Definieren Sie das Interface für UserChallengeDTO
-
-// Funktion, um das aktuelle Datum im Format YYYY-MM-DD zu erhalten
-
-
-// Funktion, um die Herausforderungen vom Server zu holen
 export const getChallenges = async (token: string, date: string = getCurrentDate()): Promise<UserChallengeDTO[]> => {
     const url = `${API_BASE_URL}/challenges/${date}`;
 

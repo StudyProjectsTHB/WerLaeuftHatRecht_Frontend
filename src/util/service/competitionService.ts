@@ -15,7 +15,5 @@ export const changeCompetition = async (token: string, startDate: string, endDat
         onlyUpdate: true,
     }
 
-    const response = await updateCompetition(token, updateCompetitionDTO);
-
-    return response;
+    return await updateCompetition(token, updateCompetitionDTO);
 }

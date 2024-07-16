@@ -21,7 +21,6 @@ export const todaysSteps = async (token: string, user: UserDTO): Promise<number>
 
 export const weeklyStepsAndKilometers = async (token: string, user: UserDTO): Promise<[number, string]> => {
     const today = new Date();
-    console.log(today);
     const lastWeek = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
     const request: StatisticDurationDTO = {
         startDate: formatDate(lastWeek),
@@ -80,7 +79,9 @@ export const getWeeklyChartSteps = async (token: string, user: UserDTO): Promise
 
 
 export const getWeeklyChallenges = async (token: string, date?: string): Promise<UserChallengeDTO[]> => {
-    return await getChallenges(token, date);
+    const challenges = await getChallenges(token, date);
+
+    return challenges.sort((a, b) => a.challengeString.localeCompare(b.challengeString));
 }
 
 

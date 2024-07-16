@@ -88,9 +88,9 @@ const Statistics: React.FC = () => {
         setSelectedCourtName(courtName);
         let courtId;
         if (courtName === "Alle Gerichte") {
-            courtId = -1;  // Keine neue Deklaration, sondern Zuweisung
+            courtId = -1;
         } else {
-            courtId = courtsIds[courtsNames.indexOf(courtName)];  // Keine neue Deklaration, sondern Zuweisung
+            courtId = courtsIds[courtsNames.indexOf(courtName)];
         }
         setSelectedCourtId(courtId);
         if (courtId != -1) {
@@ -131,13 +131,12 @@ const Statistics: React.FC = () => {
 
         const csv = Papa.unparse(csvData, {delimiter: ";"});
         const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
-        console.log(blob);
         const link = document.createElement("a");
 
         if (link.download !== undefined) {
             const url = URL.createObjectURL(blob);
             link.setAttribute("href", url);
-            link.setAttribute("download", `${selectedCourtName} ${selectedCourtId != -1 ? "Nutzer-" : "Gerichte-"}Statistik.csv`);
+            link.setAttribute("download", `${selectedCourtName} ${selectedCourtId != -1 ? "Nutzende-" : "Gerichte-"}Statistik.csv`);
             link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
