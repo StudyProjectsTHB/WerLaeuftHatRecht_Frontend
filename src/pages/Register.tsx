@@ -52,7 +52,7 @@ const Register: React.FC = () => {
 
         // Die Funktion beim Laden der Komponente ausführen
         checkURLForLogin();
-    }, []);
+    }, [history, location]);
 
     return (
         <IonPage>

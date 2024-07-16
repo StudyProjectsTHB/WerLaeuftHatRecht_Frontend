@@ -126,7 +126,7 @@ const Tab1: React.FC = () => {
                         <WeeklyChallenges weeklyChallenges={weeklyChallenges}/>
                     </div>
 
-                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center',}}>
+                    <div className={"weather"}>
                         <Weather temperature={weatherToday.temperature} condition={weatherTomorrow.condition} label={"Heute"}/>
                         <Weather temperature={weatherTomorrow.temperature} condition={weatherTomorrow.condition} label={"Morgen"}/>
 

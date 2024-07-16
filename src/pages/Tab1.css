@@ -230,7 +230,7 @@
     }
 }
 
-.settingsContainer {
+.settings {
     background-color: #fff;
     border-radius: 5px;
     padding: 20px;
@@ -299,4 +299,27 @@
 
 .clickable {
     cursor: pointer;
+}
+
+.weather {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    margin-top: 20px;
+    padding-bottom: 30px;
+
+    .circular-progress-bar {
+        width: 100% !important;
+        grid-template-columns: 100px auto !important;
+
+        ion-icon {
+            font-size: 50px;
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+        display: none;
+    }
 }

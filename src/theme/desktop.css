@@ -8,6 +8,11 @@
     }
 }
 
+.tab-selected ion-label {
+    color: #223832 !important;
+    font-weight: bold;
+}
+
 @media screen and (max-width: 1024px) {
     .weekly-stats > div:first-of-type {
         flex-wrap: nowrap;
@@ -58,8 +63,14 @@
 
             ion-label {
                 font-size: 18px;
+                color: #d7d7d7;
             }
         }
+    }
+
+    .tab-selected ion-label {
+        color: #223832 !important;
+        font-weight: bold;
     }
 
     .greeting {
@@ -99,8 +110,8 @@
             width: calc(100% - 300px);
             height: calc(100% - 20px);
             top: 10px;
-            position: absolute;
-            left: 300px;
+            position: fixed;
+            left: 320px;
             border-radius: 12px;
         }
     }
@@ -268,7 +279,7 @@
 
     .gridEdit {
         display: grid;
-        grid-template-columns: auto 450px;
+        grid-template-columns: 400px auto;
         grid-gap: 50px;
     }
 

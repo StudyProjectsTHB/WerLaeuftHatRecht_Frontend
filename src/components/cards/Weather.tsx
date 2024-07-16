@@ -47,12 +47,14 @@ const Weather: React.FC<{temperature:number, condition:string, label:string}> = 
     return (
         <div className={"circular-progress-bar"}>
             <IonIcon aria-hidden="true" icon={weatherIcon()}
-                     style={{fontSize: '24px', color: '#000000'}}/>
+                     style={{fontSize: '50px', color: '#000000'}}/>
+            <div>
             <div className="valuestring">
                 <p>{label} ({temperature} °C)</p>
             </div>
             <div className="label">
                 <p>{condition.charAt(0).toUpperCase() + condition.slice(1)}</p>
+            </div>
             </div>
         </div>
     );
