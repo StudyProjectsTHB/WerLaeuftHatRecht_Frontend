@@ -11,7 +11,6 @@ const StepsDeleteModal = ({isOpen, onClose, startDate, endDate, id}) => {
     const [userStepGoal, setUserStepGoal] = useState<number>(0);
     const [group, setGroup] = useState<string>("");
     const dateSame = (!startDate ? null : startDate.getTime()) === (!endDate ? null : endDate.getTime());
-    console.log(dateSame, startDate, endDate);
 
     const history = useHistory();
     const location = useLocation();
@@ -33,7 +32,6 @@ const StepsDeleteModal = ({isOpen, onClose, startDate, endDate, id}) => {
     }, [location, isOpen]);
 
     const handleDeleteSteps = async () => {
-        // Hier sollte die Logik zum Löschen der Schritte eingefügt werden
         console.log("Deleting steps"); // Debug log
         onClose();
     };

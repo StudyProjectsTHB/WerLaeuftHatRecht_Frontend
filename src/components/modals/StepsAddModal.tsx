@@ -5,12 +5,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import './StepsAddModal.css';
 import { checkToken, getToken, getUser } from "../../util/service/loginService";
 import { useHistory } from "react-router";
-import { addSteps } from "../../util/service/addStepsService";
+import {addSteps, deleteSteps} from "../../util/service/addStepsService";
 import de from 'date-fns/locale/de';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import { formatDate } from "../../util/service/util";
 import { AddStepsModalProps } from "../../types";
-import StepsDeleteModal from "./StepsDeleteModal";
+// import StepsDeleteModal from "./StepsDeleteModal";
 
 const StepsAddModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -18,7 +18,7 @@ const StepsAddModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
     const [userNoun, setUserNoun] = useState<string>("");
     const [userStepGoal, setUserStepGoal] = useState<number>(0);
     const [group, setGroup] = useState<string>("");
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    // const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [endDate, setEndDate] = useState<Date>(new Date());
@@ -33,18 +33,23 @@ const StepsAddModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
 
     const handleDateChange = (dates: [Date, Date]): void => {
         const [start, end] = dates;
-        console.log(dates);
         setStartDate(start);
         setEndDate(end);
     };
 
-    const handleOpenDeleteModal = () => {
-        console.log("Opening Delete Modal"); // Debug log
-        setShowDeleteModal(true);
-    };
+    // const handleOpenDeleteModal = () => {
+    //     console.log("Opening Delete Modal"); // Debug log
+    //     setShowDeleteModal(true);
+    // };
 
     const toggleDatePicker = () => {
         setShowDatePicker(!showDatePicker);
+    };
+
+    const handleEnterPress = (e) => {
+        if (e.key === 'Enter') {
+            handleAddSteps();
+        }
     };
 
     useEffect(() => {
@@ -88,7 +93,7 @@ const StepsAddModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
 
     const handleAddSteps = async () => {
         if (enteredSteps <= 0 || isNaN(enteredSteps)) {
-            alert("Bitte gib eine gültige Anzahl an Schritten ein.");
+            alert("Bitte gib eine positive Anzahl an Schritten an.");
             return;
         }
         try {
@@ -104,11 +109,20 @@ const StepsAddModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
         }
     };
 
-    const handleEnterPress = (e) => {
-        if (e.key === 'Enter') {
-            handleAddSteps();
+    const handleDeleteSteps = async () => {
+        try {
+            const isDeleted = await deleteSteps(getToken(), formatDate(startDate), formatDate(endDate));
+            if (isDeleted) {
+                alert("Schritte erfolgreich gelöscht");
+            } else {
+                alert("Fehler beim Löschen der Schritte");
+            }
+        } catch (e) {
+            console.log(e);
+            alert("Fehler beim Löschen der Schritte");
         }
-    };
+    }
+
 
     return (
         <IonModal isOpen={isOpen} onDidDismiss={onClose}>
@@ -134,7 +148,10 @@ const StepsAddModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
                                 ? `${startDate.toLocaleDateString()}`
                                 : startDate && endDate
                                     ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`
-                                    : 'Zeitraum auswählen'}
+                                    : startDate && !endDate
+                                        ? `${startDate.toLocaleDateString()} - `
+                                        : "Zeitraum auswählen"
+                            }
                         </div>
                         {showDatePicker && (
                             <div className="datepicker-container" ref={datepickerRef}>
@@ -155,12 +172,12 @@ const StepsAddModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
                         <button slot="end" onClick={onClose} className={"secondary"}>Abbrechen</button>
                         <button onClick={handleAddSteps}>Schritte erfassen</button>
                     </div>
-                    <button style={{ backgroundColor: '#d8d8d8', color: '#000', border: 'none' }} onClick={handleOpenDeleteModal}>
+                    <button style={{ backgroundColor: '#d8d8d8', color: '#000', border: 'none' }} onClick={handleDeleteSteps}>
                         Schritte löschen
                     </button>
                 </div>
             </IonContent>
-            <StepsDeleteModal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)} startDate={startDate} endDate={endDate} id={0} />
+            {/*<StepsDeleteModal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)} startDate={startDate} endDate={endDate} id={0} />*/}
         </IonModal>
     );
 };

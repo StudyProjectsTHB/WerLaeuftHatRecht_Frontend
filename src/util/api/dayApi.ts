@@ -1,9 +1,7 @@
-// Definieren Sie die Interfaces für DayDTO, StepsDTO und DurationStepsDTO
 import {API_BASE_URL} from "./config/config";
 
 import {DayDTO, DurationStepsDTO, StepsDTO} from "./config/dto";
 
-// Funktion zum Löschen eines Tages
 export const deleteDay = async (token: string, date: string): Promise<void> => {
     const url = `${API_BASE_URL}/days/${date}`;
 
@@ -26,7 +24,31 @@ export const deleteDay = async (token: string, date: string): Promise<void> => {
     }
 };
 
-// Funktion zum Aktualisieren eines Tages
+export const deleteDays = async (token: string, startDate: string, endDate: string): Promise<boolean> => {
+    const url = `${API_BASE_URL}/days?startDate=${startDate}&endDate=${endDate}`;
+
+    const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (!response.ok) {
+        if (response.status === 401) {
+            throw new Error('Unauthorized');
+        } else if (response.status === 409) {
+            throw new Error('Competition Not Started');
+        } else {
+            throw new Error('An error occurred while deleting the days');
+        }
+    }
+
+    return true;
+
+}
+
 export const updateDay = async (token: string, date: string, daySteps: StepsDTO): Promise<DayDTO> => {
     const url = `${API_BASE_URL}/days/${date}`;
 
@@ -52,7 +74,6 @@ export const updateDay = async (token: string, date: string, daySteps: StepsDTO)
     return await response.json();
 };
 
-// Funktion zum Hinzufügen von Tagen
 export const addDays = async (token: string, durationSteps: DurationStepsDTO): Promise<DayDTO[]> => {
     const url = `${API_BASE_URL}/days`;
 
@@ -80,7 +101,6 @@ export const addDays = async (token: string, durationSteps: DurationStepsDTO): P
     return await response.json();
 };
 
-// Funktion zum Abrufen der Tage
 export const getDays = async (token: string): Promise<DayDTO[]> => {
     const url = `${API_BASE_URL}/days`;
 
