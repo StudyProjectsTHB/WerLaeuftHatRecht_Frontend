@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {IonModal, IonButton, IonContent, IonHeader, IonToolbar, IonTitle} from '@ionic/react';
-import DatePicker from 'react-datepicker';
+import {IonModal, IonContent} from '@ionic/react';
 import "react-datepicker/dist/react-datepicker.css";
 import './StepsAddModal.css';
 import {checkToken, getToken, getUser} from "../../util/service/loginService";
-import {location} from "ionicons/icons";
 import {useHistory} from "react-router";
 import {useLocation} from "react-router-dom";
 import {changeCompetition} from "../../util/service/competitionService";

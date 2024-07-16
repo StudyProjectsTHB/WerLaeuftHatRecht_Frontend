@@ -1,20 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {
     IonModal,
-    IonButton,
-    IonContent,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonSelect,
-    IonSelectOption
+    IonContent
 } from '@ionic/react';
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './StepsAddModal.css';
 import {useHistory} from "react-router";
 import {useLocation} from "react-router-dom";
-import courts from "../../pages/Tab4/Courts";
 import {checkToken, getToken, getUser} from "../../util/service/loginService";
 import {createUser} from "../../util/service/userService";
 

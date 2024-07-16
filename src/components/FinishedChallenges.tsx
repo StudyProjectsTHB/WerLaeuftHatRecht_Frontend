@@ -1,5 +1,4 @@
 import React from 'react';
-import WeeklyChallenges from "./WeeklyChallenges";
 import {UserChallengeDTO} from "../util/api/config/dto";
 
 const FinishedChallenges: React.FC<{finishedChallenges: UserChallengeDTO[]}> = ({finishedChallenges}) => {

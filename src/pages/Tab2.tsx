@@ -1,5 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import { IonContent, IonPage } from '@ionic/react';
 import './Tab2.css';
 
 import Calender from '../components/Calendar';
@@ -11,8 +10,6 @@ import {useLocation} from "react-router-dom";
 import {useHistory} from "react-router";
 import {checkToken, getToken, getUser} from "../util/service/loginService";
 import {getStepDays} from "../util/service/addStepsService";
-import {Preferences} from "@capacitor/preferences";
-import {DayDTO} from "../util/api/config/dto";
 
 const Tab2: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);

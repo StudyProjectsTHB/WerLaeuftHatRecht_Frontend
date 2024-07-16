@@ -1,7 +1,7 @@
 import {StatisticDurationDTO, UserChallengeDTO, UserDTO} from "../api/config/dto";
 import {createUserStatistic} from "../api/statisticsApi";
 import {getCompetitionData} from "./competitionService";
-import {getCurrentPlace, getWeeklyChallenges} from "./overviewStatisticService";
+import {getCurrentPlace} from "./overviewStatisticService";
 import {getCalendarWeeksBetweenDates, getCurrentDate} from "./util";
 import {getFinishedChallenges} from "../api/challengeApi";
 

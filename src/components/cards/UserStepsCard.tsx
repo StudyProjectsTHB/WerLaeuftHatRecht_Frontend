@@ -1,15 +1,9 @@
-import {
-    IonButton,
-    IonContent, IonIcon,
-    IonPage,
-    IonRouterOutlet, IonSelect, IonSelectOption,
-} from '@ionic/react';
-import {Redirect, Route, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 
 
 import {useHistory} from "react-router";
 
-import React, {useState} from "react";
+import React from "react";
 
 const UserStepsCard: React.FC<{name:string, steps:number, index: number}> = ({name, steps, index}) => {
     const history = useHistory();

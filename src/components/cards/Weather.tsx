@@ -1,15 +1,14 @@
 import {
-    IonButton,
-    IonContent, IonIcon,
-    IonPage,
-    IonRouterOutlet, IonSelect, IonSelectOption,
+    IonIcon,
+
+
 } from '@ionic/react';
-import {Redirect, Route, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 
 
 import {useHistory} from "react-router";
 
-import React, {useState} from "react";
+import React from "react";
 import {
     cloudOutline,
     partlySunnyOutline,

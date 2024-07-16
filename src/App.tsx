@@ -1,19 +1,10 @@
-import {Redirect, Route, Switch, useLocation} from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import {
     IonApp,
-    IonIcon,
-    IonLabel,
     IonRouterOutlet,
-    IonTabBar,
-    IonTabButton,
-    IonTabs,
     setupIonicReact
 } from '@ionic/react';
 import {IonReactRouter} from '@ionic/react-router';
-import {createOutline, ellipse, homeOutline, location, square, statsChartOutline, triangle} from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -51,7 +42,6 @@ import Tabs from "./Tabs";
 import Register from "./pages/Register";
 import './theme/desktop.css';
 import React, {useEffect, useState} from "react";
-import {useHistory} from "react-router";
 import {getToken} from "./util/service/loginService";
 import {getDaysRemaining} from "./util/service/appService";
 
@@ -70,7 +60,7 @@ const App: React.FC = () => {
         // Beispielhafte Nutzung eines Effekts
         if (daysRemaining === 0) {
             setMotivationMessage("Ziel erreicht! Gut gemacht!");
-        } else{
+        } else {
             setMotivationMessage("Gib Vollgas. Du schaffst das!");
         }
     }, [daysRemaining]);
@@ -96,8 +86,6 @@ const App: React.FC = () => {
         }
 
     }, []);
-
-
 
 
     return (

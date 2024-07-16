@@ -1,9 +1,7 @@
-import {IonContent, IonHeader, IonPage, IonRouterOutlet, IonTabs, IonTitle, IonToolbar} from '@ionic/react';
-import {Redirect, Route, useLocation} from 'react-router-dom';
-import {IonReactRouter} from '@ionic/react-router';
+import {IonContent, IonPage} from '@ionic/react';
+import {useLocation} from 'react-router-dom';
 
 import ProgressBar from '../../components/charts/ProgressBar';
-import LineChart from "../../components/charts/LineChart";
 import React, {useEffect, useState} from "react";
 import BarChart from "../../components/charts/BarChart";
 import ColumnChart from "../../components/charts/ColumnChart";

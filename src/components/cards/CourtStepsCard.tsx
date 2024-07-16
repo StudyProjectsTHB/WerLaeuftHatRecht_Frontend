@@ -1,17 +1,9 @@
-import {
-    IonButton,
-    IonContent, IonIcon,
-    IonPage,
-    IonRouterOutlet, IonSelect, IonSelectOption,
-} from '@ionic/react';
-import {Redirect, Route, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 
 
 import {useHistory} from "react-router";
 
-import React, {useState} from "react";
-import Greeting from "../../components/Greeting";
-import {ellipse} from "ionicons/icons";
+import React from "react";
 
 
 const CourtStepsCard: React.FC<{name:string, steps:number}> = ({name, steps}) => {

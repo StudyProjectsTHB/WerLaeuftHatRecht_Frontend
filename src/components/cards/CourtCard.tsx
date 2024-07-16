@@ -1,17 +1,15 @@
 import {
-    IonButton,
-    IonContent, IonIcon,
-    IonPage,
-    IonRouterOutlet, IonSelect, IonSelectOption,
+    IonIcon,
+
+
 } from '@ionic/react';
-import {Redirect, Route, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 
 
 import {useHistory} from "react-router";
 
 import React, {useState} from "react";
-import Greeting from "../../components/Greeting";
-import {ellipse, personOutline, settingsOutline, starOutline, trashOutline} from "ionicons/icons";
+import {personOutline, settingsOutline, trashOutline} from "ionicons/icons";
 
 
 const CourtCard: React.FC<{name:string, id:number, employeeCount:number}> = ({name, id, employeeCount,onUserClick, onChangeClick, onDeleteClick}) => {
