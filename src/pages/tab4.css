@@ -224,7 +224,7 @@ ion-modal {
     }
 
     .buttonContainer {
-        margin-top: 20px;
+        margin-bottom: 5px;
     }
 
     &.heightSet {
@@ -311,4 +311,8 @@ ion-modal {
 .overflowList {
     overflow: scroll;
     height: calc(100vh - 381px);
+
+    &.zw {
+        height: calc(100vh - 200px);
+    }
 }

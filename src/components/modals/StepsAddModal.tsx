@@ -155,7 +155,7 @@ const StepsAddModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
                         <button slot="end" onClick={onClose} className={"secondary"}>Abbrechen</button>
                         <button onClick={handleAddSteps}>Schritte erfassen</button>
                     </div>
-                    <button style={{ backgroundColor: 'red', color: 'white' }} onClick={handleOpenDeleteModal}>
+                    <button style={{ backgroundColor: '#d8d8d8', color: '#000', border: 'none' }} onClick={handleOpenDeleteModal}>
                         Schritte löschen
                     </button>
                 </div>
