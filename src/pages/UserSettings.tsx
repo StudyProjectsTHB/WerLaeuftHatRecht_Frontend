@@ -5,11 +5,13 @@ import {arrowBack, arrowForwardOutline, logOutOutline, personOutline, settingsOu
 import {useHistory} from "react-router";
 import {useLocation} from "react-router-dom";
 import {checkToken, getToken, getUser, logoutUser} from "../util/service/loginService";
+import {changeUserSettings} from "../util/service/userSettingsService";
 
 const UserSettings: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [userAdjective, setUserAdjective] = useState("");
     const [userNoun, setUserNoun] = useState("");
+    const [userId, setUserId] = useState(-1);
     const [userStepGoal, setUserStepGoal] = useState(0);
     const [group, setGroup] = useState("");
     const [userStepSize, setUserStepSize] = useState(0);
@@ -30,6 +32,7 @@ const UserSettings: React.FC = () => {
         if (token && user) {
             setUserAdjective(user.adjective);
             setUserNoun(user.noun);
+            setUserId(user.id);
             setUserStepGoal(user.stepGoal);
             setUserStepSize(user.stepSize ? user.stepSize : 0);
             setUserHeight(user.height ? user.height : 0);
@@ -39,15 +42,51 @@ const UserSettings: React.FC = () => {
         }
     }, [location]);
 
-    const logout = () => {
-        logoutUser();
-        window.location.assign('/login');
+    const handleHeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseInt(e.target.value);
+        if (value >= 0) {
+            setUserHeight(value);
+            setUserStepSize(0);
+        } else {
+            setUserHeight(0);
+        }
+    };
+
+    const handleStepSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseInt(e.target.value);
+        if (value >= 0) {
+            setUserStepSize(value);
+            setUserHeight(0);
+        } else {
+            setUserStepSize(0);
+        }
+    };
+
+    const handleSave = async () => {
+        if (userHeight > 0 && userStepSize > 0) {
+            alert("Bitte nur einen Wert angeben.");
+            return;
+        }
+        try{
+            const updatedUser = await changeUserSettings(getToken(), userId, userStepGoal, userHeight, userStepSize);
+            if (updatedUser) {
+                const user = getUser(getToken());
+                if (user) {
+                    setUserStepGoal(userStepGoal);
+                    setUserHeight(userHeight);
+                    setUserStepSize(userStepSize);
+                }
+                alert("Einstellungen gespeichert.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Fehler beim Speichern der Einstellungen.");
+        }
     }
 
     return (
         <IonPage className={"PageModal Edit settings"}>
             <IonContent fullscreen>
-
                 <Greeting adjective={userAdjective} noun={userNoun} group={group}/>
                 <button onClick={() => {
                     history.push("/tabs/settings")
@@ -60,22 +99,24 @@ const UserSettings: React.FC = () => {
 
                     <div>
                         <h2>Ziele</h2>
-                        <p> Hier können Sie Ihr Schrittziel anpassen. </p>
+                        <p> Hier kannst du dein Schrittziel anpassen. </p>
                         <div className={"flexSetting"}>
                             <div>
                                 <p> Schrittziel: </p>
                                 <input
                                     type={"number"}
                                     value={userStepGoal}
-                                    onChange={(e) => setUserStepGoal(parseInt(e.target.value))}
+                                    onChange={(e) => {
+                                        const value = parseInt(e.target.value);
+                                        if (value > 0) setUserStepGoal(value);
+                                    }}
                                 />
                                 <span> Schritte</span>
                             </div>
                         </div>
-                        <h2>Größe und Schrittbreite</h2>
-                        <p> Hier können Sie Ihre Größe und Schrittbreite anpassen für eine genauere
-                            Distanzberechnung. </p>
-                        <p> Bitte beachten Sie, dass Sie nur einen Wert angeben können. </p>
+                        <h2>Größe und Schrittweite</h2>
+                        <p> Hier kannst du deine Größe und Schrittweite für eine genauere Distanzberechnung anpassen. </p>
+                        <p> Bitte beachte, dass du nur einen Wert angeben kannst. </p>
                         <div className={"flexSetting"}>
                             <div>
                                 <p> Größe: </p>
@@ -83,22 +124,24 @@ const UserSettings: React.FC = () => {
                                     type={"number"}
                                     value={userHeight}
                                     placeholder="cm"
-                                    onChange={(e) => setUserHeight(parseInt(e.target.value))}
+                                    onChange={handleHeightChange}
+                                    disabled={userStepSize > 0}
                                 />
                                 <span>cm</span>
                             </div>
 
                             <div>
-                                <p> Schrittbreite: </p>
+                                <p> Schrittweite: </p>
                                 <input
                                     type={"number"}
                                     value={userStepSize}
-                                    onChange={(e) => setUserStepSize(parseInt(e.target.value))}
+                                    onChange={handleStepSizeChange}
+                                    disabled={userHeight > 0}
                                 />
                                 <span className="unit">cm</span>
                             </div>
                         </div>
-                        <IonButton onClick={() => console.log("Save")} className={"saveButton"}>Speichern</IonButton>
+                        <IonButton onClick={handleSave} className={"saveButton"}>Speichern</IonButton>
                     </div>
 
                 </div>
