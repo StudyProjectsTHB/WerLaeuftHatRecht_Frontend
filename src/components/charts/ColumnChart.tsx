@@ -47,7 +47,7 @@ const ColumnChart: React.FC<{labels:string[], columnData:number[], type:string, 
                             return tooltipItems[0].label;
                     },
                     label: function(tooltipItem) {
-                        return type === 'courtStatistics' ? ` ${tooltipItem.raw.toLocaleString('de-DE')} Schritte pro Nutzer` : ` ${tooltipItem.raw.toLocaleString('de-DE')} Schritte`;
+                        return type === 'courtStatistics' ? ` ${tooltipItem.raw.toLocaleString()} Schritte pro Nutzer` : ` ${tooltipItem.raw.toLocaleString()} Schritte`;
                         // return ` ${tooltipItem.raw}`;
                     },
                 }

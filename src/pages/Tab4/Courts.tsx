@@ -119,6 +119,7 @@ const Courts: React.FC = () => {
                                            onChangeClick={() => handleOpenChangeModal(name, courtEmployeeCount[index], courtsIds[index])}
                                            onDeleteClick={() => handleOpenDeleteModal(name, courtsIds[index])}
                                            key={index}
+                                           id = {courtsIds[index]}
                                 />
                             )
                         })}

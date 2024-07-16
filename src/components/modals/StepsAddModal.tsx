@@ -28,6 +28,7 @@ const StepsAddModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
 
     const history = useHistory();
 
+    // @ts-ignore
     registerLocale('de', de);
     setDefaultLocale('de');
 

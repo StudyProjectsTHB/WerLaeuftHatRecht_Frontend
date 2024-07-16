@@ -36,6 +36,7 @@ const Competition: React.FC = () => {
     const history = useHistory();
     const location = useLocation();
 
+    // @ts-ignore
     registerLocale('de', de);
     setDefaultLocale('de');
 

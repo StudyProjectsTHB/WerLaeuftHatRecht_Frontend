@@ -22,7 +22,7 @@ const ProgressBar: React.FC<{ value: number, maxValue:number, type:string, group
     }
 
     const renderValueString = () => {
-        const formatValue = (num: number) => num.toLocaleString('de-DE');
+        const formatValue = (num: number) => num.toLocaleString();
         if (type === "OverviewSteps") {
             return formatValue(value);
         } else if (type === "OverviewDistance") {

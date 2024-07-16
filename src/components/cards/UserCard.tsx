@@ -15,7 +15,7 @@ import {changeUserGroup} from "../../util/service/userService";
 import {convertUmlauts} from "../../util/service/util";
 
 
-const UserCard: React.FC<{name:string, userId:number ,email:string, group:string, groupId:number, isAdmin:boolean ,courtNames:string[], courtIds:number[]}> = ({name, userId, email, group, groupId,isAdmin, courtNames, courtIds, onChangeClick, onAdminClick, onDeleteClick}) => {
+const UserCard: React.FC<{name:string, userId:number ,email:string, group:string, groupId:number, isAdmin:boolean ,courtNames:string[], courtIds:number[], onChangeClick:any, onAdminClick:any, onDeleteClick:any}> = ({name, userId, email, group, groupId,isAdmin, courtNames, courtIds, onChangeClick, onAdminClick, onDeleteClick}) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [userAdjective, setUserAdjective] = useState<string>("");
     const [userNoun, setUserNoun] = useState<string>("");

@@ -18,7 +18,7 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
     const [group, setGroup] = useState<string>("");
 
 
-    const [selectedCourt, setSelectedCourt] = useState<string>("");
+    const [selectedCourt, setSelectedCourt] = useState<number>(0);
 
     const [email, setEmail] = useState("");
 
@@ -83,7 +83,7 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
                     <p>Gericht eintragen</p>
                     <select
                         value={selectedCourt}
-                        onChange={e => setSelectedCourt(e.target.value)}
+                        onChange={e => setSelectedCourt(parseFloat(e.target.value))}
                     >
                         {courtsNames.map((court) => {
                             return <option key={courtsNames.indexOf(court)}

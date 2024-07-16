@@ -121,7 +121,7 @@ const Tab1: React.FC = () => {
                     <div className={"gridContainer"}>
                         <div className={"wrapper barchart"}>
                             <ColumnChart labels={weeklyChartDays}
-                                         columnData={weeklyChartSteps} type={'dashboard'}/>
+                                         columnData={weeklyChartSteps} type={'dashboard'} weeks={weeklyChartDays}/>
                         </div>
                         <WeeklyChallenges weeklyChallenges={weeklyChallenges}/>
                     </div>

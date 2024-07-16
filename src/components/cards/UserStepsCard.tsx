@@ -19,7 +19,7 @@ const UserStepsCard: React.FC<{name:string, steps:number, index: number}> = ({na
             </div>
             <div className="name">
                 <p>{name}</p>
-                <p>{steps.toLocaleString("de-DE")} Schritte</p>
+                <p>{steps.toLocaleString()} Schritte</p>
             </div>
         </div>
     );

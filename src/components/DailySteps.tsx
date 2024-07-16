@@ -10,7 +10,7 @@ const DailySteps: React.FC<{steps:number}> = ({steps}) => {
     if (steps > 0) {
         return (
             <div className="daily-steps">
-                <p>Hey, du bist heute schon {steps.toLocaleString('de-DE')} Schritte gelaufen!</p>
+                <p>Hey, du bist heute schon {steps.toLocaleString()} Schritte gelaufen!</p>
                 <IonButton color={"secondary"} onClick={handleButtonClick}>Jetzt eintragen</IonButton>
             </div>
         );
