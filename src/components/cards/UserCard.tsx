@@ -44,7 +44,7 @@ const UserCard: React.FC<{name:string, userId:number ,email:string, group:string
             setSelectedUserImage(userImage);
 
         }
-    }, [history]);
+    }, [location]);
 
     const handleCourtChangeUser = async (newCourt:string) => {
         const newCourtId = courtIds[courtNames.indexOf(newCourt)]

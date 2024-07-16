@@ -61,7 +61,7 @@ const StepsAddModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
             setGroup(user.group.name);
             setLoading(false);
         }
-    }, [history, isOpen]);
+    }, [isOpen]);
 
     useEffect(() => {
         setStartDate(new Date(date));

@@ -32,7 +32,7 @@ const CourtDeleteModal = ({isOpen, onClose, email, id}) => {
             setGroup(user.group.name);
             setLoading(false);
         }
-    }, [location, history, isOpen]);
+    }, [location, isOpen]);
 
     const handleDeleteUser = async () => {
         try {

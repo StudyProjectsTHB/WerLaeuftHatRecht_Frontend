@@ -44,7 +44,7 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
             setSelectedCourt(courtsIds[0])
         }
 
-    }, [location, history, isOpen]);
+    }, [location, isOpen]);
 
     const handleAddUser = async () => {
         try {

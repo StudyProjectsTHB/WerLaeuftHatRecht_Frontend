@@ -18,6 +18,7 @@ const CourtDeleteModal = ({isOpen, onClose, name, id}) => {
 
     const history = useHistory();
 
+
     useEffect(() => {
         if (!checkToken()) {
             // history.push('/login', {direction: 'none'});
@@ -33,7 +34,7 @@ const CourtDeleteModal = ({isOpen, onClose, name, id}) => {
             setGroup(user.group.name);
             setLoading(false);
         }
-    }, [history]);
+    }, []);
 
     const handleDeleteCourt = async () => {
         try {

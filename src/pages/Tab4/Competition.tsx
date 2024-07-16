@@ -93,7 +93,7 @@ const Competition: React.FC = () => {
                 setEndDate(new Date(response.endDate));
             });
         }
-    }, [location, history]);
+    }, [location]);
 
 
     return (

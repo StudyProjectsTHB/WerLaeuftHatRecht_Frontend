@@ -81,7 +81,7 @@ const OwnStatistics: React.FC = () => {
                 setLapsedDays(data);
             });
         }
-    }, [location, history]);
+    }, [location]);
 
             return (
         <IonPage style={{marginTop: '110px', marginBottom: '65px'}} className={"statistics"}>

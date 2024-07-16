@@ -82,7 +82,7 @@ const Statistics: React.FC = () => {
                 }
             });
         }
-    }, [location, history]);
+    }, [location]);
 
     const handleChangedCourt = (courtName: string) => {
         setSelectedCourtName(courtName);

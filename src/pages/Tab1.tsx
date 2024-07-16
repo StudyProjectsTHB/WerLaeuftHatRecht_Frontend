@@ -103,7 +103,7 @@ const Tab1: React.FC = () => {
         }
 
         // setLoading(false);
-    }, [location, history]);
+    }, [location]);
 
     // if (loading) {
     //     return <IonLoading isOpen={true} message={'Laden...'} />;

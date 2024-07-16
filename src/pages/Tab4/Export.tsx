@@ -60,7 +60,7 @@ const Statistics: React.FC = () => {
                 setCourtsIds(courts.map(court => court.id));
             });
         }
-    }, [location, history]);
+    }, [location]);
 
     const handleDownloadUsersCSV = async () => {
         let users;

@@ -116,7 +116,7 @@ const User: React.FC = () => {
                 setCourtsIds(groups.map((group) => group.id));
             });
         }
-    }, [location, history, modalClosed]);
+    }, [location, modalClosed]);
 
 
     return (
