@@ -10,7 +10,10 @@ const FinishedChallenges: React.FC<{finishedChallenges: UserChallengeDTO[]}> = (
                     <p>{finishedChallenges[i].challengeString}</p>
                     <p className={"counter"}>{finishedChallenges[i].progressString}</p>
                 </div>
-                <p className={"status"}>{finishedChallenges[i].completed ? "Fertig" : "Aktiv"}</p>
+                <p className={finishedChallenges[i].completed ? "fstatus" : "astatus"}>
+                    {finishedChallenges[i].completed ? "Fertig" : "Aktiv"}
+                </p>
+
             </div>
         );
     }
@@ -18,10 +21,10 @@ const FinishedChallenges: React.FC<{finishedChallenges: UserChallengeDTO[]}> = (
         challengeList.push(
             <div className={"challenge"} key={0}>
                 <div>
-                    <p>{"Sieht so aus als hättest noch keine Herausforderungen absolviert. :("}</p>
+                    <p>{"Sieht so aus als hättest noch keine Herausforderungen absolviert"}</p>
                     <p className={"counter"}>{"Schau doch mal bei den aktuellen Herausforderungen vorbei!"}</p>
                 </div>
-                <p className={"status"}>{"Aktiv"}</p>
+                <p className={"astatus"}>{"Aktiv"}</p>
             </div>
         );
 

@@ -25,10 +25,7 @@ export const getAllStatisticGroupUsers = async (token: string, groupId:number): 
 }
 
 export const getAllStatisticGroups = async (token: string): Promise<[number[], string[], number[], number[]]> => {
-    const response = await getCourtsStatistic(token);
-    console.log(response);
-
-    return response;
+    return await getCourtsStatistic(token);
 }
 
 export const getAllStatisticAllUsers = async (token: string): Promise<[number[], string[], number[]]> => {

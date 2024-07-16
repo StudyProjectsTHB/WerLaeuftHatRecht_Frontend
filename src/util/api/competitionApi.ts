@@ -1,9 +1,7 @@
-// Definieren Sie die Interfaces für Competition und UpdateCompetitionDTO
 import {API_BASE_URL} from "./config/config";
 
 import {Competition, UpdateCompetitionDTO} from "./config/dto";
 
-// Funktion, um die Competition vom Server zu holen
 export const getCompetition = async (token: string): Promise<Competition> => {
     const url = `${API_BASE_URL}/competition`;
 
@@ -27,7 +25,6 @@ export const getCompetition = async (token: string): Promise<Competition> => {
     return await response.json();
 };
 
-// Funktion, um die Competition zu aktualisieren
 export const updateCompetition = async (token: string, updateCompetition: UpdateCompetitionDTO): Promise<Competition> => {
     const url = `${API_BASE_URL}/competition`;
 

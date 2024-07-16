@@ -18,6 +18,12 @@ const UserChangeModal = ({ isOpen, onClose, email, id}) => {
     const history = useHistory();
     const location = useLocation();
 
+    const handleEnterPress = (e) => {
+        if (e.key === 'Enter') {
+            handleChangeUser();
+        }
+    };
+
     useEffect(() => {
         if (!checkToken()) {
             // history.push('/login', {direction: 'none'});
@@ -62,6 +68,7 @@ const UserChangeModal = ({ isOpen, onClose, email, id}) => {
                         defaultValue={email}
                         placeholder="Email eintragen"
                         onChange={e => setNewEmail(e.target.value)}
+                        onKeyPress={handleEnterPress}
                     />
                 </div>
                 <div className={"buttonContainer"}>

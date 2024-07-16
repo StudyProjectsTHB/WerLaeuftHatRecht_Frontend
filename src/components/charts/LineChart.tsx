@@ -37,7 +37,7 @@ const LineChart: React.FC<{labels:string[], chartData:number[]}> = ({labels, cha
         scales: {
             x: {
                 beginAtZero: true,
-                display: true, // Achse ausblenden
+                display: true,
                 grid: {
                     display: false
                 },
@@ -53,7 +53,7 @@ const LineChart: React.FC<{labels:string[], chartData:number[]}> = ({labels, cha
                 }
             },
             y: {
-                display: false, // Achse ausblenden
+                display: false,
                 grid: {
                     display: false
                 }

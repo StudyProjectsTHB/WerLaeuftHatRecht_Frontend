@@ -21,6 +21,12 @@ const CourtAddModal = ({isOpen, onClose}) => {
     const history = useHistory();
     const location = useLocation();
 
+    const handleEnterPress = (e) => {
+        if (e.key === 'Enter') {
+            handleAddCourt();
+        }
+    };
+
     useEffect(() => {
         if (!checkToken()) {
             // history.push('/login', {direction: 'none'});
@@ -81,6 +87,7 @@ const CourtAddModal = ({isOpen, onClose}) => {
                             placeholder="Mitarbeiteranzahl eintragen"
                             value={courtCount}
                             onChange={(e) => setCourtCount(parseInt(e.target.value))}
+                            onKeyPress={handleEnterPress}
                         />
                     </div>
                 </div>

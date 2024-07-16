@@ -58,7 +58,7 @@ const Tab2: React.FC = () => {
         if (params.get("showModal")) {
             setShowModal(true);
         } else {
-            setShowModal(false); // Falls showModal nicht in der URL ist, Modal schließen
+            setShowModal(false);
         }
     }, [location.search]);
 

@@ -25,7 +25,9 @@ export const getOwnCurrentPlace = async (token: string, user: UserDTO): Promise<
 }
 
 export const getFinishedWeeklyChallenges = async (token: string): Promise<UserChallengeDTO[]> => {
-    return await getFinishedChallenges(token);
+    const challenges = await getFinishedChallenges(token);
+
+    return challenges.sort((a, b) => a.challengeString.localeCompare(b.challengeString));
 }
 
 export const getOwnStatistic = async (token: string, user: UserDTO): Promise<[number[], string[], string[]]> => {

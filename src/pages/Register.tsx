@@ -12,6 +12,12 @@ const Register: React.FC = () => {
     const location = useLocation();
     const token = useParams<{token: string}>();
 
+    const handleEnterPress = (e) => {
+        if (e.key === 'Enter') {
+            handleRegister();
+        }
+    };
+
     const handleRegister = async () => {
         try {
             const registered = await registerUser(token.token, password, passwordConfirm);
@@ -25,6 +31,7 @@ const Register: React.FC = () => {
             alert('Fehler bei der Registrierung');
         }
     };
+
 
     useEffect(() => {
         if (checkToken()) {
@@ -50,7 +57,6 @@ const Register: React.FC = () => {
             }
         }
 
-        // Die Funktion beim Laden der Komponente ausführen
         checkURLForLogin();
     }, [location]);
 
@@ -73,6 +79,7 @@ const Register: React.FC = () => {
                             type="password"
                             value={passwordConfirm}
                             onChange={e => setPasswordConfirm(e.target.value!)}
+                            onKeyPress={handleEnterPress}
                         />
                     </div>
                     <button className={"secondary"} onClick={handleRegister}>Registriere dich</button>

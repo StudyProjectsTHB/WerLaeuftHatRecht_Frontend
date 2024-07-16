@@ -41,12 +41,12 @@ const CourtDeleteModal = ({isOpen, onClose, email, id}) => {
             if (deleted) {
                 onClose();
             } else {
-                alert("Fehler beim Löschen des Nutzenden")
+                alert("Fehler beim Löschen des Nutzers")
 
             }
         } catch (e) {
             console.log(e)
-            alert("Fehler beim Löschen des Nutzenden")
+            alert("Fehler beim Löschen des Nutzers")
         }
     }
 
@@ -54,14 +54,14 @@ const CourtDeleteModal = ({isOpen, onClose, email, id}) => {
         <IonModal isOpen={isOpen} onDidDismiss={onClose} className={"heightSet"}>
             <IonContent>
                 <div>
-                    <h1>Sind Sie sicher, dass Sie den Nutzenden {email} löschen möchten?</h1>
-                    <p>Dadurch verliert der Nutzende alle Berechtigungen und seinen Zugang zum
+                    <h1>Sind Sie sicher, dass Sie den Nutzer {email} löschen möchten?</h1>
+                    <p>Dadurch verliert der Nutzer alle Berechtigungen und seinen Zugang zum
                         Schrittzählerwettbewerb.</p>
                 </div>
 
                 <div className={"buttonContainer"}>
                     <button slot="end" onClick={onClose} className={"secondary"}>Abbrechen</button>
-                    <button onClick={handleDeleteUser}>Ja, Nutzenden löschen</button>
+                    <button onClick={handleDeleteUser}>Ja, Nutzer löschen</button>
                 </div>
             </IonContent>
         </IonModal>
