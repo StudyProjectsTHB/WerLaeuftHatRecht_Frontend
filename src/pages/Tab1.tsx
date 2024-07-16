@@ -36,6 +36,7 @@ const Tab1: React.FC = () => {
     const [maxPlace, setMaxPlace] = useState(1);
     const [weeklyChartSteps, setWeeklyChartSteps] = useState([0, 0, 0, 0, 0, 0, 0]);
     const [weeklyChartDays, setWeeklyChartDays] = useState(["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]);
+    const [weeklyChartDescription, setWeeklyChartDescription] = useState(["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"]);
     const [weeklyChallenges, setWeeklyChallenges] = useState([]);
     const [weatherToday, setWeatherToday] = useState({temperature: 0, condition: ''});
     const [weatherTomorrow, setWeatherTomorrow] = useState({temperature: 0, condition: ''});
@@ -85,8 +86,10 @@ const Tab1: React.FC = () => {
             weeklyChart.then((data) => {
                 const steps = data[0]
                 const days = data[1]
+                const descriptions = data[2]
                 setWeeklyChartSteps(steps);
                 setWeeklyChartDays(days);
+                setWeeklyChartDescription(descriptions);
             });
 
             weeklyChallenges.then((data) => {
@@ -100,7 +103,7 @@ const Tab1: React.FC = () => {
         }
 
         // setLoading(false);
-    }, [location, history]);
+    }, [location]);
 
     // if (loading) {
     //     return <IonLoading isOpen={true} message={'Laden...'} />;
@@ -121,7 +124,7 @@ const Tab1: React.FC = () => {
                     <div className={"gridContainer"}>
                         <div className={"wrapper barchart"}>
                             <ColumnChart labels={weeklyChartDays}
-                                         columnData={weeklyChartSteps} type={'dashboard'}/>
+                                         columnData={weeklyChartSteps} type={'dashboard'} weeks={weeklyChartDescription}/>
                         </div>
                         <WeeklyChallenges weeklyChallenges={weeklyChallenges}/>
                     </div>

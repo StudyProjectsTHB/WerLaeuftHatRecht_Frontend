@@ -40,7 +40,7 @@ const CompetitionChangeModal = ({isOpen, onClose, startDate, endDate}) => {
                 window.location.assign('/tabs/tab1');
             }
         }
-    }, [location, history, isOpen]);
+    }, [location, isOpen]);
 
     const handleDateChange = async () => {
         try{

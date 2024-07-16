@@ -30,7 +30,7 @@ const StepsDeleteModal = ({isOpen, onClose, startDate, endDate, id}) => {
             setGroup(user.group.name);
             setLoading(false);
         }
-    }, [location, history, isOpen]);
+    }, [location, isOpen]);
 
     const handleDeleteSteps = async () => {
         // Hier sollte die Logik zum Löschen der Schritte eingefügt werden

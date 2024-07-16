@@ -31,7 +31,7 @@ const Register: React.FC = () => {
             // history.push('/login', {direction: 'none'});
             window.location.assign('/tabs/tab1');
         }
-    }, [history]);
+    }, [location]);
 
     useEffect(() => {
         function checkURLForLogin() {
@@ -52,7 +52,7 @@ const Register: React.FC = () => {
 
         // Die Funktion beim Laden der Komponente ausführen
         checkURLForLogin();
-    }, [history, location]);
+    }, [location]);
 
     return (
         <IonPage>

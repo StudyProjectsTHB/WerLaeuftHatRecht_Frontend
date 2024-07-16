@@ -41,53 +41,11 @@ import Login from "./pages/Login";
 import Tabs from "./Tabs";
 import Register from "./pages/Register";
 import './theme/desktop.css';
-import React, {useEffect, useState} from "react";
-import {getToken} from "./util/service/loginService";
-import {getDaysRemaining} from "./util/service/appService";
+import React from "react";
 
 setupIonicReact();
 
 const App: React.FC = () => {
-
-    const [motivationMessage, setMotivationMessage] = useState("Gib Vollgas. Du schaffst das!");
-    const [daysRemaining, setDaysRemaining] = useState(0);
-
-
-    // const location = useLocation();
-    // const history = useHistory();
-
-    useEffect(() => {
-        // Beispielhafte Nutzung eines Effekts
-        if (daysRemaining === 0) {
-            setMotivationMessage("Ziel erreicht! Gut gemacht!");
-        } else {
-            setMotivationMessage("Gib Vollgas. Du schaffst das!");
-        }
-    }, [daysRemaining]);
-
-    useEffect(() => {
-
-        const token = getToken();
-        if (token) {
-
-            const updateDaysRemaining = () => {
-                getDaysRemaining(token).then((days) => {
-                    setDaysRemaining(days);
-                });
-            };
-
-            updateDaysRemaining();
-
-            const intervalId = setInterval(() => {
-                updateDaysRemaining();
-            }, 3600000);
-
-            return () => clearInterval(intervalId);
-        }
-
-    }, []);
-
-
     return (
         <IonApp>
             <IonReactRouter>
@@ -101,8 +59,8 @@ const App: React.FC = () => {
                     </Switch>
                 </IonRouterOutlet>
                 <div className={"motivationCounter"} style={{display: 'none'}}>
-                    <h2>{daysRemaining} Tage verbleibend</h2>
-                    <p>{motivationMessage}</p>
+                    <h2>0 Tage verbleibend</h2>
+                    <p>Gib Vollgas. Du schaffst das!</p>
                 </div>
             </IonReactRouter>
         </IonApp>

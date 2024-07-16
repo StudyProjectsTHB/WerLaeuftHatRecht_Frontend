@@ -98,7 +98,7 @@ const AllCourtsStatistics: React.FC = () => {
             });
 
         }
-    }, [location, history]);
+    }, [location]);
 
     return (
         <IonPage style={{marginTop: '110px', marginBottom: '65px'}} className={"statistics"}>

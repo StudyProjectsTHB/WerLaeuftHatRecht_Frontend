@@ -36,7 +36,7 @@ const CourtAddModal = ({isOpen, onClose}) => {
             setGroup(user.group.name);
             setLoading(false);
         }
-    }, [location, history, isOpen]);
+    }, [location, isOpen]);
 
     const handleAddCourt = async () => {
         try {

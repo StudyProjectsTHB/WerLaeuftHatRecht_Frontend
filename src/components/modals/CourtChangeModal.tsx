@@ -39,7 +39,7 @@ const CourtChangeModal = ({isOpen, onClose, name, id, count}) => {
             setCourtName(name);
             setCourtCount(count);
         }
-    }, [location, history, isOpen]);
+    }, [location, isOpen]);
 
     const handleChangeCourt = async () => {
         try {

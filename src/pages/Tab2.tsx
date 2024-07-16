@@ -51,7 +51,7 @@ const Tab2: React.FC = () => {
             })
 
         }
-    }, [location, history, showModal]);
+    }, [location, showModal]);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -72,14 +72,6 @@ const Tab2: React.FC = () => {
             }
         }
     }, [showModal]);
-
-    // useEffect(() => {
-    //     const params = new URLSearchParams(location.search);
-    //     if (params.get("showModal")) {
-    //         params.delete("showModal");
-    //         history.replace({ search: params.toString() });
-    //     }
-    // }, [location.search, history]);
 
     const handleCloseModal = () => {
         setShowModal(false);

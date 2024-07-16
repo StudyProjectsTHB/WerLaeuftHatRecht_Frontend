@@ -46,31 +46,35 @@ export const getCurrentPlace = async (token: string, user: UserDTO): Promise<[nu
     return [response.findIndex((userStep => userStep.id === user.id)) + 1, response.length];
 }
 
-export const getWeeklyChartSteps = async (token: string, user: UserDTO): Promise<[number[], string[]]> => {
+export const getWeeklyChartSteps = async (token: string, user: UserDTO): Promise<[number[], string[], string[]]> => {
     const response = await getDays(token);
 
     const today = new Date();
     const lastWeekData = [];
 
-    const daysOfWeek = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+    const daysOfWeekShort = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+    const daysOfWeekLong = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
 
     for (let i = 0; i < 7; i++) {
         const date = new Date(today);
         date.setDate(today.getDate() - i);
         const dateString = formatDate(date);
-        const dayOfWeek = daysOfWeek[date.getDay()];
+        const dayOfWeekShort = daysOfWeekShort[date.getDay()];
+        const dayOfWeekLong = daysOfWeekLong[date.getDay()];
 
         const dayData = response.find(d => d.date === dateString);
         if (dayData) {
-            lastWeekData.push({ ...dayData, dayOfWeek });
+            lastWeekData.push({ ...dayData, dayOfWeekShort: dayOfWeekShort, dayOfWeekLong: dayOfWeekLong });
         } else {
-            lastWeekData.push({ kilometers: 0, date: dateString, steps: 0, dayOfWeek });
+            lastWeekData.push({ kilometers: 0, date: dateString, steps: 0, dayOfWeekShort: dayOfWeekShort, dayOfWeekLong: dayOfWeekLong });
         }
     }
     const steps = lastWeekData.map(d => d.steps);
-    const labels = lastWeekData.map(d => d.dayOfWeek);
+    const labels = lastWeekData.map(d => d.dayOfWeekShort);
+    const descriptions = lastWeekData.map(d => d.dayOfWeekLong);
 
-    return [steps.reverse(), labels.reverse()];
+
+    return [steps.reverse(), labels.reverse(), descriptions.reverse()];
 }
 
 

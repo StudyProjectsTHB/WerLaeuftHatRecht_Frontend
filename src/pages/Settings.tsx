@@ -32,7 +32,7 @@ const Settings: React.FC = () => {
             setGroup(user.group.name);
             setLoading(false);
         }
-    }, [location, history]);
+    }, [location]);
 
     const logout = () => {
         logoutUser();
@@ -45,14 +45,14 @@ const Settings: React.FC = () => {
                 <h1>Einstellungen</h1>
                 <Greeting adjective={userAdjective} noun={userNoun} group={group}/>
                 <div className={"settingsContainer"}>
-                    <div className={"flexSetting clickable"}>
+                    <div className={"flexSetting clickable"} onClick={() => history.push('/tabs/settings/userSettings')}>
                         <div>
-                            <IonIcon aria-hidden="true" icon={personOutline}/>
-                            <button onClick={() => console.log("Nutzer clicked")}>Nutzer-Einstellungen</button>
+                            <IonIcon aria-hidden="true" icon={personOutline} />
+                            <button onClick={() => history.push('/tabs/settings/userSettings')}>Persönliche Einstellungen</button>
                         </div>
                         <IonIcon aria-hidden="true" icon={arrowForwardOutline}/>
                     </div>
-                    <div className={"flexSetting app clickable"}>
+                    <div className={"flexSetting app clickable"} onClick={() => console.log("App clicked")}>
                         <div>
                             <IonIcon aria-hidden="true" icon={settingsOutline}/>
                             <button onClick={() => console.log("App clicked")}>App-Einstellungen</button>

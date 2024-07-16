@@ -21,7 +21,7 @@ const CourtCard: React.FC<{name:string, id:number, employeeCount:number}> = ({na
     return (
         <div className="containerAdmin containerGerichte">
             <img
-                src="images/UserIcon.png"
+                src="images/gerichte_mitte.png"
                 alt="greeting-icon"
             />
             <div className={"name"}>

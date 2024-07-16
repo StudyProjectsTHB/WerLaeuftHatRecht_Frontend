@@ -45,7 +45,7 @@ const Tab4: React.FC = () => {
                 window.location.assign('/tabs/tab1');
             }
         }
-    }, [location, history]);
+    }, [location]);
 
     return (
         <IonPage>

@@ -89,7 +89,7 @@ const Courts: React.FC = () => {
                 setCourtEmployeeCount(data.map((court) => court.numberOfEmployees));
             })
         }
-    }, [location, history, modalClosed]);
+    }, [location, modalClosed]);
 
     return (
         <IonPage>

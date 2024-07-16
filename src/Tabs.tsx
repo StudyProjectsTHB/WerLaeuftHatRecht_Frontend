@@ -22,14 +22,47 @@ import Export from "./pages/Tab4/Export";
 import './theme/desktop.css';
 import {checkToken, getToken, getUser} from "./util/service/loginService";
 import {useHistory} from "react-router";
+import {getDaysRemaining} from "./util/service/appService";
+import UserSettings from "./pages/UserSettings";
 
 const Tabs: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [isAdmin, setIsAdmin] = useState(false);
     const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1024);
+    const [motivationMessage, setMotivationMessage] = useState("Gib Vollgas. Du schaffst das!");
+    const [daysRemaining, setDaysRemaining] = useState(0);
+
 
     const history = useHistory();
-    const location = useLocation()
+    const location = useLocation();
+
+    useEffect(() => {
+        function checkURLForLogin() {
+            const currentURL = window.location.href;
+            const motivationCounterElement = document.querySelector('.motivationCounter');
+
+            if (currentURL.includes('login')) {
+                if (motivationCounterElement) {
+                    motivationCounterElement.classList.add('hidden');
+                                    }
+            }
+            else {
+                if (motivationCounterElement) {
+                    let motivationMessage = "Gib Vollgas. Du schaffst das!";
+                    if (daysRemaining === 0) {
+                        motivationMessage = "Ziel erreicht! Gut gemacht!";
+                    }
+                    motivationCounterElement.classList.remove('hidden');
+                    motivationCounterElement.innerHTML = `                    <h2>${daysRemaining} Tage verbleibend</h2>\n` +
+                        `                    <p>${motivationMessage}</p>`
+
+                }
+            }
+        }
+
+        // Die Funktion beim Laden der Komponente ausführen
+        checkURLForLogin();
+    }, [location, daysRemaining]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -49,13 +82,28 @@ const Tabs: React.FC = () => {
         if (token && user) {
             setIsAdmin(user.admin);
             setLoading(false);
+
+            const updateDaysRemaining = () => {
+                getDaysRemaining(token).then((days) => {
+                    setDaysRemaining(days);
+                });
+            };
+
+            updateDaysRemaining();
+
+            const intervalId = setInterval(() => {
+                updateDaysRemaining();
+            }, 3600000);
+
+            return () => clearInterval(intervalId);
+
         }
         window.addEventListener('resize', handleResize);
         return () => {
             window.removeEventListener('resize', handleResize);
         };
 
-    }, [location, history]);
+    }, [location]);
 
             return (
         <IonReactRouter>
@@ -94,6 +142,9 @@ const Tabs: React.FC = () => {
                     <Route exact path={`/tabs/tab4/Export`}>
                         <Export/>
                     </Route>
+                    <Route exact path={`/tabs/settings/userSettings`}>
+                        <UserSettings/>
+                    </Route>
                 </IonRouterOutlet>
                 <IonTabBar slot="bottom">
                     <IonTabButton tab="tab1" href="/tabs/tab1">
@@ -106,7 +157,7 @@ const Tabs: React.FC = () => {
                     </IonTabButton>
                     <IonTabButton tab="tab3" href="/tabs/tab3">
                         <IonIcon aria-hidden="true" icon={statsChartOutline}/>
-                        <IonLabel>Statistiken</IonLabel>
+                        <IonLabel>Statistik</IonLabel>
                     </IonTabButton>
                   {isAdmin && isDesktop && (
                       <IonTabButton tab="tab4" href="/tabs/tab4">

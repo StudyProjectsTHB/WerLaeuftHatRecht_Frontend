@@ -31,7 +31,7 @@ const Login: React.FC = () => {
 
         // Die Funktion beim Laden der Komponente ausführen
         checkURLForLogin();
-    }, [history, location]);
+    }, [location]);
 
     const handleLogin = async () => {
         try {

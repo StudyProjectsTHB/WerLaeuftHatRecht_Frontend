@@ -42,7 +42,7 @@ const Tab3: React.FC = () => {
 
             setLoading(false);
         }
-    },[location, history]);
+    },[location]);
 
     const getButtonClass = (path: string) => {
         return location.pathname.startsWith(path) ? 'active' : 'secondary';
