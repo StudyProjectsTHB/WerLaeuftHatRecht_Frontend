@@ -32,6 +32,28 @@ const Tabs: React.FC = () => {
     const location = useLocation()
 
     useEffect(() => {
+        function checkURLForLogin() {
+            const currentURL = window.location.href;
+            const motivationCounterElement = document.querySelector('.motivationCounter');
+
+            if (currentURL.includes('login')) {
+                if (motivationCounterElement) {
+                    motivationCounterElement.classList.add('hidden');
+                                    }
+            }
+            else {
+                if (motivationCounterElement) {
+                    motivationCounterElement.classList.remove('hidden');
+
+                }
+            }
+        }
+
+        // Die Funktion beim Laden der Komponente ausführen
+        checkURLForLogin();
+    }, [history, location]);
+
+    useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth < 1024) {
                 setIsDesktop(false)
@@ -106,7 +128,7 @@ const Tabs: React.FC = () => {
                     </IonTabButton>
                     <IonTabButton tab="tab3" href="/tabs/tab3">
                         <IonIcon aria-hidden="true" icon={statsChartOutline}/>
-                        <IonLabel>Statistiken</IonLabel>
+                        <IonLabel>Statistik</IonLabel>
                     </IonTabButton>
                   {isAdmin && isDesktop && (
                       <IonTabButton tab="tab4" href="/tabs/tab4">
