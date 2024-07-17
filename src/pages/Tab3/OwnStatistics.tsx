@@ -1,7 +1,6 @@
 import {IonContent, IonPage} from '@ionic/react';
 import {useLocation} from 'react-router-dom';
 
-import WeeklyStats from "../../components/WeeklyStats";
 import React, {useEffect, useState} from "react";
 import FinishedChallenges from "../../components/FinishedChallenges";
 import ColumnChart from "../../components/charts/ColumnChart";
@@ -14,6 +13,7 @@ import {
     getOwnStatistic,
 } from "../../util/service/ownStatisticService";
 import {getLapsedDays} from "../../util/service/util";
+import ProgressBar from "../../components/charts/ProgressBar";
 
 const OwnStatistics: React.FC = () => {
     const [loading, setLoading] = useState(true);
@@ -87,22 +87,33 @@ const OwnStatistics: React.FC = () => {
         <IonPage style={{marginTop: '110px', marginBottom: '65px'}} className={"statistics"}>
             <IonContent>
                 <h2>Dein Wettbewerb</h2>
-                <div className="wrapper">
-                    <WeeklyStats steps={totalSteps} distance={totalKilometers} rank={place}
-                                 maxSteps={userStepGoal * lapsedDays} maxDistance={userKilometerGoal * lapsedDays} maxRank={maxPlace}/>
-                </div>
-                <div className={"gridContainer"}>
+                {/*<div className="wrapper">*/}
+                {/*    <WeeklyStats steps={totalSteps} distance={totalKilometers} rank={place}*/}
+                {/*                 maxSteps={userStepGoal * lapsedDays} maxDistance={userKilometerGoal * lapsedDays} maxRank={maxPlace}/>*/}
+                {/*</div>*/}
+                <div className="flex gridContainer">
 
-                <div className="wrapper">
-                    <ColumnChart labels={ownStatsLabels} columnData={ownStatsSteps}
-                                 type={'statistics'} weeks={ownStatsWeeks}/>
+                    <div className="wrapper weekly-stats">
+                        <ProgressBar value={totalSteps} maxValue={userStepGoal * lapsedDays} type={"OverviewSteps"}
+                                     group={group}></ProgressBar>
+                    </div>
+                    <div className="wrapper weekly-stats">
+                        <ProgressBar value={totalKilometers} maxValue={userKilometerGoal * lapsedDays}
+                                     type={"OverviewDistance"}></ProgressBar>
+                    </div>
                 </div>
-                <FinishedChallenges finishedChallenges={finishedChallenges}/>
-                </div>
+                    <div className={"gridContainer"}>
+
+                        <div className="wrapper">
+                            <ColumnChart labels={ownStatsLabels} columnData={ownStatsSteps}
+                                         type={'statistics'} weeks={ownStatsWeeks}/>
+                        </div>
+                        <FinishedChallenges finishedChallenges={finishedChallenges}/>
+                    </div>
 
             </IonContent>
         </IonPage>
-    );
+);
 }
 
 export default OwnStatistics;

@@ -66,6 +66,7 @@ const Login: React.FC = () => {
                             type="email"
                             value={email}
                             onChange={e => setEmail(e.target.value!)}
+                            onKeyPress={handleEnterPress}
                         />
                     </div>
                     <div className={"loginFlex"}>
