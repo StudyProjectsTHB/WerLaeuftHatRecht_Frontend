@@ -95,14 +95,14 @@ const UserSettings: React.FC = () => {
                     <p>Zurück</p>
                 </button>
                 <h1>Persönliche Einstellungen</h1>
-                <div className={"settingsContainer"}>
+                <div className={"settingsExtraContainer"}>
 
                     <div>
                         <h2>Ziele</h2>
                         <p> Hier kannst du dein Schrittziel anpassen. </p>
-                        <div className={"flexSetting"}>
+                        <div className={""}>
                             <div>
-                                <p> Schrittziel: </p>
+                                <p className={"bold"}> Schrittziel: </p>
                                 <input
                                     type={"number"}
                                     value={userStepGoal}
@@ -119,7 +119,7 @@ const UserSettings: React.FC = () => {
                         <p> Bitte beachte, dass du nur einen Wert angeben kannst. </p>
                         <div className={"flexSetting"}>
                             <div>
-                                <p> Größe: </p>
+                                <p className={"bold"}> Größe: </p>
                                 <input
                                     type={"number"}
                                     value={userHeight}
@@ -131,7 +131,7 @@ const UserSettings: React.FC = () => {
                             </div>
 
                             <div>
-                                <p> Schrittweite: </p>
+                                <p className={"bold"}> Schrittweite: </p>
                                 <input
                                     type={"number"}
                                     value={userStepSize}

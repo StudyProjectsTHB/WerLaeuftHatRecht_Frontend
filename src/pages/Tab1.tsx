@@ -115,6 +115,7 @@ const Tab1: React.FC = () => {
             <IonContent fullscreen>
                 <div className="container">
                     <Greeting adjective={userAdjective} noun={userNoun} group={group}/>
+                    <div className={"contentDesktop"}>
                     <DailySteps steps={dailySteps}/>
                     <h2>Diese Woche</h2>
                     <div className={"wrapper"}>
@@ -133,6 +134,7 @@ const Tab1: React.FC = () => {
                         <Weather temperature={weatherToday.temperature} condition={weatherTomorrow.condition} label={"Heute"}/>
                         <Weather temperature={weatherTomorrow.temperature} condition={weatherTomorrow.condition} label={"Morgen"}/>
 
+                    </div>
                     </div>
 
                 </div>

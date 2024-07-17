@@ -124,6 +124,11 @@
         width: 100px;
     }
 
+    .contentDesktop {
+        height: calc(100vh - 50px);
+        overflow: scroll;
+    }
+
     .motivationCounter {
         display: block !important;
         position: absolute;
@@ -297,5 +302,11 @@
             order: 4;
             width: 100%;
         }
+    }
+}
+
+@media screen and (min-width: 1800px) {
+    .gridEdit {
+        grid-template-columns: 800px 600px;
     }
 }
