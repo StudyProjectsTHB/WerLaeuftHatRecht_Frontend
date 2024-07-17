@@ -8,7 +8,7 @@ import {checkToken, getToken, getUser} from "../../util/service/loginService";
 import {useHistory} from "react-router";
 import {
     getCourtCurrentPlace,
-    getCourtsStatistic,
+    getCourtsStatistic, getCourtsStatistics,
     getOwnCourtStatistic
 } from "../../util/service/allCourtsStatisticService";
 
@@ -48,8 +48,8 @@ const AllCourtsStatistics: React.FC = () => {
 
             const placeMaxPlace = getCourtCurrentPlace(token, user.group);
             const courtsStats = getCourtsStatistic(token);
-            const courtStats = getOwnCourtStatistic(token, user.group);
-
+            // const courtStats = getOwnCourtStatistic(token, user.group);
+            const courtStats = getCourtsStatistics(token);
             placeMaxPlace.then((response) => {
                 setPlace(response[0]);
                 setMaxPlace(response[1]);

@@ -55,3 +55,25 @@ export const getOwnCourtStatistic = async (token: string, group: Group): Promise
     }
     return [weeklySteps, response.map((week) =>"KW " + week.weekNumber), weeks]
 }
+
+export const getCourtsStatistics = async (token: string): Promise<[number[], string[], string[]]> => {
+    const competition = await getCompetitionData(token);
+    const today = getCurrentDate();
+    const endDate = today < competition[1] ? today : competition[1];
+    const response = getCalendarWeeksBetweenDates(competition[0], endDate);
+
+    const weeklySteps = []
+    const weeks = []
+    for (let i = 0; i < response.length; i++) {
+        const request: StatisticDurationDTO = {
+            startDate: response[i].startOfWeek,
+            endDate: response[i].endOfWeek
+        };
+        const res = await createGroupStatistics(token, request);
+        const res_combined = res.map(groupStep => groupStep.stepsPerUser).reduce((a, b) => a + b, 0) / res.length;
+        const week = new Date(response[i].startOfWeek).toLocaleDateString() + " - " + new Date(response[i].endOfWeek).toLocaleDateString();
+        weeklySteps.push(Math.round(res_combined));
+        weeks.push(week);
+    }
+    return [weeklySteps, response.map((week) =>"KW " + week.weekNumber), weeks];
+}
