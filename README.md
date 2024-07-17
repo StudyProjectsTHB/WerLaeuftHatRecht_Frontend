@@ -1,6 +1,5 @@
 # Wer läuft hat Recht
-
-Backend/Frontend der responsiven Web-App für den Schrittzähler-Wettbewerb der Justiz Brandenburg. In der Anwendung können die Nutzer regelmäßig innerhalb eines Wettbewerbs ihre gelaufenen Schritte eintragen und so untereinander innerhalb ihrer Institution und miteinander gegen die anderen Institutionen konkurrieren.
+Frontend der responsiven Web-App für den Schrittzähler-Wettbewerb der Justiz Brandenburg. In der Anwendung können die Nutzer regelmäßig innerhalb eines Wettbewerbs ihre gelaufenen Schritte eintragen und so untereinander innerhalb ihrer Institution und miteinander gegen die anderen Institutionen konkurrieren.
 
 ## Features:
 
