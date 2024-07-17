@@ -41,31 +41,36 @@ import Login from "./pages/Login";
 import Tabs from "./Tabs";
 import Register from "./pages/Register";
 import './theme/desktop.css';
-import React from "react";
+import React, {useEffect} from "react";
 
 setupIonicReact();
 
 const App: React.FC = () => {
-    return (
-        <IonApp>
-            <IonReactRouter>
-                <IonRouterOutlet>
-                    <Switch>
-                        <Route path="/login" component={Login} exact={true}/>
-                        <Route path="/register/:token" component={Register} exact={true}/>
-                        <Route path="/tabs" component={Tabs}/>
-                        <Route exact path="/" render={() => <Redirect to="/login"/>}/>
-                        <Route path="*" render={() => <Redirect to="/login"/>}/>
-                    </Switch>
-                </IonRouterOutlet>
-                <div className={"motivationCounter"} style={{display: 'none'}}>
-                    <h2>0 Tage verbleibend</h2>
-                    <p>Gib Vollgas. Du schaffst das!</p>
-                </div>
-            </IonReactRouter>
-        </IonApp>
-    );
-};
+    useEffect(() => {
+        document.title = "Wer Läuft Hat Recht!";
+    }, []);
+
+return (
+    <IonApp>
+        <IonReactRouter>
+            <IonRouterOutlet>
+                <Switch>
+                    <Route path="/login" component={Login} exact={true}/>
+                    <Route path="/register/:token" component={Register} exact={true}/>
+                    <Route path="/tabs" component={Tabs}/>
+                    <Route exact path="/" render={() => <Redirect to="/login"/>}/>
+                    <Route path="*" render={() => <Redirect to="/login"/>}/>
+                </Switch>
+            </IonRouterOutlet>
+            <div className={"motivationCounter"} style={{display: 'none'}}>
+                <h2>0 Tage verbleibend</h2>
+                <p>Gib Vollgas. Du schaffst das!</p>
+            </div>
+        </IonReactRouter>
+    </IonApp>
+);
+}
+;
 
 
 export default App;
