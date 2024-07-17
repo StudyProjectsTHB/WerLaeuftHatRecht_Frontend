@@ -54,7 +54,7 @@ const ThreeQuarterDoughnutChart: React.FC<{value:number, maxValue:number, onClic
 
     return (
         <div className={`circular-progress-bar calendar`}>
-            <Doughnut data={data} options={options} style={{}}/>
+            <Doughnut data={data} options={options}/>
             <div className="circular-progress-bar_value">
                 <span className={"value"}>{value.toLocaleString("de-DE")}</span> <p className={"stepGoal"}>/ {maxValue.toLocaleString("de-DE")}</p>
             </div>
