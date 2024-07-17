@@ -310,3 +310,9 @@
         grid-template-columns: 800px 600px;
     }
 }
+
+.manager{
+    @media screen and (max-width: 1024px) {
+        display: none;
+    }
+}
