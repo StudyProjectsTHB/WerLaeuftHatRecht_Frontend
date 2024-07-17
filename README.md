@@ -13,7 +13,7 @@
 - **Passwort**: 12345678
 
 ## Das Backend Repository:
-- [Backend Repository](https://github.com/StudyProjectsTHB/WerLaeuftHatRecht_Backend)
+- [Backend Repository](github.com/StudyProjectsTHB/WerLaeuftHatRecht_Backend)
 
 ## Die Figma Links
 ### Für das Desktopdesign:
