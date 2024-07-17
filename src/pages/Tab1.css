@@ -370,13 +370,14 @@ p.bold {
         padding: 0 0 20px;
         flex-wrap: wrap;
         gap: 20px;
-
+        display: block;
         &:hover {
             background: none;
         }
 
         div {
             display: block;
+            margin-bottom: 20px;
 
             &.unactive {
                 opacity: 0.3;

@@ -118,7 +118,7 @@ const UserSettings: React.FC = () => {
                         <p> Hier kannst du deine Größe und Schrittweite für eine genauere Distanzberechnung anpassen. </p>
                         <p> Bitte beachte, dass du nur einen Wert angeben kannst. </p>
                         <div className={"flexSetting"}>
-                            <div>
+                            <div className={userStepSize > 0 ? "unactive" : ""}>
                                 <p className={"bold"}> Größe: </p>
                                 <input
                                     type={"number"}
@@ -130,7 +130,7 @@ const UserSettings: React.FC = () => {
                                 <span>cm</span>
                             </div>
 
-                            <div>
+                            <div className={userHeight > 0 ? "unactive" : ""}>
                                 <p className={"bold"}> Schrittweite: </p>
                                 <input
                                     type={"number"}
