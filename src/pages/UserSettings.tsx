@@ -108,7 +108,8 @@ const UserSettings: React.FC = () => {
                                     value={userStepGoal}
                                     onChange={(e) => {
                                         const value = parseInt(e.target.value);
-                                        if (value > 0) setUserStepGoal(value);
+                                        if (value >= 0) setUserStepGoal(value);
+                                        // 0 must be caught in service
                                     }}
                                 />
                                 <span> Schritte</span>
