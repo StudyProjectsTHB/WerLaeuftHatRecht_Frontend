@@ -49,7 +49,7 @@ const CourtStatistics: React.FC = () => {
             setGroup(user.group.name);
             setLoading(false);
             const placeMaxPlace = getOwnCourtCurrentPlace(token, user);
-            const ownStats = getCourtOwnStatistic(token, user);
+            const ownStats = getCourtOwnStatistic(token, user.group);
             const lapsedDays = getLapsedDays(token);
             const courtStats = getCourtStatistic(token, user.group);
 
@@ -123,7 +123,7 @@ const CourtStatistics: React.FC = () => {
                     </div>
                     <div className="wrapper">
                         <ColumnChart labels={ownStatsLabels} columnData={ownStatsSteps}
-                                     type={'statistics'} weeks={ownStatsWeeks}/>
+                                     type={'courtStatistics'} weeks={ownStatsWeeks}/>
                     </div>
                 </div>
             </IonContent>

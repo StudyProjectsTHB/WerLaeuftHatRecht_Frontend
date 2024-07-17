@@ -22,16 +22,22 @@ Frontend der responsiven Web-App für den Schrittzähler-Wettbewerb der Justiz B
 - Festlegung individueller Schrittziele
 - E-Mail-Benachrichtigung über wöchentliche Herausforderungen
 
+## Das Team
+- Camillo Dobrovsky
+- Laurin Jonientz
+- Fanny Wolff
+- Leon Schönberg
+
 ## Die Anwendung
 - [Wer läuft hat Recht](https://mux.ein-toast.de)
 
 ## Zugangsdaten
 ### Für eine/n Gesundheitsmanager/in:
-- **E-Mail**: user0@gericht-brb.dummy
+- **E-Mail**: user0@gericht.brandenburg.dummy
 - **Passwort**: 12345678
 
 ### Für eine/n Standardnutzer/in:
-- **E-Mail**: user1@gericht-brb.dummy
+- **E-Mail**: user1@gericht.brandenburg.dummy
 - **Passwort**: 12345678
 
 ## Das Backend Repository:

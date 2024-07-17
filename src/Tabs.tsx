@@ -28,7 +28,6 @@ import UserSettings from "./pages/UserSettings";
 const Tabs: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [isAdmin, setIsAdmin] = useState(false);
-    const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1024);
     const [motivationMessage, setMotivationMessage] = useState("Gib Vollgas. Du schaffst das!");
     const [daysRemaining, setDaysRemaining] = useState(0);
 
@@ -44,9 +43,8 @@ const Tabs: React.FC = () => {
             if (currentURL.includes('login')) {
                 if (motivationCounterElement) {
                     motivationCounterElement.classList.add('hidden');
-                                    }
-            }
-            else {
+                }
+            } else {
                 if (motivationCounterElement) {
                     let motivationMessage = "Gib Vollgas. Du schaffst das!";
                     if (daysRemaining === 0) {
@@ -64,17 +62,9 @@ const Tabs: React.FC = () => {
     }, [location, daysRemaining]);
 
     useEffect(() => {
-        const handleResize = () => {
-            if (window.innerWidth < 1024) {
-                setIsDesktop(false)
-            } else {
-                setIsDesktop(true)
-            }
-        }
         if (!checkToken()) {
             window.location.assign('/login');
         }
-
 
         const token = getToken();
         const user = getUser(token);
@@ -97,14 +87,10 @@ const Tabs: React.FC = () => {
             return () => clearInterval(intervalId);
 
         }
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
 
     }, [location]);
 
-            return (
+    return (
         <IonReactRouter>
             <IonTabs>
                 <IonRouterOutlet>
@@ -158,12 +144,12 @@ const Tabs: React.FC = () => {
                         <IonIcon aria-hidden="true" icon={statsChartOutline}/>
                         <IonLabel>Statistik</IonLabel>
                     </IonTabButton>
-                  {isAdmin && isDesktop && (
-                      <IonTabButton tab="tab4" href="/tabs/tab4">
+                    {isAdmin &&
+                    <IonTabButton tab="tab4" href="/tabs/tab4" className={"manager"}>
                         <IonIcon aria-hidden="true" icon={settingsOutline}/>
                         <IonLabel>Manager</IonLabel>
-                      </IonTabButton>
-                  )}
+                    </IonTabButton>
+                    }
                 </IonTabBar>
             </IonTabs>
         </IonReactRouter>

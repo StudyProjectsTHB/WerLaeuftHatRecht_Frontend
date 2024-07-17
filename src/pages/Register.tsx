@@ -71,6 +71,7 @@ const Register: React.FC = () => {
                             type="password"
                             value={password}
                             onChange={e => setPassword(e.target.value!)}
+                            onKeyPress={handleEnterPress}
                         />
                     </div>
                     <div className={"loginFlex"}>

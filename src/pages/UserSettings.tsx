@@ -1,10 +1,10 @@
 import {IonButton, IonContent, IonIcon, IonPage} from '@ionic/react';
 import React, {useEffect, useState} from "react";
 import Greeting from "../components/Greeting";
-import {arrowBack, arrowForwardOutline, logOutOutline, personOutline, settingsOutline} from "ionicons/icons";
+import {arrowBack} from "ionicons/icons";
 import {useHistory} from "react-router";
 import {useLocation} from "react-router-dom";
-import {checkToken, getToken, getUser, logoutUser} from "../util/service/loginService";
+import {checkToken, getToken, getUser} from "../util/service/loginService";
 import {changeUserSettings} from "../util/service/userSettingsService";
 
 const UserSettings: React.FC = () => {
@@ -119,7 +119,7 @@ const UserSettings: React.FC = () => {
                         <p> Hier kannst du deine Größe und Schrittweite für eine genauere Distanzberechnung anpassen. </p>
                         <p> Bitte beachte, dass du nur einen Wert angeben kannst. </p>
                         <div className={"flexSetting"}>
-                            <div>
+                            <div className={userStepSize > 0 ? "unactive" : ""}>
                                 <p className={"bold"}> Größe: </p>
                                 <input
                                     type={"number"}
@@ -131,7 +131,7 @@ const UserSettings: React.FC = () => {
                                 <span>cm</span>
                             </div>
 
-                            <div>
+                            <div className={userHeight > 0 ? "unactive" : ""}>
                                 <p className={"bold"}> Schrittweite: </p>
                                 <input
                                     type={"number"}
