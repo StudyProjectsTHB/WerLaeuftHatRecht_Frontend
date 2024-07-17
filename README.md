@@ -12,11 +12,7 @@
 - **E-Mail**: user1@gericht-brb.dummy
 - **Passwort**: 12345678
 
-## Die Repositories auf GitHub
-### Für das Frontend:
-- [Frontend Repository](https://github.com/StudyProjectsTHB/WerLaeuftHatRecht_Frontend)
-
-### Für das Backend:
+## Das Backend Repository:
 - [Backend Repository](https://github.com/StudyProjectsTHB/WerLaeuftHatRecht_Backend)
 
 ## Die Figma Links
