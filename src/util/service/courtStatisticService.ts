@@ -1,6 +1,5 @@
 import {Group, StatisticDurationDTO, UserDTO} from "../api/config/dto";
 import {getCurrentPlace} from "./overviewStatisticService";
-import {getOwnStatistic} from "./ownStatisticService";
 import {createGroupStatistic, createGroupUserStatistic} from "../api/statisticsApi";
 import {getCompetitionData} from "./competitionService";
 import {getCalendarWeeksBetweenDates, getCurrentDate} from "./util";

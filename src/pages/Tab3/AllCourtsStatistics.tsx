@@ -8,8 +8,7 @@ import {checkToken, getToken, getUser} from "../../util/service/loginService";
 import {useHistory} from "react-router";
 import {
     getCourtCurrentPlace,
-    getCourtsStatistic, getCourtsStatistics,
-    getOwnCourtStatistic
+    getCourtsStatistic, getCourtsStatistics
 } from "../../util/service/allCourtsStatisticService";
 
 const AllCourtsStatistics: React.FC = () => {

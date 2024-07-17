@@ -1,10 +1,10 @@
 import {IonButton, IonContent, IonIcon, IonPage} from '@ionic/react';
 import React, {useEffect, useState} from "react";
 import Greeting from "../components/Greeting";
-import {arrowBack, arrowForwardOutline, logOutOutline, personOutline, settingsOutline} from "ionicons/icons";
+import {arrowBack} from "ionicons/icons";
 import {useHistory} from "react-router";
 import {useLocation} from "react-router-dom";
-import {checkToken, getToken, getUser, logoutUser} from "../util/service/loginService";
+import {checkToken, getToken, getUser} from "../util/service/loginService";
 import {changeUserSettings} from "../util/service/userSettingsService";
 
 const UserSettings: React.FC = () => {

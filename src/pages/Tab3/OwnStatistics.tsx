@@ -1,7 +1,6 @@
 import {IonContent, IonPage} from '@ionic/react';
 import {useLocation} from 'react-router-dom';
 
-import WeeklyStats from "../../components/WeeklyStats";
 import React, {useEffect, useState} from "react";
 import FinishedChallenges from "../../components/FinishedChallenges";
 import ColumnChart from "../../components/charts/ColumnChart";
