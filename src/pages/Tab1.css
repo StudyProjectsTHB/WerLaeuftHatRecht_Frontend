@@ -345,3 +345,46 @@
         display: none;
     }
 }
+
+span {
+    color: #000;
+}
+
+p.bold {
+    font-weight: bold;
+    margin: 0;
+}
+
+.settingsExtraContainer {
+    input {
+        padding: 10px;
+        background: transparent;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: center;
+        color: #000;
+    }
+
+    .flexSetting {
+        padding: 0 0 20px;
+        flex-wrap: wrap;
+        gap: 20px;
+
+        &:hover {
+            background: none;
+        }
+
+        div {
+            display: block;
+
+            &.unactive {
+                opacity: 0.3;
+            }
+        }
+    }
+}
+
+.settingsExtraContainer.settings.PageModal {
+    padding: 0;
+}

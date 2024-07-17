@@ -188,7 +188,6 @@ ion-list {
 .flex.headline {
     justify-content: space-between;
     padding-left: 20px;
-    padding-right: 20px;
     align-items: center;
     margin-top: 40px;
 
@@ -268,7 +267,7 @@ ion-modal {
     &:before {
         content: attr(data-index);
         position: absolute;
-        width: 20px;
+        width: auto;
         left: calc(50% - 2px);
         z-index: 1;
         top: calc(50% - 30px);
