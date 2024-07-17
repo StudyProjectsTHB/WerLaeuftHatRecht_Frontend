@@ -35,7 +35,7 @@ Frontend der responsiven Web-App für den Schrittzähler-Wettbewerb der Justiz B
 - **Passwort**: 12345678
 
 ## Das Backend Repository:
-- [Backend Repository](github.com/StudyProjectsTHB/WerLaeuftHatRecht_Backend)
+- [Backend Repository](http://github.com/StudyProjectsTHB/WerLaeuftHatRecht_Backend)
 
 ## Die Figma Links
 ### Für das Desktopdesign:
