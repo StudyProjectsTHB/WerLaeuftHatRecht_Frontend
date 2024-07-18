@@ -80,10 +80,17 @@ const Statistics: React.FC = () => {
 
     const handleDownloadUsersCSV = async () => {
         let users;
-        if (selectedCourtId === -1) {
-            users = await exportAllCourtsUsers(getToken());
-        } else {
-            users = await exportCourtUsers(getToken(), selectedCourtId);
+        try{
+            if (selectedCourtId === -1) {
+                users = await exportAllCourtsUsers(getToken());
+            } else {
+                users = await exportCourtUsers(getToken(), selectedCourtId);
+            }
+        } catch (e) {
+            setMessage("Excel-Datei konnte nicht erstellt werden");
+            setToastColor('#CD7070');
+            setShowToast(true);
+            return;
         }
 
         const usersNames = users[1];
