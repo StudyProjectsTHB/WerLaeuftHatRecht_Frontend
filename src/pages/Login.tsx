@@ -48,6 +48,17 @@ const Login: React.FC = () => {
         checkURLForLogin();
     }, [location]);
 
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        if (params.get("registered")) {
+            setMessage('Registrierung erfolgreich');
+            setToastColor('#68964C');
+            setShowToast(true);
+            params.delete("registered");
+            history.replace({search: params.toString()});
+        }
+    }, [location.search]);
+
     const handleLogin = async () => {
         try {
             await loginUser(email, password);

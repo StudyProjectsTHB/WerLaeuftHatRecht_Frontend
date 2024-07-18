@@ -28,7 +28,7 @@ const Register: React.FC = () => {
                 setMessage('Registrierung erfolgreich');
                 setToastColor('#68964C');
                 setShowToast(true);
-                history.push('/login', {direction: 'none'});
+                history.push('/login?registered=true');
             } else {
                 setMessage('Registrierung fehlgeschlagen');
                 setToastColor('#CD7070');
@@ -100,21 +100,18 @@ const Register: React.FC = () => {
                     </div>
                     <button className={"secondary"} onClick={handleRegister}>Registriere dich</button>
                 </div>
-                {ReactDOM.createPortal(
-                    <IonToast
-                        isOpen={showToast}
-                        onDidDismiss={() => setShowToast(false)}
-                        message={message}
-                        duration={3000}
-                        cssClass="toast"
-                        style={{
-                            '--toast-background': toastColor
-                        }}
-                    />,
-                    document.getElementById('toast-container') as HTMLElement
-                )}
-            </IonContent>
 
+            </IonContent>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonPage>
     );
 };

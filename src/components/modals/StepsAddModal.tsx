@@ -101,7 +101,7 @@ const StepsAddModal = ({isOpen, onClose, date}: AddStepsModalProps) => {
         try {
             const stepDays = await addSteps(getToken(), enteredSteps, formatDate(startDate), formatDate(endDate));
             if (stepDays) {
-                setEnteredSteps(null);
+                setEnteredSteps("");
                 setStartDate(new Date());
                 setEndDate(new Date());
                 onClose(true);
@@ -148,7 +148,7 @@ const StepsAddModal = ({isOpen, onClose, date}: AddStepsModalProps) => {
     return (
         <IonModal isOpen={isOpen} onDidDismiss={() => {
             onClose(false);
-            setEnteredSteps(null);
+            setEnteredSteps("");
             setStartDate(new Date());
             setEndDate(new Date());
         }}>
@@ -204,7 +204,7 @@ const StepsAddModal = ({isOpen, onClose, date}: AddStepsModalProps) => {
                     <div className={"buttonContainer"}>
                         <button slot="end" onClick={() => {
                             onClose(false);
-                            setEnteredSteps(null);
+                            setEnteredSteps("");
                             setStartDate(new Date());
                             setEndDate(new Date());
                         }} className={"secondary"}>Abbrechen
