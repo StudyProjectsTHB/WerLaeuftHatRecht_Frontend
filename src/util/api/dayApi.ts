@@ -15,11 +15,11 @@ export const deleteDay = async (token: string, date: string): Promise<void> => {
 
     if (!response.ok) {
         if (response.status === 401) {
-            throw new Error('Unauthorized');
+            throw new Error('Nicht autorisierter Zugriff');
         } else if (response.status === 409) {
-            throw new Error('Competition Not Started');
+            throw new Error('Wettbewerb nicht gestartet');
         } else {
-            throw new Error('An error occurred while deleting the day');
+            throw new Error('Tag konnte nicht gelöscht werden');
         }
     }
 };
@@ -37,11 +37,11 @@ export const deleteDays = async (token: string, startDate: string, endDate: stri
 
     if (!response.ok) {
         if (response.status === 401) {
-            throw new Error('Unauthorized');
+            throw new Error('Nicht autorisierter Zugriff');
         } else if (response.status === 409) {
-            throw new Error('Competition Not Started');
+            throw new Error('Wettbewerb nicht gestartet');
         } else {
-            throw new Error('An error occurred while deleting the days');
+            throw new Error('Tage konnten nicht gelöscht werden');
         }
     }
 
@@ -63,11 +63,11 @@ export const updateDay = async (token: string, date: string, daySteps: StepsDTO)
 
     if (!response.ok) {
         if (response.status === 401) {
-            throw new Error('Unauthorized');
+            throw new Error('Nicht autorisierter Zugriff');
         } else if (response.status === 409) {
-            throw new Error('Competition Not Started');
+            throw new Error('Wettbewerb nicht gestartet');
         } else {
-            throw new Error('An error occurred while updating the day');
+            throw new Error('Tag konnte nicht aktualisiert werden');
         }
     }
 
@@ -88,13 +88,13 @@ export const addDays = async (token: string, durationSteps: DurationStepsDTO): P
 
     if (!response.ok) {
         if (response.status === 401) {
-            throw new Error('Unauthorized');
+            throw new Error('Nicht autorisierter Zugriff');
         } else if (response.status === 400) {
-            throw new Error('Bad Request');
+            throw new Error('Ungültige Anfrage');
         } else if (response.status === 409) {
-            throw new Error('Competition Not Started or Days Not in Competition');
+            throw new Error('Tage nicht im Wettbewerbszeitraum');
         } else {
-            throw new Error('An error occurred while adding the days');
+            throw new Error('Tage konnten nicht hinzugefügt werden');
         }
     }
 
@@ -114,9 +114,9 @@ export const getDays = async (token: string): Promise<DayDTO[]> => {
 
     if (!response.ok) {
         if (response.status === 401) {
-            throw new Error('Unauthorized');
+            throw new Error('Nicht autorisierter Zugriff');
         } else {
-            throw new Error('An error occurred while fetching the days');
+            throw new Error('Tage konnten nicht abgerufen werden');
         }
     }
 

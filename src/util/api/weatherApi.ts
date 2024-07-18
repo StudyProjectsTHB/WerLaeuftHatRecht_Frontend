@@ -13,7 +13,11 @@ export const getWeather = async (token: string): Promise<WeatherResponseDTO> => 
     });
 
     if (!response.ok) {
-        throw new Error('Failed to fetch weather data');
+        if (response.status === 401) {
+            throw new Error('Nicht autorisierter Zugriff');
+        } else {
+            throw new Error('Failed to fetch weather data');
+        }
     }
 
     return await response.json();

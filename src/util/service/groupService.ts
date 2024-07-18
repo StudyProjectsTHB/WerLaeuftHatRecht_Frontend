@@ -22,11 +22,6 @@ export const addGroup = async (token: string, groupName: string, numberOfEmploye
 }
 
 export const removeGroup = async (token: string, groupId: number): Promise<boolean> => {
-    try {
-        await deleteGroup(token, groupId);
+    await deleteGroup(token, groupId);
         return true;
-    } catch (e) {
-        console.log(e);
-        return false;
-    }
 }

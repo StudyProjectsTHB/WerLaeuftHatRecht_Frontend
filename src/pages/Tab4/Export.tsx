@@ -1,6 +1,6 @@
 import {
     IonButton,
-    IonContent, IonIcon, IonPage,
+    IonContent, IonIcon, IonPage, IonToast,
 
 } from '@ionic/react';
 import {useLocation} from 'react-router-dom';
@@ -31,35 +31,51 @@ const Statistics: React.FC = () => {
 
     const [selectedCourtName, setSelectedCourtName] = useState<string | undefined>("Alle Gerichte");
     const [selectedCourtId, setSelectedCourtId] = useState<number | undefined>(-1);
+
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+
     const history = useHistory();
     const location = useLocation();
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login', {direction: 'none'});
-            window.location.assign('/login');
-        }
-
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-            setLoading(false);
-
-            if (!user.admin) {
-                window.location.assign('/tabs/tab1');
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login', {direction: 'none'});
+                window.location.assign('/login');
             }
 
-            const courts = getAllCourts(token);
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
 
-            courts.then((courts) => {
-                setCourtsNames(courts.map(court => court.name));
-                setCourtsIds(courts.map(court => court.id));
-            });
+
+                if (!user.admin) {
+                    window.location.assign('/tabs/tab1');
+                }
+
+                const courts = getAllCourts(token);
+
+                courts.then((courts) => {
+                    setCourtsNames(courts.map(court => court.name));
+                    setCourtsIds(courts.map(court => court.id));
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Gerichte konnten nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+                });
+            }
         }
+        fetchData();
     }, [location]);
 
     const handleDownloadUsersCSV = async () => {
@@ -173,6 +189,17 @@ const Statistics: React.FC = () => {
                     </div>
                 </div>
             </IonContent>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonPage>
     )
 };

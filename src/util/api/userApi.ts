@@ -14,29 +14,24 @@ import {
 export const login = async (request: AuthenticationRequestDTO): Promise<AuthenticationResponseDTO> => {
     const url = `${API_BASE_URL}/users/login`;
 
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(request),
-        });
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(request),
+    });
 
-        if ( !response.ok ) {
-            if ( response.status === 401 ) {
-                throw new Error('Invalid credentials');
-            } else {
-                throw new Error('Login failed');
-            }
+    if (!response.ok) {
+        if (response.status === 401) {
+            throw new Error('Email oder Passwort ist falsch');
+        } else {
+            throw new Error('Login fehlgeschlagen');
         }
-
-
-        return await response.json();
-
-    } catch (error) {
-        throw new Error('Login failed');
     }
+
+
+    return await response.json();
 
 
 };
@@ -54,13 +49,13 @@ export const registerUserPassword = async (userPasswords: UserPasswordsDTO, toke
 
     if (!response.ok) {
         if (response.status === 404) {
-            throw new Error('Token not found');
+            throw new Error('Token wurde nicht gefunden');
         } else if (response.status === 401) {
-            throw new Error('Token expired');
+            throw new Error('Token ist abgelaufen');
         } else if (response.status === 400) {
-            throw new Error('Password mismatch');
+            throw new Error('Passwörter stimmen nicht überein');
         } else {
-            throw new Error('Registration failed');
+            throw new Error('Registrierung fehlgeschlagen');
         }
     }
 
@@ -80,7 +75,11 @@ export const createUsers = async (token: string, userCreations: UserCreationDTO[
     });
 
     if (!response.ok) {
-        throw new Error('User creation failed');
+        if (response.status === 401) {
+            throw new Error('Nicht autorisierter Zugriff');
+        } else {
+            throw new Error('Nutzer konnte nicht erstellt werden');
+        }
     }
 
     return await response.json();
@@ -96,9 +95,12 @@ export const getUsers = async (token: string): Promise<UserDTO[]> => {
             'Content-Type': 'application/json',
         },
     });
-
     if (!response.ok) {
-        throw new Error('Failed to fetch users');
+        if (response.status === 401) {
+            throw new Error('Nicht autorisierter Zugriff');
+        } else {
+            throw new Error('Nutzer konnten nicht abgerufen werden');
+        }
     }
 
     return await response.json();
@@ -114,9 +116,12 @@ export const getOwnUser = async (token: string): Promise<UserDTO> => {
             'Content-Type': 'application/json',
         },
     });
-
     if (!response.ok) {
-        throw new Error('Failed to fetch own user');
+        if (response.status === 401) {
+            throw new Error('Nicht autorisierter Zugriff');
+        } else {
+            throw new Error('Eigener Nutzer konnte nicht abgerufen werden');
+        }
     }
 
     return await response.json();
@@ -134,7 +139,11 @@ export const deleteUser = async (token: string, id: number): Promise<void> => {
     });
 
     if (!response.ok) {
-        throw new Error('Failed to delete user');
+        if (response.status === 401) {
+            throw new Error('Nicht autorisierter Zugriff');
+        } else {
+            throw new Error('Nutzer konnte nicht gelöscht werden');
+        }
     }
 };
 
@@ -153,11 +162,13 @@ export const updateUser = async (token: string, id: number, updateUser: UpdateUs
 
     if (!response.ok) {
         if (response.status === 404) {
-            throw new Error('User not found');
+            throw new Error('Nutzer nicht gefunden');
         } else if (response.status === 400) {
-            throw new Error('Invalid update data');
+            throw new Error('Fehlerhafte Anfrage');
+        } else if (response.status === 401) {
+            throw new Error('Nicht autorisierter Zugriff');
         } else {
-            throw new Error('Failed to update user');
+            throw new Error('Nutzer konnte nicht aktualisiert werden');
         }
     }
 
@@ -176,7 +187,7 @@ export const startPasswordReset = async (emailDTO: EmailDTO): Promise<void> => {
     });
 
     if (!response.ok) {
-        throw new Error('Failed to start password reset');
+        throw new Error('Fehler beim Zurücksetzen des Passworts');
     }
 };
 
@@ -193,13 +204,13 @@ export const resetPassword = async (userPasswords: UserPasswordsDTO, token: stri
 
     if (!response.ok) {
         if (response.status === 404) {
-            throw new Error('Token not found');
+            throw new Error('Token nicht gefunden');
         } else if (response.status === 401) {
-            throw new Error('Token expired');
+            throw new Error('Token abgelaufen');
         } else if (response.status === 400) {
-            throw new Error('Password mismatch');
+            throw new Error('Passwörter stimmen nicht überein');
         } else {
-            throw new Error('Failed to reset password');
+            throw new Error('Fehler beim Zurücksetzen des Passworts');
         }
     }
 };

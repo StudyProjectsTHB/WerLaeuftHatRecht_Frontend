@@ -1,6 +1,6 @@
 import {
     IonContent, IonIcon, IonList,
-    IonPage,
+    IonPage, IonToast,
 
 } from '@ionic/react';
 import {useLocation} from 'react-router-dom';
@@ -43,6 +43,10 @@ const User: React.FC = () => {
     const [selectedId, setSelectedId] = useState<number | undefined>(0);
     const [selectedAdmin, setSelectedAdmin] = useState<boolean | undefined>(false);
 
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+
     const history = useHistory();
     const location = useLocation();
     const [modalClosed, setModalClosed] = useState<boolean>(false);
@@ -67,8 +71,33 @@ const User: React.FC = () => {
         setShowDeleteModal(true);
     };
 
-    const handleCloseModal = () => {
+    const handleCloseModal = (user:Object) => {
         setModalClosed(prev => !prev);
+        if (user.userDeleted) {
+            setMessage('Nutzer gelöscht');
+            setToastColor('#68964C');
+            setShowToast(true);
+        } else if (user.userChanged) {
+            setMessage('Email geändert');
+            setToastColor('#68964C');
+            setShowToast(true);
+        } else if (user.userAdded) {
+            setMessage('Nutzer hinzugefügt');
+            setToastColor('#68964C');
+            setShowToast(true);
+        }else if (user.userAdmin) {
+            setMessage('Managerrechte vergeben');
+            setToastColor('#68964C');
+            setShowToast(true);
+        } else if (user.userNoAdmin) {
+            setMessage('Managerrechte entzogen');
+            setToastColor('#68964C');
+            setShowToast(true);
+        } else if (user.courtChanged) {
+            setMessage('Gericht geändert');
+            setToastColor('#68964C');
+            setShowToast(true);
+        }
     };
 
     useEffect(() => {
@@ -81,41 +110,61 @@ const User: React.FC = () => {
 
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login', {direction: 'none'});
-            window.location.assign('/login');
-        }
-
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-            setLoading(false);
-
-            if (!user.admin) {
-                window.location.assign('/tabs/tab1');
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login', {direction: 'none'});
+                window.location.assign('/login');
             }
 
-            const users = getAllUsers(token);
-            const groups = getAllCourts(token);
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
 
-            users.then((users) => {
-                setUsersName(users.map((user) => user.adjective + " " + user.noun));
-                setUsersEmail(users.map((user) => user.email));
-                setUsersId(users.map((user) => user.id));
-                setUsersCourts(users.map((user) => user.group.name));
-                setUserCourtsId(users.map((user) => user.group.id));
-                setUserAdmin(users.map((user) => user.admin));
-            });
 
-            groups.then((groups) => {
-                setCourtsNames(groups.map((group) => group.name));
-                setCourtsIds(groups.map((group) => group.id));
-            });
+                if (!user.admin) {
+                    window.location.assign('/tabs/tab1');
+                }
+
+                const users = getAllUsers(token);
+                const groups = getAllCourts(token);
+
+                users.then((users) => {
+                    setUsersName(users.map((user) => user.adjective + " " + user.noun));
+                    setUsersEmail(users.map((user) => user.email));
+                    setUsersId(users.map((user) => user.id));
+                    setUsersCourts(users.map((user) => user.group.name));
+                    setUserCourtsId(users.map((user) => user.group.id));
+                    setUserAdmin(users.map((user) => user.admin));
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Nutzende konnten nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+                });
+
+                groups.then((groups) => {
+                    setCourtsNames(groups.map((group) => group.name));
+                    setCourtsIds(groups.map((group) => group.id));
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Gerichte konnten nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+
+                });
+            }
         }
+        fetchData();
     }, [location, modalClosed]);
 
 
@@ -171,10 +220,21 @@ const User: React.FC = () => {
 
                 </div>
             </IonContent>
-            <UserAddModal isOpen={showAddModal} onClose={() => { setShowAddModal(false); handleCloseModal() }} courtsNames={courtsNames} courtsIds={courtsIds}/>
-            <UserAdminModal isOpen={showAdminModal} onClose={() => {setShowAdminModal(false); handleCloseModal()} } email={selectedEmail} id={selectedId} isAdmin={selectedAdmin}/>
-            <UserChangeModal isOpen={showChangeModal} onClose={() => {setShowChangeModal(false); handleCloseModal()}} email={selectedEmail} id={selectedId}/>
-            <UserDeleteModal isOpen={showDeleteModal} onClose={() => {setShowDeleteModal(false); handleCloseModal() }} email={selectedEmail} id={selectedId}/>
+            <UserAddModal isOpen={showAddModal} onClose={(user) => { setShowAddModal(false); handleCloseModal(user) }} courtsNames={courtsNames} courtsIds={courtsIds}/>
+            <UserAdminModal isOpen={showAdminModal} onClose={(user) => {setShowAdminModal(false); handleCloseModal(user)} } email={selectedEmail} id={selectedId} isAdmin={selectedAdmin}/>
+            <UserChangeModal isOpen={showChangeModal} onClose={(user) => {setShowChangeModal(false); handleCloseModal(user)}} email={selectedEmail} id={selectedId}/>
+            <UserDeleteModal isOpen={showDeleteModal} onClose={(user) => {setShowDeleteModal(false); handleCloseModal(user) }} email={selectedEmail} id={selectedId}/>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonPage>
     )
 };

@@ -6,6 +6,16 @@ export const changeUserSettings = async (token: string, id:number, stepGoal:numb
         stepGoal: stepGoal,
     }
 
+    if (height && stepSize) {
+        throw new Error('Bitte gib nur einen Wert an');
+    } else if (height < 0 || isNaN(height)) {
+        throw new Error('Bitte gib eine gültige Größe an');
+    } else if (stepSize < 0 || isNaN(stepSize)) {
+        throw new Error('Bitte gib eine gültige Schrittweite an');
+    } else if (stepGoal <= 0 || isNaN(stepGoal)) {
+        throw new Error('Bitte gib ein gültiges Schrittziel an');
+    }
+
     if (height !== 0) {
         updatedUser.height = height;
     } else if (stepSize !== 0) {

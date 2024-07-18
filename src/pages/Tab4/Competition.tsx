@@ -1,7 +1,7 @@
 import {
     IonButton,
     IonContent, IonIcon,
-    IonPage,
+    IonPage, IonToast,
 
 } from '@ionic/react';
 import {useLocation} from 'react-router-dom';
@@ -32,6 +32,10 @@ const Competition: React.FC = () => {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [showChangeModal, setShowChangeModal] = useState(false);
     const datepickerRef = useRef(null);
+
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
 
     const history = useHistory();
     const location = useLocation();
@@ -68,32 +72,44 @@ const Competition: React.FC = () => {
     }, [showDatePicker]);
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login', {direction: 'none'});
-            window.location.assign('/login');
-        }
-
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-            setLoading(false);
-
-            if (!user.admin) {
-                window.location.assign('/tabs/tab1');
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login', {direction: 'none'});
+                window.location.assign('/login');
             }
 
-            const competition = getCompetition(token);
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
 
-            competition.then((response) => {
-                setStartDate(new Date(response.startDate));
-                setEndDate(new Date(response.endDate));
-            });
+
+                if (!user.admin) {
+                    window.location.assign('/tabs/tab1');
+                }
+
+                const competition = getCompetition(token);
+
+                competition.then((response) => {
+                    setStartDate(new Date(response.startDate));
+                    setEndDate(new Date(response.endDate));
+                });
+            }
         }
+        fetchData();
     }, [location]);
+
+    const handleModalClose = (competitionChanged: boolean) => {
+        setShowChangeModal(false);
+        if (competitionChanged) {
+            setMessage('Wettbewerb geändert');
+            setToastColor('#68964C');
+            setShowToast(true);
+        }
+    }
 
 
     return (
@@ -115,7 +131,14 @@ const Competition: React.FC = () => {
                             <p>Zeitraum</p>
                         </div>
                         <div className="date-input" onClick={toggleDatePicker}>
-                            {startDate && endDate ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}` : 'Zeitraum auswählen'}
+                            {startDate && endDate && startDate.getTime() === endDate.getTime()
+                                ? `${startDate.toLocaleDateString()}`
+                                : startDate && endDate
+                                    ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`
+                                    : startDate && !endDate
+                                        ? `${startDate.toLocaleDateString()} - `
+                                        : "Zeitraum auswählen"
+                            }
                         </div>
                         {showDatePicker && (
                             <div className="datepicker-container" ref={datepickerRef}>
@@ -137,7 +160,18 @@ const Competition: React.FC = () => {
                     </IonButton>
                 </div>
             </IonContent>
-            <CompetitionChangeModal isOpen={showChangeModal} onClose={() => setShowChangeModal(false)} startDate={startDate} endDate={endDate} />
+            <CompetitionChangeModal isOpen={showChangeModal} onClose={(competitionChanged) => handleModalClose(competitionChanged)} startDate={startDate} endDate={endDate} />
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonPage>
     )
 };

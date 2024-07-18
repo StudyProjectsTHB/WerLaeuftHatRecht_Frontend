@@ -62,31 +62,34 @@ const Tabs: React.FC = () => {
     }, [location, daysRemaining]);
 
     useEffect(() => {
-        if (!checkToken()) {
-            window.location.assign('/login');
-        }
+        const fetchData = async () => {
+            if (!checkToken()) {
+                window.location.assign('/login');
+            }
 
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setIsAdmin(user.admin);
-            setLoading(false);
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setIsAdmin(user.admin);
 
-            const updateDaysRemaining = () => {
-                getDaysRemaining(token).then((days) => {
-                    setDaysRemaining(days);
-                });
-            };
 
-            updateDaysRemaining();
+                const updateDaysRemaining = () => {
+                    getDaysRemaining(token).then((days) => {
+                        setDaysRemaining(days);
+                    });
+                };
 
-            const intervalId = setInterval(() => {
                 updateDaysRemaining();
-            }, 3600000);
 
-            return () => clearInterval(intervalId);
+                const intervalId = setInterval(() => {
+                    updateDaysRemaining();
+                }, 3600000);
 
+                return () => clearInterval(intervalId);
+
+            }
         }
+        fetchData();
 
     }, [location]);
 

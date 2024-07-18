@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { IonContent, IonPage } from '@ionic/react'
+import React, {ReactDOM, useEffect, useState} from 'react';
+import {IonContent, IonPage, IonToast} from '@ionic/react'
 import {useHistory, useLocation, useParams} from 'react-router-dom';
 import {checkToken, registerUser} from "../util/service/loginService";
 
@@ -7,6 +7,9 @@ const Register: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [passwordConfirm, setPasswordConfirm] = useState<string>('')
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
 
     const history = useHistory();
     const location = useLocation();
@@ -22,22 +25,34 @@ const Register: React.FC = () => {
         try {
             const registered = await registerUser(token.token, password, passwordConfirm);
             if (registered) {
-                history.push('/login', {direction: 'none'});
+                setMessage('Registrierung erfolgreich');
+                setToastColor('#68964C');
+                setShowToast(true);
+                history.push('/login?registered=true');
             } else {
-                alert('Fehler bei der Registrierung');
+                setMessage('Registrierung fehlgeschlagen');
+                setToastColor('#CD7070');
+                setShowToast(true);
             }
-        }catch (e) {
-            console.log(e);
-            alert('Fehler bei der Registrierung');
+        } catch (error) {
+            if (error instanceof TypeError) {
+                setMessage('Registrierung fehlgeschlagen');
+            } else {
+                setMessage(error.message);
+            }
+            setToastColor('#CD7070');
+            setShowToast(true);
         }
     };
 
 
     useEffect(() => {
-        if (checkToken()) {
-            // history.push('/login', {direction: 'none'});
-            window.location.assign('/tabs/tab1');
+        const fetchData = async () => {
+            if (checkToken()) {
+                window.location.assign('/tabs/tab1');
+            }
         }
+        fetchData();
     }, [location]);
 
     useEffect(() => {
@@ -85,7 +100,18 @@ const Register: React.FC = () => {
                     </div>
                     <button className={"secondary"} onClick={handleRegister}>Registriere dich</button>
                 </div>
+
             </IonContent>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonPage>
     );
 };

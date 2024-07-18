@@ -1,7 +1,7 @@
 import {
     IonContent,
     IonPage,
-    IonRouterOutlet,
+    IonRouterOutlet, IonToast,
 } from '@ionic/react';
 import './Tab3.css';
 import {Redirect, Route, useLocation} from 'react-router-dom';
@@ -21,28 +21,35 @@ const Tab3: React.FC = () => {
     const [userStepGoal, setUserStepGoal] = useState(0);
     const [group, setGroup] = useState("");
 
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+
 
     const history = useHistory();
     const location = useLocation();
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login');
-            window.location.assign('/login');
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login');
+                window.location.assign('/login');
 
+            }
+            const token = getToken();
+            const user = getUser(token);
+
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
+
+
+            }
         }
-        const token = getToken();
-        const user = getUser(token);
-
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-
-            setLoading(false);
-        }
-    },[location]);
+        fetchData();
+    }, [location]);
 
     const getButtonClass = (path: string) => {
         return location.pathname.startsWith(path) ? 'active' : 'secondary';
@@ -51,15 +58,18 @@ const Tab3: React.FC = () => {
     return (
         <IonPage>
             <IonContent>
-                <Greeting adjective={userAdjective} noun={userNoun} group={group} />
+                <Greeting adjective={userAdjective} noun={userNoun} group={group}/>
 
                 <div className={"NavStats"}>
                     <div className={"buttonContainer"}>
-                        <button className={getButtonClass('/tabs/tab3/OwnStatistics')} onClick={() => history.push('/tabs/tab3/OwnStatistics')}>Eigene
+                        <button className={getButtonClass('/tabs/tab3/OwnStatistics')}
+                                onClick={() => history.push('/tabs/tab3/OwnStatistics')}>Eigene
                         </button>
-                        <button className={getButtonClass('/tabs/tab3/CourtStatistics')} onClick={() => history.push('/tabs/tab3/CourtStatistics')}>{group}
+                        <button className={getButtonClass('/tabs/tab3/CourtStatistics')}
+                                onClick={() => history.push('/tabs/tab3/CourtStatistics')}>{group}
                         </button>
-                        <button className={getButtonClass('/tabs/tab3/AllCourtsStatistics')} onClick={() => history.push('/tabs/tab3/AllCourtsStatistics')}>Alle
+                        <button className={getButtonClass('/tabs/tab3/AllCourtsStatistics')}
+                                onClick={() => history.push('/tabs/tab3/AllCourtsStatistics')}>Alle
                             Gerichte
                         </button>
                     </div>

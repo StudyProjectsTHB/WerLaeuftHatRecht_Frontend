@@ -1,4 +1,4 @@
-import {IonContent, IonPage} from '@ionic/react';
+import {IonContent, IonPage, IonToast} from '@ionic/react';
 import {useLocation} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 import BarChart from "../../components/charts/BarChart";
@@ -27,76 +27,107 @@ const AllCourtsStatistics: React.FC = () => {
     const [courtStatsLabels, setCourtStatsLabels] = useState([""]);
     const [courtStatsWeeks, setCourtStatsWeeks] = useState([""]);
 
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+
 
     const history = useHistory();
     const location = useLocation()
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login');
-            window.location.assign('/login');
-        }
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-            setLoading(false);
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login');
+                window.location.assign('/login');
+            }
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
 
-            const placeMaxPlace = getCourtCurrentPlace(token, user.group);
-            const courtsStats = getCourtsStatistic(token);
-            // const courtStats = getOwnCourtStatistic(token, user.group);
-            const courtStats = getCourtsStatistics(token);
-            placeMaxPlace.then((response) => {
-                setPlace(response[0]);
-                setMaxPlace(response[1]);
-            });
 
-            courtsStats.then((data) => {
-                const groupIndex = data[2].indexOf(user.group.id);
-                const priorGroupIndex = groupIndex - 1 < 0 ? groupIndex : groupIndex - 1;
-                const statIds = []
-                setOwnCourtSteps(data[0][data[2].indexOf(user.group.id)]);
-                setNextCourtSteps(data[0][priorGroupIndex]);
-
-                if (groupIndex === 0) {
-                    statIds.push(0);
-                    statIds.push(1);
-                    statIds.push(2);
-                } else if (groupIndex === data[0].length - 1) {
-                    statIds.push(data[2].length - 3);
-                    statIds.push(data[2].length - 2);
-                    statIds.push(data[2].length - 1);
-                } else {
-                    statIds.push(groupIndex - 1);
-                    statIds.push(groupIndex);
-                    statIds.push(groupIndex + 1);
-                }
-
-                const courtsSteps: number[] = [];
-                const courtsLabels: string[] = [];
-                statIds.forEach((id) => {
-                    if (data[0][id] === undefined) {
-                        return;
+                const placeMaxPlace = getCourtCurrentPlace(token, user.group);
+                const courtsStats = getCourtsStatistic(token);
+                // const courtStats = getOwnCourtStatistic(token, user.group);
+                const courtStats = getCourtsStatistics(token);
+                placeMaxPlace.then((response) => {
+                    setPlace(response[0]);
+                    setMaxPlace(response[1]);
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Platzierung konnte nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
                     }
-                    courtsSteps.push(data[0][id]);
-                    courtsLabels.push(`${data[1][id]}`);
+                    setToastColor('#CD7070');
+                    setShowToast(true);
                 });
 
-                setCourtComparisonSteps(courtsSteps);
-                setCourtComparisonLabels(courtsLabels);
+                courtsStats.then((data) => {
+                    const groupIndex = data[2].indexOf(user.group.id);
+                    const priorGroupIndex = groupIndex - 1 < 0 ? groupIndex : groupIndex - 1;
+                    const statIds = []
+                    setOwnCourtSteps(data[0][data[2].indexOf(user.group.id)]);
+                    setNextCourtSteps(data[0][priorGroupIndex]);
 
-            });
+                    if (groupIndex === 0) {
+                        statIds.push(0);
+                        statIds.push(1);
+                        statIds.push(2);
+                    } else if (groupIndex === data[0].length - 1) {
+                        statIds.push(data[2].length - 3);
+                        statIds.push(data[2].length - 2);
+                        statIds.push(data[2].length - 1);
+                    } else {
+                        statIds.push(groupIndex - 1);
+                        statIds.push(groupIndex);
+                        statIds.push(groupIndex + 1);
+                    }
 
-            courtStats.then((data) => {
-                setCourtStatsSteps(data[0]);
-                setCourtStatsLabels(data[1]);
-                setCourtStatsWeeks(data[2]);
-            });
+                    const courtsSteps: number[] = [];
+                    const courtsLabels: string[] = [];
+                    statIds.forEach((id) => {
+                        if (data[0][id] === undefined) {
+                            return;
+                        }
+                        courtsSteps.push(data[0][id]);
+                        courtsLabels.push(`${data[1][id]}`);
+                    });
 
+                    setCourtComparisonSteps(courtsSteps);
+                    setCourtComparisonLabels(courtsLabels);
+
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Gerichtsstatistiken konnten nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+                });
+
+                courtStats.then((data) => {
+                    setCourtStatsSteps(data[0]);
+                    setCourtStatsLabels(data[1]);
+                    setCourtStatsWeeks(data[2]);
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Gerichtsstatistiken konnten nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+                });
+
+            }
         }
+        fetchData();
     }, [location]);
 
     return (
@@ -121,6 +152,17 @@ const AllCourtsStatistics: React.FC = () => {
                     </div>
                 </div>
             </IonContent>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonPage>
     );
 }

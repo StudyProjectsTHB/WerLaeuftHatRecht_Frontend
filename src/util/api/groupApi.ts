@@ -15,7 +15,11 @@ export const createGroups = async (token: string, groupCreations: GroupCreationD
     });
 
     if (!response.ok) {
-        throw new Error('An error occurred while creating groups');
+        if (response.status === 401) {
+            throw new Error('Nicht autorisierter Zugriff');
+        } else {
+            throw new Error('Gruppe konnte nicht erstellt werden');
+        }
     }
 
     return await response.json();
@@ -33,7 +37,11 @@ export const deleteGroup = async (token: string, id: number): Promise<void> => {
     });
 
     if (!response.ok) {
-        throw new Error('An error occurred while deleting the group');
+        if (response.status === 401) {
+            throw new Error('Nicht autorisierter Zugriff');
+        } else {
+            throw new Error('Gruppe konnte nicht gelöscht werden');
+        }
     }
 };
 
@@ -51,9 +59,11 @@ export const updateGroup = async (token: string, id: number, groupCreation: Grou
 
     if (!response.ok) {
         if (response.status === 404) {
-            throw new Error('Group not found');
+            throw new Error('Gruppe nicht gefunden');
+        } else if (response.status === 401) {
+            throw new Error('Nicht autorisierter Zugriff');
         } else {
-            throw new Error('An error occurred while updating the group');
+            throw new Error('Gruppe konnte nicht aktualisiert werden');
         }
     }
 
@@ -73,9 +83,11 @@ export const getGroup = async (token: string, id: number): Promise<Group> => {
 
     if (!response.ok) {
         if (response.status === 404) {
-            throw new Error('Group not found');
+            throw new Error('Gruppe nicht gefunden');
+        } else if (response.status === 401) {
+            throw new Error('Nicht autorisierter Zugriff');
         } else {
-            throw new Error('An error occurred while fetching the group');
+            throw new Error('Gruppe konnte nicht abgerufen werden');
         }
     }
 
@@ -94,7 +106,11 @@ export const getGroups = async (token: string): Promise<Group[]> => {
     });
 
     if (!response.ok) {
-        throw new Error('An error occurred while fetching groups');
+        if (response.status === 401) {
+            throw new Error('Nicht autorisierter Zugriff');
+        } else {
+            throw new Error('Gruppen konnten nicht abgerufen werden');
+        }
     }
 
     return await response.json();
