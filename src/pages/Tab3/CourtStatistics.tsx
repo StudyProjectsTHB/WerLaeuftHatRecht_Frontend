@@ -1,4 +1,4 @@
-import {IonContent, IonPage} from '@ionic/react';
+import {IonContent, IonPage, IonToast} from '@ionic/react';
 import {useLocation} from 'react-router-dom';
 
 import ProgressBar from '../../components/charts/ProgressBar';
@@ -31,78 +31,117 @@ const CourtStatistics: React.FC = () => {
     const [userComparisonSteps, setUserComparisonSteps] = useState([0]);
     const [userComparisonLabels, setUserComparisonLabels] = useState([""]);
 
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+
     const history = useHistory();
     const location = useLocation();
 
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login');
-            window.location.assign('/login');
-        }
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-            setLoading(false);
-            const placeMaxPlace = getOwnCourtCurrentPlace(token, user);
-            const ownStats = getCourtOwnStatistic(token, user.group);
-            const lapsedDays = getLapsedDays(token);
-            const courtStats = getCourtStatistic(token, user.group);
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login');
+                window.location.assign('/login');
+            }
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
 
-            placeMaxPlace.then((response) => {
-                setPlace(response[0]);
-                setMaxPlace(response[1]);
-            });
+                const placeMaxPlace = getOwnCourtCurrentPlace(token, user);
+                const ownStats = getCourtOwnStatistic(token, user.group);
+                const lapsedDays = getLapsedDays(token);
+                const courtStats = getCourtStatistic(token, user.group);
 
-            ownStats.then((data) => {
-                setOwnStatsSteps(data[0]);
-                setOwnStatsLabels(data[1]);
-                setOwnStatsWeeks(data[2]);
-            });
-
-            lapsedDays.then((data) => {
-                setLapsedDays(data);
-            });
-
-            courtStats.then((data) => {
-                const userIndex = data[2].indexOf(user.id);
-                const priorUserIndex = userIndex - 1 < 0 ? userIndex : userIndex - 1;
-                const statIds = []
-                setOwnSteps(data[0][data[2].indexOf(user.id)]);
-                setNextSteps(data[0][priorUserIndex]);
-
-                if (userIndex === 0) {
-                    statIds.push(0);
-                    statIds.push(1);
-                    statIds.push(2);
-                } else if (userIndex === data[0].length - 1) {
-                    statIds.push(data[2].length - 3);
-                    statIds.push(data[2].length - 2);
-                    statIds.push(data[2].length - 1);
-                } else {
-                    statIds.push(userIndex - 1);
-                    statIds.push(userIndex);
-                    statIds.push(userIndex + 1);
-                }
-
-                const usersSteps: number[] = [];
-                const usersLabels: string[] = [];
-                statIds.forEach((id) => {
-                    if (data[0][id] === undefined) {
-                        return;
+                placeMaxPlace.then((response) => {
+                    setPlace(response[0]);
+                    setMaxPlace(response[1]);
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Platzierung konnte nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
                     }
-                    usersSteps.push(data[0][id]);
-                    usersLabels.push(`${data[1][id]}`);
+                    setToastColor('#CD7070');
+                    setShowToast(true);
                 });
 
-                setUserComparisonSteps(usersSteps);
-                setUserComparisonLabels(usersLabels);
-            });
+                ownStats.then((data) => {
+                    setOwnStatsSteps(data[0]);
+                    setOwnStatsLabels(data[1]);
+                    setOwnStatsWeeks(data[2]);
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Eigene Statistiken konnten nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+                });
+
+                lapsedDays.then((data) => {
+                    setLapsedDays(data);
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Tage konnten nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+                });
+
+                courtStats.then((data) => {
+                    const userIndex = data[2].indexOf(user.id);
+                    const priorUserIndex = userIndex - 1 < 0 ? userIndex : userIndex - 1;
+                    const statIds = []
+                    setOwnSteps(data[0][data[2].indexOf(user.id)]);
+                    setNextSteps(data[0][priorUserIndex]);
+
+                    if (userIndex === 0) {
+                        statIds.push(0);
+                        statIds.push(1);
+                        statIds.push(2);
+                    } else if (userIndex === data[0].length - 1) {
+                        statIds.push(data[2].length - 3);
+                        statIds.push(data[2].length - 2);
+                        statIds.push(data[2].length - 1);
+                    } else {
+                        statIds.push(userIndex - 1);
+                        statIds.push(userIndex);
+                        statIds.push(userIndex + 1);
+                    }
+
+                    const usersSteps: number[] = [];
+                    const usersLabels: string[] = [];
+                    statIds.forEach((id) => {
+                        if (data[0][id] === undefined) {
+                            return;
+                        }
+                        usersSteps.push(data[0][id]);
+                        usersLabels.push(`${data[1][id]}`);
+                    });
+
+                    setUserComparisonSteps(usersSteps);
+                    setUserComparisonLabels(usersLabels);
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Gerichtsstatistiken konnten nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+                });
+            }
         }
+        fetchData();
     }, [location]);
 
     return (
@@ -127,6 +166,17 @@ const CourtStatistics: React.FC = () => {
                     </div>
                 </div>
             </IonContent>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonPage>
     );
 }

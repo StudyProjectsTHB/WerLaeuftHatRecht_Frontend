@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {IonModal, IonContent} from '@ionic/react';
+import {IonModal, IonContent, IonToast} from '@ionic/react';
 import "react-datepicker/dist/react-datepicker.css";
 import './StepsAddModal.css';
 import {useHistory} from "react-router";
@@ -14,9 +14,12 @@ const CourtAddModal = ({isOpen, onClose}) => {
     const [userStepGoal, setUserStepGoal] = useState<number>(0);
     const [group, setGroup] = useState<string>("");
 
-
     const [courtName, setCourtName] = useState<string>("");
     const [courtCount, setCourtCount] = useState<number>(0);
+
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
 
     const history = useHistory();
     const location = useLocation();
@@ -28,20 +31,23 @@ const CourtAddModal = ({isOpen, onClose}) => {
     };
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login', {direction: 'none'});
-            window.location.assign('/login');
-        }
+        const fetchDate = async () => {
+            if (!checkToken()) {
+                // history.push('/login', {direction: 'none'});
+                window.location.assign('/login');
+            }
 
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-            setLoading(false);
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
+                setShowToast(false);
+            }
         }
+        fetchDate();
     }, [location, isOpen]);
 
     const handleAddCourt = async () => {
@@ -49,19 +55,27 @@ const CourtAddModal = ({isOpen, onClose}) => {
             const newCourt = await addGroup(getToken(), courtName, courtCount)
 
             if (newCourt) {
-                onClose();
+                setCourtName("");
+                setCourtCount(0);
+                onClose({courtAdded: true});
             } else {
-                alert("Fehler beim Anlegen des Gerichts")
-
+                setMessage('Gericht konnte nicht angelegt werden');
+                setToastColor('#CD7070');
+                setShowToast(true);
             }
-        } catch (e) {
-            console.log(e)
-            alert("Fehler beim Anlegen des Gerichts")
+        } catch (error) {
+            if (error instanceof TypeError) {
+                setMessage('Gericht konnte nicht angelegt werden');
+            } else {
+                setMessage(error.message);
+            }
+            setToastColor('#CD7070');
+            setShowToast(true);
         }
     }
 
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={onClose} className={"heightSet500"}>
+        <IonModal isOpen={isOpen} onDidDismiss={() => onClose({courtAdded: false})} className={"heightSet500"}>
             <IonContent>
                 <h1>Neues Gericht anlegen</h1>
                 <div>
@@ -93,10 +107,21 @@ const CourtAddModal = ({isOpen, onClose}) => {
                 </div>
 
                 <div className={"buttonContainer"}>
-                    <button slot="end" onClick={onClose} className={"secondary"}>Abbrechen</button>
+                    <button slot="end" onClick={() => onClose({courtAdded: false})} className={"secondary"}>Abbrechen</button>
                     <button onClick={handleAddCourt}>Gericht anlegen</button>
                 </div>
             </IonContent>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonModal>
     );
 }

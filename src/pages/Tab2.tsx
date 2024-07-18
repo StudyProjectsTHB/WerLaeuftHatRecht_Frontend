@@ -1,4 +1,4 @@
-import { IonContent, IonPage } from '@ionic/react';
+import {IonContent, IonPage, IonToast} from '@ionic/react';
 import './Tab2.css';
 
 import Calender from '../components/Calendar';
@@ -24,33 +24,47 @@ const Tab2: React.FC = () => {
     const [selectedDate, setSelectedDate] = useState<string>("");
     const [selectedSteps, setSelectedSteps] = useState<number>(0);
 
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+
 
     const location = useLocation()
     const history = useHistory();
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login', {direction: 'none'});
-            window.location.assign('/login');
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login', {direction: 'none'});
+                window.location.assign('/login');
+            }
+
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
+
+
+                const step_days = getStepDays(token);
+
+                step_days.then((data) => {
+                    setStepDays(data.map((day) => day.date));
+                    setStepSteps(data.map((day) => day.steps));
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Schritte konnten nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+                });
+            }
         }
-
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-            setLoading(false);
-
-            const step_days = getStepDays(token);
-
-            step_days.then((data) => {
-                setStepDays(data.map((day) => day.date));
-                setStepSteps(data.map((day) => day.steps));
-            })
-
-        }
+        fetchData();
     }, [location, showModal]);
 
     useEffect(() => {
@@ -73,11 +87,17 @@ const Tab2: React.FC = () => {
         }
     }, [showModal]);
 
-    const handleCloseModal = () => {
+    const handleCloseModal = (stepsAdded: boolean) => {
+        console.log(stepsAdded)
         setShowModal(false);
         const params = new URLSearchParams(location.search);
         params.delete("showModal");
-        history.replace({ search: params.toString() });
+        history.replace({search: params.toString()});
+        if (stepsAdded) {
+            setMessage('Schritte hinzugefügt');
+            setToastColor('#68964C');
+            setShowToast(true);
+        }
     };
 
     const handleDateClick = (date: string) => {
@@ -92,19 +112,31 @@ const Tab2: React.FC = () => {
 
 
     return (
-    <IonPage className={"PageModal Edit"} style={{marginBottom: "65px"}}>
-      <IonContent fullscreen className={"EditClass"}>
-        <Greeting adjective={userAdjective} noun={userNoun} group={group} />
-          <h1>Editieren</h1>
-          <div className={"gridEdit"}>
-            <CalenderProgressBar value={selectedSteps} maxValue={userStepGoal} onClick={() => setShowModal(true)}/>
-            <Calender steps={stepSteps} days={stepDays} stepGoal={userStepGoal} onDateClick={handleDateClick}/>
-          </div>
+        <IonPage className={"PageModal Edit"} style={{marginBottom: "65px"}}>
+            <IonContent fullscreen className={"EditClass"}>
+                <Greeting adjective={userAdjective} noun={userNoun} group={group}/>
+                <h1>Editieren</h1>
+                <div className={"gridEdit"}>
+                    <CalenderProgressBar value={selectedSteps} maxValue={userStepGoal}
+                                         onClick={() => setShowModal(true)}/>
+                    <Calender steps={stepSteps} days={stepDays} stepGoal={userStepGoal} onDateClick={handleDateClick}/>
+                </div>
 
-      </IonContent>
-        <StepsAddModal isOpen={showModal} onClose={handleCloseModal} date={selectedDate} />
-    </IonPage>
-  );
+            </IonContent>
+            <StepsAddModal isOpen={showModal} onClose={handleCloseModal} date={selectedDate}/>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
+        </IonPage>
+    );
 };
 
 export default Tab2;

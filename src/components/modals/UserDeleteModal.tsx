@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {IonModal, IonContent} from '@ionic/react';
+import {IonModal, IonContent, IonToast} from '@ionic/react';
 import "react-datepicker/dist/react-datepicker.css";
 import './StepsAddModal.css';
 import {useHistory} from "react-router";
@@ -14,44 +14,60 @@ const CourtDeleteModal = ({isOpen, onClose, email, id}) => {
     const [userStepGoal, setUserStepGoal] = useState<number>(0);
     const [group, setGroup] = useState<string>("");
 
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+
     const history = useHistory();
     const location = useLocation();
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login', {direction: 'none'});
-            window.location.assign('/login');
-        }
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login', {direction: 'none'});
+                window.location.assign('/login');
+            }
 
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-            setLoading(false);
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
+                setShowToast(false);
+            }
         }
+        fetchData();
     }, [location, isOpen]);
 
     const handleDeleteUser = async () => {
         try {
-            const deleted = await removeUser( getToken(), id)
+            const deleted = await removeUser(getToken(), id)
 
             if (deleted) {
-                onClose();
+                setMessage('Nutzer gelöscht');
+                setToastColor('#68964C');
+                setShowToast(true);
+                onClose({userDeleted: true});
             } else {
-                alert("Fehler beim Löschen des Nutzers")
-
+                setMessage('Nutzer konnte nicht gelöscht werden');
+                setToastColor('#CD7070');
+                setShowToast(true);
             }
-        } catch (e) {
-            console.log(e)
-            alert("Fehler beim Löschen des Nutzers")
+        } catch (error) {
+            if (error instanceof TypeError) {
+                setMessage('Nutzer konnte nicht gelöscht werden');
+            } else {
+                setMessage(error.message);
+            }
+            setToastColor('#CD7070');
+            setShowToast(true);
         }
     }
 
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={onClose} className={"heightSet"}>
+        <IonModal isOpen={isOpen} onDidDismiss={() => onClose({userDeleted: false})} className={"heightSet"}>
             <IonContent>
                 <div>
                     <h1>Sind Sie sicher, dass Sie den Nutzer {email} löschen möchten?</h1>
@@ -60,10 +76,21 @@ const CourtDeleteModal = ({isOpen, onClose, email, id}) => {
                 </div>
 
                 <div className={"buttonContainer"}>
-                    <button slot="end" onClick={onClose} className={"secondary"}>Abbrechen</button>
+                    <button slot="end" onClick={() => onClose({userDeleted: false})} className={"secondary"}>Abbrechen</button>
                     <button onClick={handleDeleteUser}>Ja, Nutzer löschen</button>
                 </div>
             </IonContent>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonModal>
     );
 }

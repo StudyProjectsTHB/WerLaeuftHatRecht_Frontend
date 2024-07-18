@@ -1,6 +1,6 @@
 import {
     IonContent, IonIcon, IonList,
-    IonPage,
+    IonPage, IonToast,
 
 } from '@ionic/react';
 import {useLocation} from 'react-router-dom';
@@ -36,65 +36,93 @@ const Courts: React.FC = () => {
     const [selectedId, setSelectedId] = useState<number | undefined>(0);
     const [selectedCourtCount, setSelectedCourtCount] = useState<number | undefined>(0);
 
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+
     const history = useHistory();
     const location = useLocation();
     const [modalClosed, setModalClosed] = useState<boolean>(false);
 
 
-    const handleOpenChangeModal = (name:string, courtCount:number, id:number) => {
+    const handleOpenChangeModal = (name: string, courtCount: number, id: number) => {
         setSelectedName(name);
         setSelectedId(id);
         setSelectedCourtCount(courtCount);
         setShowChangeModal(true);
     };
 
-    const handleOpenDeleteModal = (name:string, id:number) => {
+    const handleOpenDeleteModal = (name: string, id: number) => {
         setSelectedName(name);
         setSelectedId(id);
         setShowDeleteModal(true);
     };
 
-    const handleCloseModal = () => {
+    const handleCloseModal = (courts:Object) => {
         setModalClosed(prev => !prev);
+        if (courts.courtDeleted) {
+            setMessage('Gericht gelöscht');
+            setToastColor('#68964C');
+            setShowToast(true);
+        } else if (courts.courtChanged) {
+            setMessage('Gericht geändert');
+            setToastColor('#68964C');
+            setShowToast(true);
+        } else if (courts.courtAdded) {
+            setMessage('Gericht angelegt');
+            setToastColor('#68964C');
+            setShowToast(true);
+        }
     };
 
-    const handleButtonClick = (id:number) => {
+    const handleButtonClick = (id: number) => {
         history.push(`/tabs/tab4/User?court=${id}`)
     }
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login', {direction: 'none'});
-            window.location.assign('/login');
-        }
-
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-            setLoading(false);
-
-            if (!user.admin) {
-                window.location.assign('/tabs/tab1');
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login', {direction: 'none'});
+                window.location.assign('/login');
             }
 
-            const courts = getAllGroups(token);
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
 
-            courts.then((data) => {
-                setCourtsNames(data.map((court) => court.name));
-                setCourtsIds(data.map((court) => court.id));
-                setCourtEmployeeCount(data.map((court) => court.numberOfEmployees));
-            })
+
+                if (!user.admin) {
+                    window.location.assign('/tabs/tab1');
+                }
+
+                const courts = getAllGroups(token);
+
+                courts.then((data) => {
+                    setCourtsNames(data.map((court) => court.name));
+                    setCourtsIds(data.map((court) => court.id));
+                    setCourtEmployeeCount(data.map((court) => court.numberOfEmployees));
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Gerichte konnten nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+                });
+            }
         }
+        fetchData();
     }, [location, modalClosed]);
 
     return (
         <IonPage>
             <IonContent>
-                <Greeting adjective={userAdjective} noun={userNoun} group={group} />
+                <Greeting adjective={userAdjective} noun={userNoun} group={group}/>
 
                 <div className={"container"}>
                     <button onClick={() => {
@@ -105,10 +133,12 @@ const Courts: React.FC = () => {
                     </button>
 
                     <h1>Manager Bereich - Gerichte</h1>
-                    <button onClick={() => setShowAddModal(true)} className={"adminButton plus"}>Neues Gericht hinzufügen</button>
+                    <button onClick={() => setShowAddModal(true)} className={"adminButton plus"}>Neues Gericht
+                        hinzufügen
+                    </button>
 
                     <div className={"flex headline"}>
-                    <h2>Gerichte</h2>
+                        <h2>Gerichte</h2>
                     </div>
                     <IonList className={"overflowList"}>
                         {courtsNames.map((name, index) => {
@@ -127,9 +157,29 @@ const Courts: React.FC = () => {
 
                 </div>
             </IonContent>
-            <CourtAddModal isOpen={showAddModal} onClose={() => {setShowAddModal(false); handleCloseModal()}}/>
-            <CourtChangeModal isOpen={showChangeModal} onClose={() => {setShowChangeModal(false); handleCloseModal()}} name={selectedName} count={selectedCourtCount} id={selectedId}/>
-            <CourtDeleteModal isOpen={showDeleteModal} onClose={() => {setShowDeleteModal(false); handleCloseModal()}} name={selectedName} id={selectedId}/>
+            <CourtAddModal isOpen={showAddModal} onClose={(courts) => {
+                setShowAddModal(false);
+                handleCloseModal(courts)
+            }}/>
+            <CourtChangeModal isOpen={showChangeModal} onClose={(courts) => {
+                setShowChangeModal(false);
+                handleCloseModal(courts)
+            }} name={selectedName} count={selectedCourtCount} id={selectedId}/>
+            <CourtDeleteModal isOpen={showDeleteModal} onClose={(courts) => {
+                setShowDeleteModal(false);
+                handleCloseModal(courts)
+            }} name={selectedName} id={selectedId}/>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonPage>
     )
 };

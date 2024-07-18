@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { IonModal, IonContent } from '@ionic/react';
+import {IonModal, IonContent, IonToast} from '@ionic/react';
 import "react-datepicker/dist/react-datepicker.css";
 import './StepsAddModal.css';
 import {useHistory} from "react-router";
@@ -15,6 +15,10 @@ const UserChangeModal = ({ isOpen, onClose, email, id}) => {
     const [group, setGroup] = useState<string>("");
     const [newEmail, setNewEmail] = useState<string>("");
 
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+
     const history = useHistory();
     const location = useLocation();
 
@@ -25,39 +29,52 @@ const UserChangeModal = ({ isOpen, onClose, email, id}) => {
     };
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login', {direction: 'none'});
-            window.location.assign('/login');
-        }
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login', {direction: 'none'});
+                window.location.assign('/login');
+            }
 
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-            setLoading(false);
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
+                setShowToast(false);
+            }
+            setNewEmail(email)
         }
-        setNewEmail(email)
+        fetchData();
     }, [location, isOpen]);
 
     const handleChangeUser = async () => {
         try {
             const changed = await changeUserEmail(getToken(), id, newEmail)
             if (changed) {
-                onClose();
+                setMessage('Email geändert');
+                setToastColor('#68964C');
+                setShowToast(true);
+                onClose({userChanged: true});
             } else {
-                alert("Fehler beim Ändern der Email")
+                setMessage('Email konnte nicht geändert werden');
+                setToastColor('#CD7070');
+                setShowToast(true);
             }
-        } catch (e) {
-            console.log(e)
-            alert("Fehler beim Ändern der Email")
+        } catch (error) {
+            if (error instanceof TypeError) {
+                setMessage('Email konnte nicht geändert werden');
+            } else {
+                setMessage(error.message);
+            }
+            setToastColor('#CD7070');
+            setShowToast(true);
         }
     }
 
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={onClose} className={"heightSet"}>
+        <IonModal isOpen={isOpen} onDidDismiss={() => onClose({userChanged: false})} className={"heightSet"}>
             <IonContent>
                 <div>
                     <h1>Email bearbeiten</h1>
@@ -72,10 +89,21 @@ const UserChangeModal = ({ isOpen, onClose, email, id}) => {
                     />
                 </div>
                 <div className={"buttonContainer"}>
-                    <button slot="end" onClick={onClose} className={"secondary"}>Abbrechen</button>
+                    <button slot="end" onClick={() => onClose({userChanged: false})} className={"secondary"}>Abbrechen</button>
                     <button onClick={handleChangeUser}>Speichern</button>
                 </div>
             </IonContent>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonModal>
     );
 }

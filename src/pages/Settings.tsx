@@ -18,20 +18,23 @@ const Settings: React.FC = () => {
     const location = useLocation()
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login', {direction: 'none'});
-            window.location.assign('/login');
-        }
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login', {direction: 'none'});
+                window.location.assign('/login');
+            }
 
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-            setLoading(false);
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
+
+            }
         }
+        fetchData();
     }, [location]);
 
     const logout = () => {
@@ -45,10 +48,13 @@ const Settings: React.FC = () => {
                 <h1>Einstellungen</h1>
                 <Greeting adjective={userAdjective} noun={userNoun} group={group}/>
                 <div className={"settingsContainer"}>
-                    <div className={"flexSetting clickable"} onClick={() => history.push('/tabs/settings/userSettings')}>
+                    <div className={"flexSetting clickable"}
+                         onClick={() => history.push('/tabs/settings/userSettings')}>
                         <div>
-                            <IonIcon aria-hidden="true" icon={personOutline} />
-                            <button onClick={() => history.push('/tabs/settings/userSettings')}>Persönliche Einstellungen</button>
+                            <IonIcon aria-hidden="true" icon={personOutline}/>
+                            <button onClick={() => history.push('/tabs/settings/userSettings')}>Persönliche
+                                Einstellungen
+                            </button>
                         </div>
                         <IonIcon aria-hidden="true" icon={arrowForwardOutline}/>
                     </div>
@@ -59,7 +65,7 @@ const Settings: React.FC = () => {
                         </div>
                         <IonIcon aria-hidden="true" icon={arrowForwardOutline}/>
                     </div>
-                    <div className={"flexSetting logout clickable"}  onClick={logout}>
+                    <div className={"flexSetting logout clickable"} onClick={logout}>
                         <div>
                             <IonIcon aria-hidden="true" icon={logOutOutline}/>
                             <button onClick={logout}>Logout</button>

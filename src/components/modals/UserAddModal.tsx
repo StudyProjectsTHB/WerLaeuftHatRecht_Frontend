@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
     IonModal,
-    IonContent
+    IonContent, IonToast
 } from '@ionic/react';
 import "react-datepicker/dist/react-datepicker.css";
 import './StepsAddModal.css';
@@ -17,11 +17,12 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
     const [userStepGoal, setUserStepGoal] = useState<number>(0);
     const [group, setGroup] = useState<string>("");
 
-
     const [selectedCourt, setSelectedCourt] = useState<string>("");
-
     const [email, setEmail] = useState("");
 
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
 
     const history = useHistory();
     const location = useLocation();
@@ -33,22 +34,24 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
     };
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login', {direction: 'none'});
-            window.location.assign('/login');
-        }
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login', {direction: 'none'});
+                window.location.assign('/login');
+            }
 
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-            setLoading(false);
-
-            setSelectedCourt(courtsIds[0])
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
+                setSelectedCourt(courtsIds[0]);
+                setShowToast(false);
+            }
         }
+        fetchData();
 
     }, [location, isOpen]);
 
@@ -56,23 +59,30 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
         try {
             const newUserToken = await createUser(getToken(), email, false, selectedCourt)
             if (newUserToken) {
-                // console.log(newUserToken)
                 setSelectedCourt(courtsIds[0])
                 setEmail("")
-                onClose();
+                onClose({userAdded: true});
             } else {
-                alert("Nutzer konnte nicht hinzugefügt werden")
+                setMessage('Nutzer konnte nicht hinzugefügt werden');
+                setToastColor('#CD7070');
+                setShowToast(true);
             }
-        } catch (e) {
-            console.log(e)
-            alert("Nutzer konnte nicht hinzugefügt werden")
+        } catch (error) {
+            if (error instanceof TypeError) {
+                setMessage('Nutzer konnte nicht hinzugefügt werden');
+            } else {
+                setMessage(error.message);
+            }
+            console.error(error);
+            setToastColor('#CD7070');
+            setShowToast(true);
         }
 
     }
 
 
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={onClose} className={"heightSet500"}>
+        <IonModal isOpen={isOpen} onDidDismiss={() => onClose({userAdded: false})} className={"heightSet500"}>
             <IonContent>
                 <div>
                     <h1>Nutzer hinzufügen</h1>
@@ -103,11 +113,22 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
                 </div>
 
                 <div className={"buttonContainer"}>
-                    <button slot="end" onClick={onClose} className={"secondary"}>Abbrechen</button>
+                    <button slot="end" onClick={() => onClose({userAdded: false})} className={"secondary"}>Abbrechen</button>
                     <button onClick={handleAddUser} className={"primary"}>Speichern</button>
                 </div>
 
             </IonContent>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonModal>
     );
 }

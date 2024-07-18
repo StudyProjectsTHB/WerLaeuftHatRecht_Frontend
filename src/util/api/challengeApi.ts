@@ -16,10 +16,9 @@ export const getChallenges = async (token: string, date: string = getCurrentDate
 
     if (!response.ok) {
         if (response.status === 401) {
-            // Unauthorised error handling
-            throw new Error('Unauthorized');
+            throw new Error('Nicht autorisierter Zugriff');
         } else {
-            throw new Error('An error occurred while fetching challenges');
+            throw new Error('Herausforderungen konnten nicht abgerufen werden');
         }
     }
 
@@ -39,10 +38,9 @@ export const getFinishedChallenges = async (token: string): Promise<UserChalleng
 
     if (!response.ok) {
         if (response.status === 401) {
-            // Unauthorised error handling
-            throw new Error('Unauthorized');
+            throw new Error('Nicht autorisierter Zugriff');
         } else {
-            throw new Error('An error occurred while fetching challenges');
+            throw new Error('Erfolgreich abgeschlossene Herausforderungen konnten nicht abgerufen werden');
         }
     }
 

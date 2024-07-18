@@ -47,9 +47,18 @@ export const addSteps = async (token: string, steps: number, startDate: string, 
         endDate
     };
 
-    if (startDate < competition.startDate || endDate > today || endDate > competition.endDate) {
-        throw new Error('Invalid date range');
+    if (steps <= 0 || isNaN(steps)) {
+        throw new Error('Bitte gib eine Schrittzahl größer 0 an');
+    } else if (startDate > endDate) {
+        throw new Error('Das Startdatum muss vor dem Enddatum liegen');
+    } else if (endDate > today) {
+        throw new Error('Das Enddatum darf nicht in der Zukunft liegen');
+    } else if (startDate < competition.startDate) {
+        throw new Error('Das Startdatum darf nicht vor dem Wettbewerbsstart liegen');
+    } else if (endDate > competition.endDate) {
+        throw new Error('Das Enddatum darf nicht nach dem Wettbewerbsende liegen');
     }
+
 
     return await addDays(token, durationSteps);
 }

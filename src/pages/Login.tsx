@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import { IonContent, IonPage, IonAlert } from '@ionic/react';
+import {IonContent, IonPage, IonAlert, IonToast} from '@ionic/react';
 import {useHistory, useLocation} from 'react-router-dom';
-import { checkToken, loginUser} from "../util/service/loginService";
+import {checkToken, loginUser} from "../util/service/loginService";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [showAlert, setShowAlert] = useState<boolean>(false);
-    const [alertMessage, setAlertMessage] = useState<string>('');
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+
 
     const history = useHistory();
     const location = useLocation()
@@ -19,9 +21,12 @@ const Login: React.FC = () => {
     };
 
     useEffect(() => {
-        if (checkToken()) {
-            history.push('/tabs/tab1');
+        const fetchData = async () => {
+            if (checkToken()) {
+                history.push('/tabs/tab1');
+            }
         }
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -33,8 +38,7 @@ const Login: React.FC = () => {
                 if (motivationCounterElement) {
                     motivationCounterElement.classList.add('hidden');
                 }
-            }
-            else {
+            } else {
                 if (motivationCounterElement) {
                     motivationCounterElement.classList.remove('hidden');
                 }
@@ -49,9 +53,14 @@ const Login: React.FC = () => {
             await loginUser(email, password);
             history.push('/tabs/tab1');
         } catch (error) {
-            console.error('Error logging in:', error);
-            setAlertMessage(error.message);
-            setShowAlert(true);
+            if (error instanceof TypeError) {
+                setMessage('Login fehlgeschlagen');
+            } else {
+                setMessage(error.message);
+            }
+            console.error(error);
+            setToastColor('#CD7070');
+            setShowToast(true);
         }
     };
 
@@ -59,7 +68,7 @@ const Login: React.FC = () => {
         <IonPage>
             <IonContent className={"loginContent"}>
                 <div className={"login"}>
-                <h1>Login</h1>
+                    <h1>Login</h1>
                     <div className={"loginFlex"}>
                         <label>Email</label>
                         <input
@@ -78,15 +87,18 @@ const Login: React.FC = () => {
                             onKeyPress={handleEnterPress}
                         />
                     </div>
-                <button className={"secondary"} onClick={handleLogin}>Anmelden</button>
-                {/*<a>Passwort vergessen</a>*/}
+                    <button className={"secondary"} onClick={handleLogin}>Anmelden</button>
+                    {/*<a>Passwort vergessen</a>*/}
                 </div>
-                <IonAlert
-                    isOpen={showAlert}
-                    onDidDismiss={() => setShowAlert(false)}
-                    header={'Fehler'}
-                    message={alertMessage}
-                    buttons={['OK']}
+                <IonToast
+                    isOpen={showToast}
+                    onDidDismiss={() => setShowToast(false)}
+                    message={message}
+                    duration={3000}
+                    cssClass="toast"
+                    style={{
+                        '--toast-background': toastColor
+                    }}
                 />
 
             </IonContent>

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {IonModal, IonContent} from '@ionic/react';
+import {IonModal, IonContent, IonToast} from '@ionic/react';
 import "react-datepicker/dist/react-datepicker.css";
 import './StepsAddModal.css';
 import {useHistory} from "react-router";
@@ -14,42 +14,61 @@ const CourtDeleteModal = ({isOpen, onClose, email, id, isAdmin}) => {
     const [userStepGoal, setUserStepGoal] = useState<number>(0);
     const [group, setGroup] = useState<string>("");
 
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+
     const history = useHistory();
     const location = useLocation();
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login', {direction: 'none'});
-            window.location.assign('/login');
-        }
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login', {direction: 'none'});
+                window.location.assign('/login');
+            }
 
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-            setLoading(false);
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
+                setShowToast(false)
+
+            }
         }
+        fetchData();
     }, [location, isOpen]);
 
     const handleAdminUser = async () => {
         try {
             const changed = await changeUserAdmin(getToken(), id, !isAdmin)
             if (changed) {
-                onClose();
+                if (isAdmin) {
+                    onClose({userNoAdmin: true});
+                } else {
+                    onClose({userAdmin: true});
+                }
             } else {
-                alert("Fehler beim Ändern der Adminrechte")
+                setMessage('Managerrechte konnten nicht geändert werden');
+                setToastColor('#CD7070');
+                setShowToast(true);
             }
-        } catch (e) {
-            console.log(e)
-            alert("Fehler beim Ändern der Adminrechte")
+        } catch (error) {
+            if (error instanceof TypeError) {
+                setMessage('Managerrechte konnten nicht geändert werden');
+            } else {
+                setMessage(error.message);
+            }
+            setToastColor('#CD7070');
+            setShowToast(true);
         }
 
     }
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={onClose} className={""}>
+        <IonModal isOpen={isOpen} onDidDismiss={() => onClose({userAdmin: false})} className={""}>
             <IonContent>
                 {!isAdmin ? (
                     <>
@@ -75,12 +94,23 @@ const CourtDeleteModal = ({isOpen, onClose, email, id, isAdmin}) => {
                                 erhalten soll!</p>
                         </div>
                         <div className={"buttonContainer"}>
-                            <button slot="end" onClick={onClose} className={"secondary"}>Abbrechen</button>
-                            <button onClick={handleAdminUser}>Nein, nicht mehr zum Admin machen</button>
+                            <button slot="end" onClick={() => onClose({userAdmin: false})} className={"secondary"}>Abbrechen</button>
+                            <button onClick={handleAdminUser}>Ja, nicht mehr zum Admin machen</button>
                         </div>
                     </>
                 )}
             </IonContent>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonModal>
     );
 }

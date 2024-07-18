@@ -1,5 +1,5 @@
 import {
-    IonIcon,
+    IonIcon, IonToast,
 
 
 } from '@ionic/react';
@@ -15,7 +15,28 @@ import {changeUserGroup} from "../../util/service/userService";
 import {convertUmlauts} from "../../util/service/util";
 
 
-const UserCard: React.FC<{name:string, userId:number ,email:string, group:string, groupId:number, isAdmin:boolean ,courtNames:string[], courtIds:number[]}> = ({name, userId, email, group, groupId,isAdmin, courtNames, courtIds, onChangeClick, onAdminClick, onDeleteClick}) => {
+const UserCard: React.FC<{
+    name: string,
+    userId: number,
+    email: string,
+    group: string,
+    groupId: number,
+    isAdmin: boolean,
+    courtNames: string[],
+    courtIds: number[]
+}> = ({
+          name,
+          userId,
+          email,
+          group,
+          groupId,
+          isAdmin,
+          courtNames,
+          courtIds,
+          onChangeClick,
+          onAdminClick,
+          onDeleteClick
+      }) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [userAdjective, setUserAdjective] = useState<string>("");
     const [userNoun, setUserNoun] = useState<string>("");
@@ -26,38 +47,55 @@ const UserCard: React.FC<{name:string, userId:number ,email:string, group:string
     const [selectedValue, setSelectedValue] = useState<string>(group);
     const [selectedUserImage, setSelectedUserImage] = useState<string>("images/UserIcon.png");
 
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login', {direction: 'none'});
-            window.location.assign('/login');
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login', {direction: 'none'});
+                window.location.assign('/login');
+            }
+
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+
+
+                const userImage = `images/${convertUmlauts(name.split(" ")[1])}.png`;
+                setSelectedUserImage(userImage);
+
+            }
         }
-
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setLoading(false);
-
-            const userImage = `images/${convertUmlauts(name.split(" ")[1])}.png`;
-            setSelectedUserImage(userImage);
-
-        }
+        fetchData();
     }, [location]);
 
-    const handleCourtChangeUser = async (newCourt:string) => {
+    const handleCourtChangeUser = async (newCourt: string) => {
         const newCourtId = courtIds[courtNames.indexOf(newCourt)]
         try {
             const changed = await changeUserGroup(getToken(), userId, newCourtId)
             if (changed) {
+                setMessage('Gericht geändert');
+                setToastColor('#68964C');
+                setShowToast(true);
                 setSelectedValue(newCourt);
             } else {
-                alert("Fehler beim Ändern des Gerichts des Nutzers")
+                setMessage('Gericht konnte nicht geändert werden');
+                setToastColor('#CD7070');
+                setShowToast(true);
             }
-        } catch (e) {
-            console.log(e)
-            alert("Fehler beim Ändern des Gerichts des Nutzers")
+        } catch (error) {
+            if (error instanceof TypeError) {
+                setMessage('Gericht konnte nicht geändert werden');
+            } else {
+                setMessage(error.message);
+            }
+            setToastColor('#CD7070');
+            setShowToast(true);
         }
     }
 
@@ -85,16 +123,28 @@ const UserCard: React.FC<{name:string, userId:number ,email:string, group:string
             </select>
             <div className={"buttonUser"}>
                 <button onClick={onChangeClick}>
-                    <IonIcon aria-hidden="true" icon={settingsOutline} />
+                    <IonIcon aria-hidden="true" icon={settingsOutline}/>
                 </button>
                 <button onClick={onAdminClick} className={"adminChange"}>
                     {/*<IonIcon aria-hidden="true" icon={starOutline} />*/}
-                    {isAdmin ? <IonIcon aria-hidden="true" icon={star} /> : <IonIcon aria-hidden="true" icon={starOutline} />}
+                    {isAdmin ? <IonIcon aria-hidden="true" icon={star}/> :
+                        <IonIcon aria-hidden="true" icon={starOutline}/>}
                 </button>
                 <button onClick={onDeleteClick}>
-                    <IonIcon aria-hidden="true" icon={trashOutline} />
+                    <IonIcon aria-hidden="true" icon={trashOutline}/>
                 </button>
             </div>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </div>
     )
 };

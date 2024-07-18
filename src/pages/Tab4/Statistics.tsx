@@ -1,7 +1,7 @@
 import {
     IonButton,
     IonContent, IonIcon, IonList,
-    IonPage,
+    IonPage, IonToast,
 
 } from '@ionic/react';
 import {useLocation} from 'react-router-dom';
@@ -35,53 +35,76 @@ const Statistics: React.FC = () => {
     const [selectedCourtName, setSelectedCourtName] = useState<string | undefined>("Alle Gerichte");
     const [selectedCourtId, setSelectedCourtId] = useState<number | undefined>(-1);
 
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+
     const history = useHistory();
     const location = useLocation();
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login', {direction: 'none'});
-            window.location.assign('/login');
-        }
-
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-            setLoading(false);
-
-            if (!user.admin) {
-                window.location.assign('/tabs/tab1');
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login', {direction: 'none'});
+                window.location.assign('/login');
             }
 
-            const courts = getAllCourts(token);
-            let usersOrCourt;
-            if (selectedCourtId != -1) {
-                usersOrCourt = getAllStatisticGroupUsers(token, selectedCourtId);
-            } else {
-                usersOrCourt = getAllStatisticGroups(token);
-            }
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
 
-            courts.then((courts) => {
-                setCourtsNames(courts.map(court => court.name));
-                setCourtsIds(courts.map(court => court.id));
-                setSelectedSelectCourtName(courts[0].name);
-                setSelectedSelectCourtId(courts[0].id);
-            });
 
-            usersOrCourt.then((usersOrCourt) => {
-                setUsersOrCourtName(usersOrCourt[1]);
-                setUsersOrCourtStepsPerUser(usersOrCourt[0]);
-                if (selectedCourtId != -1) {
-                    setUsersOrCourtSteps([0]);
-                } else {
-                    setUsersOrCourtSteps(usersOrCourt[3]);
+                if (!user.admin) {
+                    window.location.assign('/tabs/tab1');
                 }
-            });
+
+                const courts = getAllCourts(token);
+                let usersOrCourt;
+                if (selectedCourtId != -1) {
+                    usersOrCourt = getAllStatisticGroupUsers(token, selectedCourtId);
+                } else {
+                    usersOrCourt = getAllStatisticGroups(token);
+                }
+
+                courts.then((courts) => {
+                    setCourtsNames(courts.map(court => court.name));
+                    setCourtsIds(courts.map(court => court.id));
+                    setSelectedSelectCourtName(courts[0].name);
+                    setSelectedSelectCourtId(courts[0].id);
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Gerichte konnten nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+                });
+
+                usersOrCourt.then((usersOrCourt) => {
+                    setUsersOrCourtName(usersOrCourt[1]);
+                    setUsersOrCourtStepsPerUser(usersOrCourt[0]);
+                    if (selectedCourtId != -1) {
+                        setUsersOrCourtSteps([0]);
+                    } else {
+                        setUsersOrCourtSteps(usersOrCourt[3]);
+                    }
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Statistiken konnten nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+                });
+            }
         }
+        fetchData();
     }, [location]);
 
     const handleChangedCourt = (courtName: string) => {
@@ -99,6 +122,14 @@ const Statistics: React.FC = () => {
             usersOrCourt.then((usersOrCourt) => {
                 setUsersOrCourtName(usersOrCourt[1]);
                 setUsersOrCourtStepsPerUser(usersOrCourt[0]);
+            }).catch((error) => {
+                if (error instanceof TypeError) {
+                    setMessage('Statistiken konnten nicht geladen werden');
+                } else {
+                    setMessage(error.message);
+                }
+                setToastColor('#CD7070');
+                setShowToast(true);
             });
         } else {
             const usersOrCourt = getAllStatisticGroups(getToken());
@@ -111,6 +142,14 @@ const Statistics: React.FC = () => {
                 } else {
                     setUsersOrCourtSteps(usersOrCourt[3]);
                 }
+            }).catch((error) => {
+                if (error instanceof TypeError) {
+                    setMessage('Statistiken konnten nicht geladen werden');
+                } else {
+                    setMessage(error.message);
+                }
+                setToastColor('#CD7070');
+                setShowToast(true);
             });
         }
     }
@@ -130,7 +169,7 @@ const Statistics: React.FC = () => {
             }));
 
         const csv = Papa.unparse(csvData, {delimiter: ";"});
-        const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+        const blob = new Blob(["\uFEFF" + csv], {type: 'text/csv;charset=utf-8;'});
         const link = document.createElement("a");
 
         if (link.download !== undefined) {
@@ -148,7 +187,7 @@ const Statistics: React.FC = () => {
     return (
         <IonPage>
             <IonContent>
-                <Greeting adjective={userAdjective} noun={userNoun} group={group} />
+                <Greeting adjective={userAdjective} noun={userNoun} group={group}/>
 
                 <div className={"container"}>
                     <button onClick={() => {
@@ -183,11 +222,12 @@ const Statistics: React.FC = () => {
                             <IonButton
                                 {...(selectedCourtName != "Alle Gerichte" ? {className: "buttonNotSelected"} : {})}
                                 onClick={() => {
-                                handleChangedCourt("Alle Gerichte")
-                            }}>Alle Gerichte</IonButton>
+                                    handleChangedCourt("Alle Gerichte")
+                                }}>Alle Gerichte</IonButton>
                         </div>
                     </div>
-                    <IonButton className={"buttonRight"} onClick={handleDownloadCSV}>Excel-Datei herunterladen</IonButton>
+                    <IonButton className={"buttonRight"} onClick={handleDownloadCSV}>Excel-Datei
+                        herunterladen</IonButton>
 
                     <IonList className={"overflowList zw"}>
                         {usersOrCourtName.map((name, index) => {
@@ -198,11 +238,19 @@ const Statistics: React.FC = () => {
                             />
                         })}
                     </IonList>
-
-
-
                 </div>
             </IonContent>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonPage>
     )
 };

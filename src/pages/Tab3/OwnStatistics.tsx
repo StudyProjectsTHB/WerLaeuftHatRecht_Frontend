@@ -1,4 +1,4 @@
-import {IonContent, IonPage} from '@ionic/react';
+import {IonContent, IonPage, IonToast} from '@ionic/react';
 import {useLocation} from 'react-router-dom';
 
 import React, {useEffect, useState} from "react";
@@ -32,58 +32,104 @@ const OwnStatistics: React.FC = () => {
     const [ownStatsWeeks, setOwnStatsWeeks] = useState(['']);
     const [lapsedDays, setLapsedDays] = useState(0);
 
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+
     const history = useHistory();
     const location = useLocation()
 
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login');
-            window.location.assign('/login');
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login');
+                window.location.assign('/login');
+            }
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setUserKilometerGoal(user.stepGoalKilometers)
+                setGroup(user.group.name);
+
+                const totSteps = totalStepsAndKilometers(token, user);
+                const placeMaxPlace = getOwnCurrentPlace(token, user);
+                const challenges = getFinishedWeeklyChallenges(token);
+                const ownStats = getOwnStatistic(token, user);
+                const lapsedDays = getLapsedDays(token);
+
+                totSteps.then((data) => {
+                    setTotalSteps(data[0]);
+                    setTotalKilometers(parseFloat(data[1]));
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Schritte konnten nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+                });
+
+                placeMaxPlace.then((data) => {
+                    setPlace(data[0]);
+                    setMaxPlace(data[1]);
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Platzierung konnte nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+                });
+
+                challenges.then((data) => {
+                    setFinishedChallenges(data);
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Herausforderungen konnten nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+                });
+
+                ownStats.then((data) => {
+                    setOwnStatsSteps(data[0]);
+                    setOwnStatsLabels(data[1]);
+                    setOwnStatsWeeks(data[2]);
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Eigene Statistiken konnten nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+                });
+
+                lapsedDays.then((data) => {
+                    setLapsedDays(data);
+                }).catch((error) => {
+                    if (error instanceof TypeError) {
+                        setMessage('Tage konnten nicht geladen werden');
+                    } else {
+                        setMessage(error.message);
+                    }
+                    setToastColor('#CD7070');
+                    setShowToast(true);
+                });
+            }
         }
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setUserKilometerGoal(user.stepGoalKilometers)
-            setGroup(user.group.name);
-            setLoading(false);
-
-            const totSteps = totalStepsAndKilometers(token, user);
-            const placeMaxPlace = getOwnCurrentPlace(token, user);
-            const challenges = getFinishedWeeklyChallenges(token);
-            const ownStats = getOwnStatistic(token, user);
-            const lapsedDays = getLapsedDays(token);
-
-            totSteps.then((data) => {
-                setTotalSteps(data[0]);
-                setTotalKilometers(parseFloat(data[1]));
-            });
-
-            placeMaxPlace.then((data) => {
-                setPlace(data[0]);
-                setMaxPlace(data[1]);
-            });
-
-            challenges.then((data) => {
-                setFinishedChallenges(data);
-            });
-
-            ownStats.then((data) => {
-                setOwnStatsSteps(data[0]);
-                setOwnStatsLabels(data[1]);
-                setOwnStatsWeeks(data[2]);
-            });
-
-            lapsedDays.then((data) => {
-                setLapsedDays(data);
-            });
-        }
+        fetchData();
     }, [location]);
 
-            return (
+    return (
         <IonPage style={{marginTop: '110px', marginBottom: '65px'}} className={"statistics"}>
             <IonContent>
                 <h2>Dein Wettbewerb</h2>
@@ -102,18 +148,29 @@ const OwnStatistics: React.FC = () => {
                                      type={"OverviewDistance"}></ProgressBar>
                     </div>
                 </div>
-                    <div className={"gridContainer"}>
+                <div className={"gridContainer"}>
 
-                        <div className="wrapper">
-                            <ColumnChart labels={ownStatsLabels} columnData={ownStatsSteps}
-                                         type={'statistics'} weeks={ownStatsWeeks}/>
-                        </div>
-                        <FinishedChallenges finishedChallenges={finishedChallenges}/>
+                    <div className="wrapper">
+                        <ColumnChart labels={ownStatsLabels} columnData={ownStatsSteps}
+                                     type={'statistics'} weeks={ownStatsWeeks}/>
                     </div>
+                    <FinishedChallenges finishedChallenges={finishedChallenges}/>
+                </div>
 
             </IonContent>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonPage>
-);
+    );
 }
 
 export default OwnStatistics;

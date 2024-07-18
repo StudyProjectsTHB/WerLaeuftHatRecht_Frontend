@@ -21,13 +21,8 @@ export const createUser = async (token: string, email: string, isAdmin: boolean,
 }
 
 export const removeUser = async (token: string, id: number): Promise<boolean> => {
-    try {
-        await deleteUser(token, id);
-        return true;
-    } catch (e) {
-        console.log(e);
-        return false;
-    }
+    await deleteUser(token, id);
+    return true;
 }
 
 export const changeUserGroup = async (token: string, id: number, groupId: number): Promise<UserDTO> => {

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {IonModal, IonContent} from '@ionic/react';
+import {IonModal, IonContent, IonToast} from '@ionic/react';
 import {useHistory} from "react-router";
 import {useLocation} from "react-router-dom";
 import {checkToken, getToken, getUser} from "../../util/service/loginService";
@@ -12,23 +12,31 @@ const StepsDeleteModal = ({isOpen, onClose, startDate, endDate, id}) => {
     const [group, setGroup] = useState<string>("");
     const dateSame = (!startDate ? null : startDate.getTime()) === (!endDate ? null : endDate.getTime());
 
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+
     const history = useHistory();
     const location = useLocation();
 
     useEffect(() => {
-        if (!checkToken()) {
-            window.location.assign('/login');
-        }
+        const fetchData = async () => {
+            if (!checkToken()) {
+                window.location.assign('/login');
+            }
 
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-            setLoading(false);
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
+                setShowToast(false);
+
+            }
         }
+        fetchData();
     }, [location, isOpen]);
 
     const handleDeleteSteps = async () => {
@@ -63,6 +71,17 @@ const StepsDeleteModal = ({isOpen, onClose, startDate, endDate, id}) => {
                     <button onClick={handleDeleteSteps}>Ja, Schritte löschen</button>
                 </div>
             </IonContent>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonModal>
     );
 }

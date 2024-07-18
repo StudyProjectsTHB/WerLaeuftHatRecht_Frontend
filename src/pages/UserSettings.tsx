@@ -1,4 +1,4 @@
-import {IonButton, IonContent, IonIcon, IonPage} from '@ionic/react';
+import {IonButton, IonContent, IonIcon, IonPage, IonToast} from '@ionic/react';
 import React, {useEffect, useState} from "react";
 import Greeting from "../components/Greeting";
 import {arrowBack} from "ionicons/icons";
@@ -17,29 +17,37 @@ const UserSettings: React.FC = () => {
     const [userStepSize, setUserStepSize] = useState(0);
     const [userHeight, setUserHeight] = useState(0);
 
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+
+
 
     const history = useHistory();
     const location = useLocation()
 
     useEffect(() => {
-        if (!checkToken()) {
-            // history.push('/login', {direction: 'none'});
-            window.location.assign('/login');
-        }
+        const fetchData = async () => {
+            if (!checkToken()) {
+                // history.push('/login', {direction: 'none'});
+                window.location.assign('/login');
+            }
 
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserId(user.id);
-            setUserStepGoal(user.stepGoal);
-            setUserStepSize(user.stepSize ? user.stepSize : 0);
-            setUserHeight(user.height ? user.height : 0);
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserId(user.id);
+                setUserStepGoal(user.stepGoal);
+                setUserStepSize(user.stepSize ? user.stepSize : 0);
+                setUserHeight(user.height ? user.height : 0);
 
-            setGroup(user.group.name);
-            setLoading(false);
+                setGroup(user.group.name);
+
+            }
         }
+        fetchData();
     }, [location]);
 
     const handleHeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,10 +72,12 @@ const UserSettings: React.FC = () => {
 
     const handleSave = async () => {
         if (userHeight > 0 && userStepSize > 0) {
-            alert("Bitte nur einen Wert angeben.");
+            setMessage('Bitte gib nur einen Wert an');
+            setToastColor('#CD7070');
+            setShowToast(true);
             return;
         }
-        try{
+        try {
             const updatedUser = await changeUserSettings(getToken(), userId, userStepGoal, userHeight, userStepSize);
             if (updatedUser) {
                 const user = getUser(getToken());
@@ -76,11 +86,22 @@ const UserSettings: React.FC = () => {
                     setUserHeight(userHeight);
                     setUserStepSize(userStepSize);
                 }
-                alert("Einstellungen gespeichert.");
+                setMessage('Einstellungen gespeichert');
+                setToastColor('#68964C');
+                setShowToast(true);
+            } else {
+                setMessage('Einstellungen konnten nicht gespeichert werden');
+                setToastColor('#CD7070');
+                setShowToast(true);
             }
         } catch (error) {
-            console.error(error);
-            alert("Fehler beim Speichern der Einstellungen.");
+            if (error instanceof TypeError) {
+                setMessage('Einstellungen konnten nicht gespeichert werden');
+            } else {
+                setMessage(error.message);
+            }
+            setToastColor('#CD7070');
+            setShowToast(true);
         }
     }
 
@@ -115,7 +136,8 @@ const UserSettings: React.FC = () => {
                             </div>
                         </div>
                         <h2>Größe und Schrittweite</h2>
-                        <p> Hier kannst du deine Größe und Schrittweite für eine genauere Distanzberechnung anpassen. </p>
+                        <p> Hier kannst du deine Größe und Schrittweite für eine genauere Distanzberechnung
+                            anpassen. </p>
                         <p> Bitte beachte, dass du nur einen Wert angeben kannst. </p>
                         <div className={"flexSetting"}>
                             <div className={userStepSize > 0 ? "unactive" : ""}>
@@ -146,6 +168,17 @@ const UserSettings: React.FC = () => {
 
                 </div>
             </IonContent>
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonPage>
     );
 }

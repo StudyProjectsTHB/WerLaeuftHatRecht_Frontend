@@ -1,30 +1,33 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { IonModal, IonContent } from '@ionic/react';
+import React, {useEffect, useRef, useState} from 'react';
+import {IonModal, IonContent, IonToast} from '@ionic/react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './StepsAddModal.css';
-import { checkToken, getToken, getUser } from "../../util/service/loginService";
-import { useHistory } from "react-router";
+import {checkToken, getToken, getUser} from "../../util/service/loginService";
+import {useHistory} from "react-router";
 import {addSteps, deleteSteps} from "../../util/service/addStepsService";
 import de from 'date-fns/locale/de';
-import { registerLocale, setDefaultLocale } from 'react-datepicker';
-import { formatDate } from "../../util/service/util";
-import { AddStepsModalProps } from "../../types";
+import {registerLocale, setDefaultLocale} from 'react-datepicker';
+import {formatDate} from "../../util/service/util";
+import {AddStepsModalProps} from "../../types";
 // import StepsDeleteModal from "./StepsDeleteModal";
 
-const StepsAddModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
+const StepsAddModal = ({isOpen, onClose, date}: AddStepsModalProps) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [userAdjective, setUserAdjective] = useState<string>("");
     const [userNoun, setUserNoun] = useState<string>("");
     const [userStepGoal, setUserStepGoal] = useState<number>(0);
     const [group, setGroup] = useState<string>("");
-    // const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [endDate, setEndDate] = useState<Date>(new Date());
     const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
     const datepickerRef = useRef(null);
     const [enteredSteps, setEnteredSteps] = useState<number>(0);
+
+    const [message, setMessage] = useState<string | null>(null);
+    const [toastColor, setToastColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
 
     const history = useHistory();
 
@@ -53,19 +56,22 @@ const StepsAddModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
     };
 
     useEffect(() => {
-        if (!checkToken()) {
-            window.location.assign('/login');
-        }
+        const fetchData = async () => {
+            if (!checkToken()) {
+                window.location.assign('/login');
+            }
 
-        const token = getToken();
-        const user = getUser(token);
-        if (token && user) {
-            setUserAdjective(user.adjective);
-            setUserNoun(user.noun);
-            setUserStepGoal(user.stepGoal)
-            setGroup(user.group.name);
-            setLoading(false);
+            const token = getToken();
+            const user = getUser(token);
+            if (token && user) {
+                setUserAdjective(user.adjective);
+                setUserNoun(user.noun);
+                setUserStepGoal(user.stepGoal)
+                setGroup(user.group.name);
+                setShowToast(false);
+            }
         }
+        fetchData();
     }, [isOpen]);
 
     useEffect(() => {
@@ -92,20 +98,23 @@ const StepsAddModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
     }, [showDatePicker]);
 
     const handleAddSteps = async () => {
-        if (enteredSteps <= 0 || isNaN(enteredSteps)) {
-            alert("Bitte gib eine positive Anzahl an Schritten an.");
-            return;
-        }
         try {
             const stepDays = await addSteps(getToken(), enteredSteps, formatDate(startDate), formatDate(endDate));
             if (stepDays) {
-                onClose();
+                onClose( true);
             } else {
-                alert("Fehler beim Hinzufügen der Schritte")
+                setMessage('Schritte konnten nicht erfasst werden');
+                setToastColor('#CD7070');
+                setShowToast(true);
             }
-        } catch (e) {
-            console.log(e);
-            alert("Fehler beim Hinzufügen der Schritte");
+        } catch (error) {
+            if (error instanceof TypeError) {
+                setMessage('Schritte konnten nicht gelöscht werden');
+            } else {
+                setMessage(error.message);
+            }
+            setToastColor('#CD7070');
+            setShowToast(true);
         }
     };
 
@@ -113,19 +122,28 @@ const StepsAddModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
         try {
             const isDeleted = await deleteSteps(getToken(), formatDate(startDate), formatDate(endDate));
             if (isDeleted) {
-                alert("Schritte erfolgreich gelöscht");
+                setMessage('Schritte gelöscht');
+                setToastColor('#68964C');
+                setShowToast(true);
             } else {
-                alert("Fehler beim Löschen der Schritte");
+                setMessage('Schritte konnten nicht gelöscht werden');
+                setToastColor('#CD7070');
+                setShowToast(true);
             }
-        } catch (e) {
-            console.log(e);
-            alert("Fehler beim Löschen der Schritte");
+        } catch (error) {
+            if (error instanceof TypeError) {
+                setMessage('Schritte konnten nicht gelöscht werden');
+            } else {
+                setMessage(error.message);
+            }
+            setToastColor('#CD7070');
+            setShowToast(true);
         }
     }
 
 
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={onClose}>
+        <IonModal isOpen={isOpen} onDidDismiss={() => onClose( false)}>
             <IonContent>
                 <h1>Schritte eintragen</h1>
                 <div className={'modal-text'}>
@@ -169,15 +187,27 @@ const StepsAddModal = ({ isOpen, onClose, date }: AddStepsModalProps) => {
                         )}
                     </div>
                     <div className={"buttonContainer"}>
-                        <button slot="end" onClick={onClose} className={"secondary"}>Abbrechen</button>
+                        <button slot="end" onClick={() => onClose(false)} className={"secondary"}>Abbrechen</button>
                         <button onClick={handleAddSteps}>Schritte erfassen</button>
                     </div>
-                    <button style={{ backgroundColor: '#d8d8d8', color: '#000', border: 'none' }} onClick={handleDeleteSteps}>
-                        Schritte löschen
+                    <button style={{backgroundColor: '#d8d8d8', color: '#000', border: 'none'}}
+                            onClick={handleDeleteSteps}>
+                        Schritte lösche
                     </button>
                 </div>
             </IonContent>
             {/*<StepsDeleteModal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)} startDate={startDate} endDate={endDate} id={0} />*/}
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message={message}
+                duration={3000}
+                // className={"loggin-toast"}
+                cssClass="toast"
+                style={{
+                    '--toast-background': toastColor
+                }}
+            />
         </IonModal>
     );
 };
