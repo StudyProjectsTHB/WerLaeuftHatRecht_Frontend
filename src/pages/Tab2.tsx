@@ -88,7 +88,6 @@ const Tab2: React.FC = () => {
     }, [showModal]);
 
     const handleCloseModal = (stepsAdded: boolean) => {
-        console.log(stepsAdded)
         setShowModal(false);
         const params = new URLSearchParams(location.search);
         params.delete("showModal");

@@ -75,7 +75,11 @@ const CourtAddModal = ({isOpen, onClose}) => {
     }
 
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={() => onClose({courtAdded: false})} className={"heightSet500"}>
+        <IonModal isOpen={isOpen} onDidDismiss={() => {
+            onClose({courtAdded: false});
+            setCourtName("");
+            setCourtCount(0);
+        }} className={"heightSet500"}>
             <IonContent>
                 <h1>Neues Gericht anlegen</h1>
                 <div>
@@ -107,7 +111,12 @@ const CourtAddModal = ({isOpen, onClose}) => {
                 </div>
 
                 <div className={"buttonContainer"}>
-                    <button slot="end" onClick={() => onClose({courtAdded: false})} className={"secondary"}>Abbrechen</button>
+                    <button slot="end" onClick={() => {
+                        onClose({courtAdded: false});
+                        setCourtName("");
+                        setCourtCount(0);
+                    }} className={"secondary"}>Abbrechen
+                    </button>
                     <button onClick={handleAddCourt}>Gericht anlegen</button>
                 </div>
             </IonContent>

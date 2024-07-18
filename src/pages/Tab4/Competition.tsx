@@ -131,7 +131,14 @@ const Competition: React.FC = () => {
                             <p>Zeitraum</p>
                         </div>
                         <div className="date-input" onClick={toggleDatePicker}>
-                            {startDate && endDate ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}` : 'Zeitraum auswählen'}
+                            {startDate && endDate && startDate.getTime() === endDate.getTime()
+                                ? `${startDate.toLocaleDateString()}`
+                                : startDate && endDate
+                                    ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`
+                                    : startDate && !endDate
+                                        ? `${startDate.toLocaleDateString()} - `
+                                        : "Zeitraum auswählen"
+                            }
                         </div>
                         {showDatePicker && (
                             <div className="datepicker-container" ref={datepickerRef}>

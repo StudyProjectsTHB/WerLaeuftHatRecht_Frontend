@@ -40,7 +40,7 @@ const StepsDeleteModal = ({isOpen, onClose, startDate, endDate, id}) => {
     }, [location, isOpen]);
 
     const handleDeleteSteps = async () => {
-        console.log("Deleting steps"); // Debug log
+        console.log("Deleting steps");
         onClose();
     };
 

@@ -12,7 +12,7 @@ const UserSettings: React.FC = () => {
     const [userAdjective, setUserAdjective] = useState("");
     const [userNoun, setUserNoun] = useState("");
     const [userId, setUserId] = useState(-1);
-    const [userStepGoal, setUserStepGoal] = useState(0);
+    const [userStepGoal, setUserStepGoal] = useState<number | null>(0);
     const [group, setGroup] = useState("");
     const [userStepSize, setUserStepSize] = useState(0);
     const [userHeight, setUserHeight] = useState(0);
@@ -20,7 +20,6 @@ const UserSettings: React.FC = () => {
     const [message, setMessage] = useState<string | null>(null);
     const [toastColor, setToastColor] = useState<string | null>(null);
     const [showToast, setShowToast] = useState(false);
-
 
 
     const history = useHistory();
@@ -55,7 +54,7 @@ const UserSettings: React.FC = () => {
         if (value >= 0) {
             setUserHeight(value);
             setUserStepSize(0);
-        } else {
+        } else if (e.target.value === "") {
             setUserHeight(0);
         }
     };
@@ -65,18 +64,12 @@ const UserSettings: React.FC = () => {
         if (value >= 0) {
             setUserStepSize(value);
             setUserHeight(0);
-        } else {
+        } else if (e.target.value === "") {
             setUserStepSize(0);
         }
     };
 
     const handleSave = async () => {
-        if (userHeight > 0 && userStepSize > 0) {
-            setMessage('Bitte gib nur einen Wert an');
-            setToastColor('#CD7070');
-            setShowToast(true);
-            return;
-        }
         try {
             const updatedUser = await changeUserSettings(getToken(), userId, userStepGoal, userHeight, userStepSize);
             if (updatedUser) {
@@ -128,9 +121,11 @@ const UserSettings: React.FC = () => {
                                     type={"number"}
                                     value={userStepGoal}
                                     onChange={(e) => {
-                                        const value = parseInt(e.target.value);
-                                        if (value >= 0) setUserStepGoal(value);
-                                        // 0 must be caught in service
+                                        if (parseInt(e.target.value) >= 0) {
+                                            setUserStepGoal(parseInt(e.target.value))
+                                        } else if (e.target.value === "") {
+                                            setUserStepGoal(0)
+                                        }
                                     }}
                                 />
                                 <span> Schritte</span>

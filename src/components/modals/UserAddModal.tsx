@@ -73,7 +73,6 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
             } else {
                 setMessage(error.message);
             }
-            console.error(error);
             setToastColor('#CD7070');
             setShowToast(true);
         }
@@ -82,7 +81,11 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
 
 
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={() => onClose({userAdded: false})} className={"heightSet500"}>
+        <IonModal isOpen={isOpen} onDidDismiss={() => {
+            onClose({userAdded: false});
+            setSelectedCourt(courtsIds[0]);
+            setEmail("")
+        }} className={"heightSet500"}>
             <IonContent>
                 <div>
                     <h1>Nutzer hinzufügen</h1>
@@ -113,7 +116,12 @@ const UserAddModal = ({isOpen, onClose, courtsNames, courtsIds}) => {
                 </div>
 
                 <div className={"buttonContainer"}>
-                    <button slot="end" onClick={() => onClose({userAdded: false})} className={"secondary"}>Abbrechen</button>
+                    <button slot="end" onClick={() => {
+                        onClose({userAdded: false});
+                        setSelectedCourt(courtsIds[0]);
+                        setEmail("")
+                    }} className={"secondary"}>Abbrechen
+                    </button>
                     <button onClick={handleAddUser} className={"primary"}>Speichern</button>
                 </div>
 

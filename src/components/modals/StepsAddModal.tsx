@@ -23,7 +23,7 @@ const StepsAddModal = ({isOpen, onClose, date}: AddStepsModalProps) => {
     const [endDate, setEndDate] = useState<Date>(new Date());
     const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
     const datepickerRef = useRef(null);
-    const [enteredSteps, setEnteredSteps] = useState<number>(0);
+    const [enteredSteps, setEnteredSteps] = useState<number | string>("");
 
     const [message, setMessage] = useState<string | null>(null);
     const [toastColor, setToastColor] = useState<string | null>(null);
@@ -41,7 +41,7 @@ const StepsAddModal = ({isOpen, onClose, date}: AddStepsModalProps) => {
     };
 
     // const handleOpenDeleteModal = () => {
-    //     console.log("Opening Delete Modal"); // Debug log
+    //     console.log("Opening Delete Modal");
     //     setShowDeleteModal(true);
     // };
 
@@ -101,7 +101,10 @@ const StepsAddModal = ({isOpen, onClose, date}: AddStepsModalProps) => {
         try {
             const stepDays = await addSteps(getToken(), enteredSteps, formatDate(startDate), formatDate(endDate));
             if (stepDays) {
-                onClose( true);
+                setEnteredSteps(null);
+                setStartDate(new Date());
+                setEndDate(new Date());
+                onClose(true);
             } else {
                 setMessage('Schritte konnten nicht erfasst werden');
                 setToastColor('#CD7070');
@@ -143,7 +146,12 @@ const StepsAddModal = ({isOpen, onClose, date}: AddStepsModalProps) => {
 
 
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={() => onClose( false)}>
+        <IonModal isOpen={isOpen} onDidDismiss={() => {
+            onClose(false);
+            setEnteredSteps(null);
+            setStartDate(new Date());
+            setEndDate(new Date());
+        }}>
             <IonContent>
                 <h1>Schritte eintragen</h1>
                 <div className={'modal-text'}>
@@ -155,7 +163,14 @@ const StepsAddModal = ({isOpen, onClose, date}: AddStepsModalProps) => {
                         <input
                             type="number"
                             placeholder="Schritte eintragen"
-                            onChange={e => setEnteredSteps(parseInt(e.target.value))}
+                            value={enteredSteps}
+                            onChange={e => {
+                                if (parseInt(e.target.value) >= 0) {
+                                    setEnteredSteps(parseInt(e.target.value))
+                                } else if (e.target.value === "") {
+                                    setEnteredSteps(0)
+                                }
+                            }}
                             onKeyPress={handleEnterPress}
                         />
                     </div>
@@ -187,12 +202,18 @@ const StepsAddModal = ({isOpen, onClose, date}: AddStepsModalProps) => {
                         )}
                     </div>
                     <div className={"buttonContainer"}>
-                        <button slot="end" onClick={() => onClose(false)} className={"secondary"}>Abbrechen</button>
+                        <button slot="end" onClick={() => {
+                            onClose(false);
+                            setEnteredSteps(null);
+                            setStartDate(new Date());
+                            setEndDate(new Date());
+                        }} className={"secondary"}>Abbrechen
+                        </button>
                         <button onClick={handleAddSteps}>Schritte erfassen</button>
                     </div>
                     <button style={{backgroundColor: '#d8d8d8', color: '#000', border: 'none'}}
                             onClick={handleDeleteSteps}>
-                        Schritte lösche
+                        Schritte löschen
                     </button>
                 </div>
             </IonContent>

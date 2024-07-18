@@ -69,7 +69,6 @@ const CourtChangeModal = ({isOpen, onClose, name, id, count}) => {
             } else {
                 setMessage(error.message);
             }
-            console.error(error);
             setToastColor('#CD7070');
             setShowToast(true);
         }

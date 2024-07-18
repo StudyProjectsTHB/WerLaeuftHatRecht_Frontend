@@ -40,7 +40,6 @@ const Register: React.FC = () => {
             } else {
                 setMessage(error.message);
             }
-            console.error(error);
             setToastColor('#CD7070');
             setShowToast(true);
         }
