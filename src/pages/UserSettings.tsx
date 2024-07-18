@@ -85,7 +85,7 @@ const UserSettings: React.FC = () => {
     }
 
     return (
-        <IonPage className={"PageModal Edit settings"}>
+        <IonPage className={"PageModal Edit settings"} style={{paddingBottom: "80px"}}>
             <IonContent fullscreen>
                 <Greeting adjective={userAdjective} noun={userNoun} group={group}/>
                 <button onClick={() => {
