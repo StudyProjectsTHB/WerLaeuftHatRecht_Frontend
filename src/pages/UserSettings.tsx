@@ -106,7 +106,7 @@ const UserSettings: React.FC = () => {
     }
 
     return (
-        <IonPage className={"PageModal Edit settings"}>
+        <IonPage className={"PageModal Edit settings"} style={{paddingBottom: "80px"}}>
             <IonContent fullscreen>
                 <Greeting adjective={userAdjective} noun={userNoun} group={group}/>
                 <button onClick={() => {
@@ -129,7 +129,8 @@ const UserSettings: React.FC = () => {
                                     value={userStepGoal}
                                     onChange={(e) => {
                                         const value = parseInt(e.target.value);
-                                        if (value > 0) setUserStepGoal(value);
+                                        if (value >= 0) setUserStepGoal(value);
+                                        // 0 must be caught in service
                                     }}
                                 />
                                 <span> Schritte</span>
