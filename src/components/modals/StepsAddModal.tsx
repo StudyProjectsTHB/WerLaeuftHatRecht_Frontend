@@ -99,7 +99,7 @@ const StepsAddModal = ({isOpen, onClose, date}: AddStepsModalProps) => {
 
     const handleAddSteps = async () => {
         try {
-            const stepDays = await addSteps(getToken(), enteredSteps, formatDate(startDate), formatDate(endDate));
+            const stepDays = await addSteps(getToken(), enteredSteps, startDate ? formatDate(startDate) : formatDate(startDate), endDate ? formatDate(endDate) : formatDate(startDate));
             if (stepDays) {
                 setEnteredSteps("");
                 setStartDate(new Date());
@@ -112,7 +112,8 @@ const StepsAddModal = ({isOpen, onClose, date}: AddStepsModalProps) => {
             }
         } catch (error) {
             if (error instanceof TypeError) {
-                setMessage('Schritte konnten nicht gelöscht werden');
+                setMessage('Schritte konnten nicht erfasst werden');
+                console.log(error);
             } else {
                 setMessage(error.message);
             }
@@ -182,7 +183,7 @@ const StepsAddModal = ({isOpen, onClose, date}: AddStepsModalProps) => {
                                 : startDate && endDate
                                     ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`
                                     : startDate && !endDate
-                                        ? `${startDate.toLocaleDateString()} - `
+                                        ? `${startDate.toLocaleDateString()}`
                                         : "Zeitraum auswählen"
                             }
                         </div>

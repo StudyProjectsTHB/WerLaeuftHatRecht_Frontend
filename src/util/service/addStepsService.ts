@@ -57,6 +57,8 @@ export const addSteps = async (token: string, steps: number, startDate: string, 
         throw new Error('Das Startdatum darf nicht vor dem Wettbewerbsstart liegen');
     } else if (endDate > competition.endDate) {
         throw new Error('Das Enddatum darf nicht nach dem Wettbewerbsende liegen');
+    } else if (!endDate) {
+        durationSteps.endDate = startDate;
     }
 
 
