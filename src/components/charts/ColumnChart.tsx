@@ -47,7 +47,7 @@ const ColumnChart: React.FC<{labels:string[], columnData:number[], type:string, 
                             return tooltipItems[0].label;
                     },
                     label: function(tooltipItem) {
-                        return type === 'courtStatistics' ? ` ${tooltipItem.raw.toLocaleString('de-DE')} Schritte pro Nutzer` : ` ${tooltipItem.raw.toLocaleString('de-DE')} Schritte`;
+                        return type === 'courtStatistics' ? ` ${tooltipItem.raw.toLocaleString('de-DE')} Schritte pro Mitarbeiter` : ` ${tooltipItem.raw.toLocaleString('de-DE')} Schritte`;
                         // return ` ${tooltipItem.raw}`;
                     },
                 }
@@ -77,7 +77,7 @@ const ColumnChart: React.FC<{labels:string[], columnData:number[], type:string, 
     return (
         <div className={"balkenSchritte"}>
             {/*<p className={"label"}>Schritte</p>*/}
-            {<p className={"label"}>{type === 'courtStatistics' ? 'Schritte pro Nutzer' : 'Schritte'}</p>}
+            {<p className={"label"}>{type === 'courtStatistics' ? 'Schritte pro Mitarbeiter' : 'Schritte'}</p>}
             <Bar data={data} options={options} style={{marginTop: '30px', marginBottom: '10px'}}/>
         </div>
     );

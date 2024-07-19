@@ -164,7 +164,7 @@ const Statistics: React.FC = () => {
             usersOrCourtName.map((name, index) => ({
                 Name: name,
                 Schritte: usersOrCourtSteps[index],
-                "Schritte pro Nutzer": usersOrCourtStepsPerUser[index],
+                "Schritte pro Mitarbeiter": usersOrCourtStepsPerUser[index],
 
             }));
 

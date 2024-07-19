@@ -129,7 +129,7 @@ const Statistics: React.FC = () => {
         const csvData = courtsNames.map((name, index) => ({
             Name: name,
             Schritte: courtsSteps[index],
-            "Schritte pro Nutzer": courtsStepsPerUser[index],
+            "Schritte pro Mitarbeiter": courtsStepsPerUser[index],
 
         }));
         const csv = Papa.unparse(csvData, {delimiter: ";"});

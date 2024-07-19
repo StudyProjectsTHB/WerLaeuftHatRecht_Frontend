@@ -68,7 +68,7 @@ const BarChart: React.FC<{ labels: string[], barData: number[], ownName: string,
                         return `${tooltipItems[0].label}`;
                     },
                     label: function (tooltipItem) {
-                        return type === 'courtStatistics' ? ` ${tooltipItem.raw.toLocaleString('de-DE')} Schritte pro Nutzer` : ` ${tooltipItem.raw.toLocaleString('de-DE')} Schritte`;
+                        return type === 'courtStatistics' ? ` ${tooltipItem.raw.toLocaleString('de-DE')} Schritte pro Mitarbeiter` : ` ${tooltipItem.raw.toLocaleString('de-DE')} Schritte`;
                     },
                 }
             },
