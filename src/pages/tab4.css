@@ -308,7 +308,7 @@ ion-modal {
 }
 
 .overflowList {
-    overflow: scroll;
+    overflow-y: scroll;
     height: calc(100vh - 381px);
 
     &.zw {
