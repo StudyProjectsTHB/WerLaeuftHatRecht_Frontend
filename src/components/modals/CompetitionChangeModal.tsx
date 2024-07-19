@@ -75,8 +75,8 @@ const CompetitionChangeModal = ({isOpen, onClose, startDate, endDate}) => {
             <IonContent>
                 <div>
                     <h1>Zeitraum des Wettbewerbes wirklich ändern?</h1>
-                    {/*<p> Hierbei werden alle bereits eingetragenen Schritte gelöscht.</p>*/}
-                    <p>Hierbei können bei den bisher eingetragenen Schritten Inkonsistenzen auftreten.</p>
+                    <p> Hierbei werden alle bereits eingetragenen Schritte aller Nutzenden gelöscht.</p>
+                    {/*<p>Hierbei können bei den bisher eingetragenen Schritten Inkonsistenzen auftreten.</p>*/}
                 </div>
 
                 <div className={"buttonContainer"}>

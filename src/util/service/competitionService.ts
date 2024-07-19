@@ -12,7 +12,7 @@ export const changeCompetition = async (token: string, startDate: string, endDat
     const updateCompetitionDTO:UpdateCompetitionDTO = {
         startDate: startDate,
         endDate: endDate,
-        onlyUpdate: true,
+        onlyUpdate: false,
     }
 
     return await updateCompetition(token, updateCompetitionDTO);
